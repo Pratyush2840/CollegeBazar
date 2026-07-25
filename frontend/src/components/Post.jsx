@@ -148,6 +148,8 @@ export default function Post() {
     <main className="post-page">
       <h1>Post Your Item</h1>
       <form className="post-form" onSubmit={handleSubmit} aria-busy={loading}>
+      <div className="post-form-grid">
+      <div className="form-left">
         <div className="form-group">
           <label htmlFor="name">Item Name</label>
           <input
@@ -250,7 +252,9 @@ export default function Post() {
             <span id="deadline-error" className="error-message">{errors.deadline}</span>
           )}
         </div>
+      </div>
 
+      <div className="form-right">
         <div className="form-group">
           <label>Upload Images (up to 4)</label>
           <div
@@ -298,6 +302,8 @@ export default function Post() {
             </div>
           )}
         </div>
+      </div>
+      </div>
 
         <button type="submit" className="btn" disabled={loading}>
           {loading ? (
@@ -312,12 +318,36 @@ export default function Post() {
 
       <style jsx="true">{`
         .post-page {
-          max-width: 900px;
+          max-width: 1080px;
           margin: 40px auto;
           padding: 32px;
           background: linear-gradient(180deg, #ffffff, #f8fafc);
           border-radius: 16px;
           box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-form-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 40px;
+          align-items: start;
+        }
+
+        .form-left,
+        .form-right {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        .form-right {
+          background: #f1f5f9;
+          border-radius: 14px;
+          padding: 24px;
+        }
+
+        .dark-mode .form-right {
+          background: #0f172a;
         }
 
         .dark-mode .post-page {
@@ -685,6 +715,11 @@ export default function Post() {
 
           .post-form {
             gap: 20px;
+          }
+
+          .post-form-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
           }
 
           input, textarea, select, .date-picker {
