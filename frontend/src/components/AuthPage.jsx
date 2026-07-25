@@ -34,8 +34,8 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         setError("Invalid email format");
         return false;
       }
-      if (!formData.email.endsWith("@iiita.ac.in")) {
-        setError("Email must be from @iiita.ac.in domain");
+      if (!formData.email.endsWith("@iiitdmj.ac.in")) {
+        setError("Email must be from @iiitdmj.ac.in domain");
         return false;
       }
     } else if (!showOtp) {
@@ -54,11 +54,11 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         setError("Invalid email format");
         return false;
       }
-      if (!formData.email.endsWith("@iiita.ac.in")) {
-        setError("Email must be from @iiita.ac.in domain");
+      if (!formData.email.endsWith("@iiitdmj.ac.in")) {
+        setError("Email must be from @iiitdmj.ac.in domain");
         return false;
       }
-    
+
       if (!/^\d{10}$/.test(formData.phone_no)) {
         setError("Phone number must be 10 digits");
         return false;

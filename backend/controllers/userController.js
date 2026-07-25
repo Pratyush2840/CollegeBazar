@@ -274,8 +274,8 @@ export const googleLogin = async (req, res) => {
     const payload = ticket.getPayload();
     const { email, name, sub: googleId } = payload;
 
-    if (!email.endsWith('@iiita.ac.in'))
-      return res.status(403).json({ error: 'Email must be from @iiita.ac.in domain' });
+    if (!email.endsWith('@iiitdmj.ac.in'))
+      return res.status(403).json({ error: 'Email must be from @iiitdmj.ac.in domain' });
 
     let result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     let user = result.rows[0];
@@ -290,7 +290,7 @@ export const googleLogin = async (req, res) => {
       user = inserted.rows[0];
 
       const { subject, html } = signupSuccess(name);
-      sendMail(email, subject, html);
+      sendMail(email, subject, html).catch(err => console.error('Signup email failed:', err.message));
     } else if (!user.google_id) {
       const updated = await db.query(
         `UPDATE users SET google_id = $1 WHERE user_id = $2 RETURNING *`,
@@ -311,7 +311,7 @@ export const googleLogin = async (req, res) => {
     });
     const ipAddress = req.ip || 'Unknown IP';
     const { subject, html } = loginNotification(email, loginTime, ipAddress);
-    sendMail(email, subject, html);
+    sendMail(email, subject, html).catch(err => console.error('Login notification email failed:', err.message));
 
     res.status(200).json({ token });
 
