@@ -290,7 +290,7 @@ export const getUserProducts = async (req, res) => {
     const productsWithImages = products.map((product) => ({
       ...product,
       images: imagesMap[product.product_id] || [],
-      image: imagesMap[product.product_id][0] || []
+      image: (imagesMap[product.product_id] || [])[0] || null
     }));
 
     res.status(200).json({
