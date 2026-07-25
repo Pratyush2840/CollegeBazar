@@ -1092,7 +1092,7 @@ export default function App() {
 
         .hero {
           position: relative;
-          background: url('/assets/bgim.webp') no-repeat center center/cover;
+          background: url('/assets/campus-hero.jpg') no-repeat center center/cover;
           padding: 6rem 1.5rem;
           text-align: center;
           border-radius: 16px;
