@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Browse from './components/Browse';
 import Post from './components/Post';
 import AuthPage from './components/AuthPage';
+import CompleteProfile from './components/CompleteProfile';
 import ProductPage from './components/ProductPage';
 import MyListings from './components/MyListings';
 import AdminDashboard from './components/AdminDashboard';
@@ -195,7 +196,11 @@ export default function App() {
               <div className="profile-container">
                 <button onClick={toggleProfileDrawer} className="profile-icon" title="Profile">
                   <div className="avatar">
-                    {userProfile?.name?.charAt(0) || '👤'}
+                    {userProfile?.picture_url ? (
+                      <img src={userProfile.picture_url} alt="Profile" className="avatar-img" />
+                    ) : (
+                      userProfile?.name?.charAt(0) || '👤'
+                    )}
                   </div>
                 </button>
                 {showProfile && (
@@ -216,7 +221,11 @@ export default function App() {
                       <>
                         <div className="profile-card">
                           <div className="profile-avatar">
-                            {userProfile.name.charAt(0)}
+                            {userProfile.picture_url ? (
+                              <img src={userProfile.picture_url} alt="Profile" className="avatar-img" />
+                            ) : (
+                              userProfile.name.charAt(0)
+                            )}
                           </div>
                           {isEditing ? (
                             <form onSubmit={handleSaveProfile} className="edit-profile-form">
@@ -344,6 +353,7 @@ export default function App() {
           <Route path="/post" element={isLoggedIn ? <Post /> : <Navigate to="/login" />} />
           <Route path="/login" element={<AuthPage defaultTab="login" setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" element={<AuthPage defaultTab="signup" setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/complete-profile" element={isLoggedIn ? <CompleteProfile /> : <Navigate to="/login" />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/seller/product" element={<SellerProductPage />} />
           <Route path="/my-listings" element={isLoggedIn ? <MyListings /> : <Navigate to="/login" />} />
@@ -612,6 +622,14 @@ export default function App() {
           font-weight: 700;
           font-size: 1.4rem;
           box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          overflow: hidden;
+        }
+
+        .avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
         }
 
         .profile-drawer {
@@ -713,6 +731,7 @@ export default function App() {
           font-weight: 700;
           margin: 0 auto 1rem;
           box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+          overflow: hidden;
         }
 
         .profile-name {

@@ -115,10 +115,10 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
     setError("");
     setIsSubmitting(true);
     try {
-      const { token } = await googleAuth(credentialResponse.credential);
+      const { token, needsProfileCompletion } = await googleAuth(credentialResponse.credential);
       localStorage.setItem("token", token);
       setIsLoggedIn(true);
-      navigate("/");
+      navigate(needsProfileCompletion ? "/complete-profile" : "/");
     } catch (err) {
       setError(err.message || "Google login failed");
     } finally {
