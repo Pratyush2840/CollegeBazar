@@ -1,0 +1,82 @@
+/* Browse Page */
+.browse-page {
+  padding: 40px 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.browse-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+/* Filter Bar */
+.filter-bar {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.filter-bar label {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.filter-bar select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Listing Grid */
+.listing-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Each Card */
+.listing-card {
+  background: white;
+  padding: 10px;
+  width: 220px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.listing-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.listing-card h2 {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.listing-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* No Products */
+.no-products {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 50px;
+}

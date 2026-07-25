@@ -1,0 +1,236 @@
+/* General page styles */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #007bff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}
+
+/* Product page container */
+.product-page-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Product container */
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.product-image img {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-details {
+  flex: 1;
+  min-width: 280px;
+}
+
+.product-details h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.product-details p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.product-details span {
+  font-weight: bold;
+}
+
+/* Bidding section */
+.bidding-container {
+  margin-bottom: 50px;
+  background: #f5f5f5;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.bidding-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.bidding-actions input {
+  padding: 10px;
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.bidding-actions button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.bidding-actions button:hover {
+  background-color: #0056b3;
+}
+
+/* Comments section */
+.comments-container {
+  margin-bottom: 50px;
+}
+
+.comment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-actions textarea {
+  min-height: 100px;
+  padding: 10px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.comment-actions button {
+  width: 150px;
+  align-self: flex-start;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.comment-actions button:hover {
+  background-color: #218838;
+}
+
+/* Posted comments */
+#commentsList {
+  margin-top: 20px;
+}
+
+.comment {
+  background: #f1f1f1;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.comment button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background: #ffc107;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment button:hover {
+  background: #e0a800;
+}
+
+/* Footer */
+.footer {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+.footer-column h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.2s;
+}
+
+.footer-column ul li a:hover {
+  color: #0056b3;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+}
+
+.footer-bottom .footer-links a {
+  color: #007bff;
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+.footer-bottom .footer-links a:hover {
+  text-decoration: underline;
+}

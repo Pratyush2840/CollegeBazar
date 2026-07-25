@@ -1,0 +1,90 @@
+ /* post.css */
+
+.post-page {
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, #f9fafb, #eef1f6);
+  min-height: 100vh;
+}
+
+.post-page h1 {
+  font-size: 3rem;
+  margin-bottom: 2.5rem;
+  color: #222;
+  text-align: center;
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.post-form {
+  background: white;
+  padding: 50px;
+  width: 100%;
+  max-width: 650px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 1.2s ease-in;
+}
+
+.post-form label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Added a small gap between label text and input */
+}
+
+
+.post-form input,
+.post-form textarea {
+  width: 100%;
+  padding: 14px 18px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #f7f9fc;
+  transition: all 0.3s ease;
+}
+
+.post-form input:focus,
+.post-form textarea:focus {
+  border-color: #6c63ff;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+  outline: none;
+}
+
+.post-form button {
+  padding: 16px;
+  background: linear-gradient(to right, #6c63ff, #a471f8);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.post-form button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(to right, #5a54d1, #8a62e4);
+}
+
+/* Subtle floating label effect on focus */
+.post-form input:focus::placeholder,
+.post-form textarea:focus::placeholder {
+  opacity: 0.5;
+}

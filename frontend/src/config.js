@@ -1,0 +1,1 @@
+export const API_URL = "https://collegebazaar-04q6.onrender.com";
