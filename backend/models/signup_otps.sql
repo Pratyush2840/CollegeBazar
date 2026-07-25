@@ -1,0 +1,6 @@
+CREATE TABLE signup_otps (
+  email VARCHAR(100) PRIMARY KEY,
+  otp VARCHAR(6) NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
