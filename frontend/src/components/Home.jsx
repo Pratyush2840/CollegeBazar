@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 
-export default function Home() {
+export default function Home({ isLoggedIn }) {
   const heroContentRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
@@ -25,16 +25,18 @@ export default function Home() {
         clearProps: 'transform',
       }, '-=0.3');
 
-      tl.from(categoryGridRef.current.children, {
-        y: 24,
-        duration: 0.6,
-        stagger: 0.08,
-        clearProps: 'transform',
-      }, '-=0.3');
+      if (categoryGridRef.current) {
+        tl.from(categoryGridRef.current.children, {
+          y: 24,
+          duration: 0.6,
+          stagger: 0.08,
+          clearProps: 'transform',
+        }, '-=0.3');
+      }
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [isLoggedIn]);
 
   const categories = [
     { name: "Electronics", icon: "💻" },
@@ -86,21 +88,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="shop-by-category">
-        <h2 className="shop-heading">Shop by Category</h2>
-        <div className="category-grid" ref={categoryGridRef}>
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              to={`/browse?category=${encodeURIComponent(cat.name)}`}
-              className="category-card"
-            >
-              <div className="category-icon">{cat.icon}</div>
-              <div className="category-name">{cat.name}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {isLoggedIn && (
+        <section className="shop-by-category">
+          <h2 className="shop-heading">Shop by Category</h2>
+          <div className="category-grid" ref={categoryGridRef}>
+            {categories.map((cat) => (
+              <Link
+                key={cat.name}
+                to={`/browse?category=${encodeURIComponent(cat.name)}`}
+                className="category-card"
+              >
+                <div className="category-icon">{cat.icon}</div>
+                <div className="category-name">{cat.name}</div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <style jsx="true">{`
         /* Same styles as provided, no changes needed */

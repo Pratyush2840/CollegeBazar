@@ -2,6 +2,7 @@ import { Routes, Route, NavLink, Link, Navigate, useNavigate } from 'react-route
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Home from './components/Home';
+import About from './components/About';
 import Browse from './components/Browse';
 import Post from './components/Post';
 import AuthPage from './components/AuthPage';
@@ -185,8 +186,13 @@ export default function App() {
 
         <ul className={`nav-links ${mobileNavOpen ? "nav-links-open" : ""}`}>
           <li><NavLink to="/" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink></li>
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <li><NavLink to="/browse" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Browse</NavLink></li>
+          ) : (
+            <>
+              <li><NavLink to="/about" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>About Us</NavLink></li>
+              <li><button onClick={() => { toggleContactPopup(); setMobileNavOpen(false); }} className="nav-text-btn">Contact Us</button></li>
+            </>
           )}
           <li>
             {isLoggedIn ? (
@@ -393,7 +399,8 @@ export default function App() {
 
       <div className="content-container">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+          <Route path="/about" element={<About />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/post" element={isLoggedIn ? <Post /> : <Navigate to="/login" />} />
           <Route path="/login" element={<AuthPage defaultTab="login" setIsLoggedIn={setIsLoggedIn} />} />
@@ -547,7 +554,8 @@ export default function App() {
           margin: 0;
         }
 
-        .nav-links a {
+        .nav-links a,
+        .nav-text-btn {
           text-decoration: none;
           color: #cbd5e1 !important;
           font-weight: 600;
@@ -562,7 +570,15 @@ export default function App() {
           transition: background 0.2s ease, color 0.2s ease;
         }
 
-        .nav-links a:hover {
+        .nav-text-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-family: inherit;
+        }
+
+        .nav-links a:hover,
+        .nav-text-btn:hover {
           color: #ffffff !important;
           background: rgba(255, 255, 255, 0.08);
         }
@@ -1492,8 +1508,10 @@ export default function App() {
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
           }
 
-          .nav-links a {
+          .nav-links a,
+          .nav-text-btn {
             border-radius: 12px;
+            width: 100%;
           }
 
           .nav-links li {
