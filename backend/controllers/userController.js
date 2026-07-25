@@ -1,8 +1,11 @@
 import bcrypt from 'bcrypt';
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
+import { OAuth2Client } from 'google-auth-library';
 import sendMail from '../config/mailer.js';
 import { otpEmail, signupSuccess, loginNotification } from '../utils/emailTemplates.js';
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const requestOtp = async (req, res) => {
 
@@ -251,7 +254,73 @@ export const getProfile = async (req, res) => {
     console.error('Error fetching profile:', err);
     res.status(500).json({ error: 'Server error during profile fetch' });
   }
-  
+
+};
+
+export const googleLogin = async (req, res) => {
+
+  const { credential } = req.body;
+
+  if (!credential)
+    return res.status(400).json({ error: 'Google credential is required' });
+
+  try {
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, sub: googleId } = payload;
+
+    if (!email.endsWith('@iiita.ac.in'))
+      return res.status(403).json({ error: 'Email must be from @iiita.ac.in domain' });
+
+    let result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    let user = result.rows[0];
+
+    if (!user) {
+      const inserted = await db.query(
+        `INSERT INTO users (name, email, google_id)
+         VALUES ($1, $2, $3)
+         RETURNING *`,
+        [name, email, googleId]
+      );
+      user = inserted.rows[0];
+
+      const { subject, html } = signupSuccess(name);
+      sendMail(email, subject, html);
+    } else if (!user.google_id) {
+      const updated = await db.query(
+        `UPDATE users SET google_id = $1 WHERE user_id = $2 RETURNING *`,
+        [googleId, user.user_id]
+      );
+      user = updated.rows[0];
+    }
+
+    const token = jwt.sign({
+      user_id: user.user_id,
+      username: user.name
+    }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    const loginTime = new Date().toLocaleString('en-US', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      hour12: true,
+    });
+    const ipAddress = req.ip || 'Unknown IP';
+    const { subject, html } = loginNotification(email, loginTime, ipAddress);
+    sendMail(email, subject, html);
+
+    res.status(200).json({ token });
+
+  }
+  catch (err) {
+    console.error('Google login error:', err);
+    res.status(401).json({ error: 'Invalid Google credential' });
+  }
+
 };
 
 
