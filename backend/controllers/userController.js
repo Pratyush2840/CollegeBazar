@@ -158,10 +158,10 @@ export const login = async (req, res) => {
 
 export const editProfile = async (req, res) => {
  
-  const { name, phone_no, hostel } = req.body;
-  const userId = req.user.user_id; 
+  const { name, phone_no, hostel, address } = req.body;
+  const userId = req.user.user_id;
 
-  if (!name && !phone_no && !hostel) {
+  if (!name && !phone_no && !hostel && !address) {
     return res.status(400).json({ error: 'At least one field is required to update' });
   }
 
@@ -182,13 +182,17 @@ export const editProfile = async (req, res) => {
       fields.push('hostel');
       values.push(hostel);
     }
+    if (address) {
+      fields.push('address');
+      values.push(address);
+    }
 
     const setClause = fields.map((field, index) => `${field} = $${index + 1}`).join(', ');
     const query = `
       UPDATE users
       SET ${setClause}
       WHERE user_id = $${fields.length + 1}
-      RETURNING user_id, roll_no, name, email, phone_no, hostel
+      RETURNING user_id, roll_no, name, email, phone_no, hostel, address, picture_url
     `;
 
     values.push(userId);
@@ -231,7 +235,7 @@ export const getProfile = async (req, res) => {
   try {
 
     const query = `
-      SELECT user_id, roll_no, name, email, phone_no, hostel
+      SELECT user_id, roll_no, name, email, phone_no, hostel, address, picture_url
       FROM users
       WHERE user_id = $1
     `;
@@ -272,7 +276,7 @@ export const googleLogin = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
-    const { email, name, sub: googleId } = payload;
+    const { email, name, sub: googleId, picture } = payload;
 
     if (!email.endsWith('@iiitdmj.ac.in'))
       return res.status(403).json({ error: 'Email must be from @iiitdmj.ac.in domain' });
@@ -282,19 +286,19 @@ export const googleLogin = async (req, res) => {
 
     if (!user) {
       const inserted = await db.query(
-        `INSERT INTO users (name, email, google_id)
-         VALUES ($1, $2, $3)
+        `INSERT INTO users (name, email, google_id, picture_url)
+         VALUES ($1, $2, $3, $4)
          RETURNING *`,
-        [name, email, googleId]
+        [name, email, googleId, picture]
       );
       user = inserted.rows[0];
 
       const { subject, html } = signupSuccess(name);
       sendMail(email, subject, html).catch(err => console.error('Signup email failed:', err.message));
-    } else if (!user.google_id) {
+    } else {
       const updated = await db.query(
-        `UPDATE users SET google_id = $1 WHERE user_id = $2 RETURNING *`,
-        [googleId, user.user_id]
+        `UPDATE users SET google_id = $1, picture_url = $2 WHERE user_id = $3 RETURNING *`,
+        [googleId, picture, user.user_id]
       );
       user = updated.rows[0];
     }
@@ -313,7 +317,9 @@ export const googleLogin = async (req, res) => {
     const { subject, html } = loginNotification(email, loginTime, ipAddress);
     sendMail(email, subject, html).catch(err => console.error('Login notification email failed:', err.message));
 
-    res.status(200).json({ token });
+    const needsProfileCompletion = !user.phone_no || !user.hostel;
+
+    res.status(200).json({ token, needsProfileCompletion });
 
   }
   catch (err) {
