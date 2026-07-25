@@ -143,112 +143,33 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-image">
-          <img src="/assets/im.png" alt="Illustration" />
-        </div>
-        <div className="auth-form">
-          <div className="auth-header">
-            <div className="logo">
-              <span className="logo-icon">🎓</span>
-              <span>College<span className="logo-accent">B</span>azaar</span>
-            </div>
-            <div className="auth-tabs">
-              <button
-                className={isLogin ? "active" : ""}
-                onClick={() => switchTab("login")}
-                disabled={isSubmitting}
-              >
-                Login
-              </button>
-              <button
-                className={!isLogin ? "active" : ""}
-                onClick={() => switchTab("signup")}
-                disabled={isSubmitting}
-              >
-                Signup
-              </button>
-            </div>
-          </div>
-
+      <div className={`auth-container ${!isLogin ? "right-panel-active" : ""}`}>
+        <div className="form-container sign-up-container">
           <form onSubmit={handleSubmit}>
-            {error && (
+            {!isLogin && error && (
               <div className="error-message">
                 <p>{error}</p>
               </div>
             )}
 
-            {isLogin ? (
-              <>
-                <h2>Welcome Back</h2>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <button className="submit-btn" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <span className="spinner"></span>
-                  ) : (
-                    "Login"
-                  )}
-                </button>
-                <div className="oauth-divider"><span>OR</span></div>
-                <div className="google-btn-wrapper">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={() => setError("Google login failed")}
-                    useOneTap
-                  />
-                </div>
-              </>
-            ) : showOtp ? (
+            {showOtp ? (
               <>
                 <h2>Verify OTP</h2>
-                <p className="otp-info">An OTP has been sent to {formData.email}</p>
-                <div className="form-group">
-                  <label htmlFor="otp">OTP</label>
-                  <input
-                    id="otp"
-                    name="otp"
-                    type="text"
-                    placeholder="Enter 6-digit OTP"
-                    value={formData.otp}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <button className="submit-btn" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <span className="spinner"></span>
-                  ) : (
-                    "Verify & Signup"
-                  )}
+                <span className="form-subtitle">An OTP has been sent to {formData.email}</span>
+                <input
+                  name="otp"
+                  type="text"
+                  placeholder="Enter 6-digit OTP"
+                  value={formData.otp}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <button className="butt" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? <span className="spinner"></span> : "Verify & Signup"}
                 </button>
                 <button
-                  className="resend-btn"
+                  className="text-link"
                   type="button"
                   onClick={() => requestOtp(formData.email)}
                   disabled={isSubmitting}
@@ -258,100 +179,133 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
               </>
             ) : (
               <>
-                <h2>Join CollegeBazaar</h2>
-                <div className="form-group">
-                  <label htmlFor="name">Full Name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="roll_no">Roll Number</label>
-                  <input
-                    id="roll_no"
-                    name="roll_no"
-                    type="text"
-                    placeholder="Enter your roll number"
-                    value={formData.roll_no}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="phone_no">Phone Number</label>
-                  <input
-                    id="phone_no"
-                    name="phone_no"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                    value={formData.phone_no}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Create a password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="hostel">Hostel</label>
-                  <input
-                    id="hostel"
-                    name="hostel"
-                    type="text"
-                    placeholder="Enter your hostel name"
-                    value={formData.hostel}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
-                <button className="submit-btn" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <span className="spinner"></span>
-                  ) : (
-                    "Request OTP"
-                  )}
+                <h2>Create Account</h2>
+                <span className="form-subtitle">Use your @iiitdmj.ac.in email to register</span>
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
+                  name="roll_no"
+                  type="text"
+                  placeholder="Roll Number"
+                  value={formData.roll_no}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
+                  name="phone_no"
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={formData.phone_no}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
+                  name="hostel"
+                  type="text"
+                  placeholder="Hostel"
+                  value={formData.hostel}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  required
+                />
+                <button className="butt" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? <span className="spinner"></span> : "Sign Up"}
                 </button>
               </>
             )}
           </form>
         </div>
+
+        <div className="form-container sign-in-container">
+          <form onSubmit={handleSubmit}>
+            {isLogin && error && (
+              <div className="error-message">
+                <p>{error}</p>
+              </div>
+            )}
+
+            <h2>Sign in</h2>
+            <span className="form-subtitle">Use your @iiitdmj.ac.in account</span>
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={isSubmitting}
+              required
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              disabled={isSubmitting}
+              required
+            />
+            <button className="butt signinbutton" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? <span className="spinner"></span> : "Sign In"}
+            </button>
+            <div className="oauth-divider"><span>OR</span></div>
+            <div className="google-btn-wrapper">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setError("Google login failed")}
+                useOneTap
+              />
+            </div>
+          </form>
+        </div>
+
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h2>Welcome Back!</h2>
+              <p>Already have an account? Sign in to keep buying and selling on campus.</p>
+              <button className="butt ghost" type="button" onClick={() => switchTab("login")} disabled={isSubmitting}>
+                Sign In
+              </button>
+            </div>
+            <div className="overlay-panel overlay-right">
+              <h2>Hello, Friend!</h2>
+              <p>New to CollegeBazaar? Create an account and start trading within your campus.</p>
+              <button className="butt ghost" type="button" onClick={() => switchTab("signup")} disabled={isSubmitting}>
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <style jsx="true">{`
-        /* Base styling */
         .auth-page {
           min-height: 100vh;
           display: flex;
@@ -366,292 +320,278 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .auth-container {
-          display: flex;
-          max-width: 900px;
-          width: 100%;
           background: #ffffff;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          border-radius: 16px;
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.1);
+          position: relative;
           overflow: hidden;
+          width: 820px;
+          max-width: 100%;
+          min-height: 560px;
         }
 
         .dark-mode .auth-container {
-          background: #252525;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          background: #1e293b;
         }
 
-        .auth-image {
-          flex: 1;
-          background: linear-gradient(160deg, #1e3a8a, #1d4ed8);
+        .form-container {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: 50%;
+          transition: all 0.6s ease-in-out;
+          overflow-y: auto;
+        }
+
+        .form-container form {
+          background: #ffffff;
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          padding: 40px 44px;
+          min-height: 100%;
           justify-content: center;
-          padding: 20px;
+          align-items: stretch;
+          text-align: center;
         }
 
-        .auth-image img {
-          max-width: 100%;
-          height: auto;
+        .dark-mode .form-container form {
+          background: #1e293b;
+        }
+
+        .form-container h2 {
+          font-weight: 800;
+          font-size: 1.9rem;
+          color: #0f172a;
+          margin: 0 0 8px;
+        }
+
+        .dark-mode .form-container h2 {
+          color: #f1f5f9;
+        }
+
+        .form-subtitle {
+          font-size: 0.85rem;
+          color: #64748b;
+          margin-bottom: 20px;
+        }
+
+        .dark-mode .form-subtitle {
+          color: #94a3b8;
+        }
+
+        .form-container input {
+          background: #f1f5f9;
+          border: 1px solid transparent;
           border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          padding: 12px 15px;
+          margin: 6px 0;
+          width: 100%;
+          font-size: 0.95rem;
+          color: #0f172a;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .auth-form {
-          flex: 1;
-          padding: 40px;
+        .dark-mode .form-container input {
+          background: #334155;
+          color: #f1f5f9;
+        }
+
+        .form-container input:focus {
+          outline: none;
+          border-color: #1d4ed8;
+          box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+        }
+
+        .form-container input:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .sign-in-container {
+          left: 0;
+          z-index: 2;
+        }
+
+        .sign-up-container {
+          left: 0;
+          z-index: 1;
+          opacity: 0;
+        }
+
+        .overlay-container {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          width: 50%;
+          height: 100%;
+          overflow: hidden;
+          transition: transform 0.6s ease-in-out;
+          z-index: 100;
+        }
+
+        .overlay {
+          background: linear-gradient(135deg, #0f172a, #1d4ed8);
+          color: #ffffff;
+          position: relative;
+          left: -100%;
+          height: 100%;
+          width: 200%;
+          transform: translateX(0);
+          transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-panel {
+          position: absolute;
+          top: 0;
           display: flex;
           flex-direction: column;
           justify-content: center;
-        }
-
-        .auth-header {
-          text-align: center;
-          margin-bottom: 24px;
-        }
-
-        .logo {
-          font-size: 1.8rem;
-          font-weight: 800;
-          color: #2d2d2d;
-          display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 10px;
-          letter-spacing: 1px;
-          margin-bottom: 16px;
+          padding: 0 48px;
+          height: 100%;
+          width: 50%;
+          text-align: center;
         }
 
-        .dark-mode .logo {
-          color: #e0e0e0;
+        .overlay-panel h2 {
+          font-weight: 800;
+          font-size: 1.9rem;
+          margin: 0 0 16px;
         }
 
-        .logo-icon {
-          font-size: 2rem;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        .overlay-panel p {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin: 0 0 28px;
+          opacity: 0.9;
         }
 
-        .logo-accent {
-          color: #1d4ed8;
-          font-weight: 900;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        .overlay-right {
+          right: 0;
         }
 
-        .auth-tabs {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          margin-bottom: 24px;
+        .overlay-left {
+          left: 0;
+          transform: translateX(-20%);
         }
 
-        .auth-tabs button {
-          padding: 10px 20px;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #2d2d2d;
-          background: #f0f0f0;
+        .auth-container.right-panel-active .sign-in-container {
+          transform: translateX(100%);
+        }
+
+        .auth-container.right-panel-active .overlay-container {
+          transform: translateX(-100%);
+        }
+
+        .auth-container.right-panel-active .sign-up-container {
+          transform: translateX(100%);
+          opacity: 1;
+          z-index: 5;
+        }
+
+        .auth-container.right-panel-active .overlay {
+          transform: translateX(50%);
+        }
+
+        .auth-container.right-panel-active .overlay-left {
+          transform: translateX(0);
+        }
+
+        .auth-container.right-panel-active .overlay-right {
+          transform: translateX(20%);
+        }
+
+        .butt {
+          border-radius: 24px;
           border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .auth-tabs button {
-          background: #3a3a3a;
-          color: #e0e0e0;
-        }
-
-        .auth-tabs button:hover {
-          background: #e0e0e0;
-          transform: translateY(-2px);
-        }
-
-        .dark-mode .auth-tabs button:hover {
-          background: #4a4a4a;
-        }
-
-        .auth-tabs button.active {
           background: #1d4ed8;
-          color: #ffffff;
-          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
-        }
-
-        .auth-tabs button.active:hover {
-          background: #1e40af;
-          transform: translateY(-2px);
-        }
-
-        .auth-tabs button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-        }
-
-        h2 {
-          font-size: 1.8rem;
+          color: #fff;
+          font-size: 0.85rem;
           font-weight: 700;
-          color: #2d2d2d;
-          margin-bottom: 16px;
-          text-align: center;
-        }
-
-        .dark-mode h2 {
-          color: #e0e0e0;
-        }
-
-        .otp-info {
-          font-size: 0.9rem;
-          color: #555;
-          text-align: center;
-          margin-bottom: 16px;
-        }
-
-        .dark-mode .otp-info {
-          color: #ccc;
-        }
-
-        .form-group {
-          margin-bottom: 16px;
-        }
-
-        .form-group label {
-          display: block;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #2d2d2d;
-          margin-bottom: 8px;
-        }
-
-        .dark-mode .form-group label {
-          color: #e0e0e0;
-        }
-
-        .form-group input {
-          width: 100%;
-          padding: 12px;
-          font-size: 1rem;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          background: #f8f9fa;
-          color: #2d2d2d;
-          transition: all 0.3s ease;
-        }
-
-        .dark-mode .form-group input {
-          border-color: #555;
-          background: #333;
-          color: #e0e0e0;
-        }
-
-        .form-group input:focus {
-          outline: none;
-          border-color: #1d4ed8;
-          box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
-        }
-
-        .form-group input:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .submit-btn {
-          width: 100%;
-          padding: 14px;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #ffffff;
-          background: #1d4ed8;
-          border: none;
-          border-radius: 10px;
+          padding: 13px 20px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
+          margin-top: 12px;
+          transition: background 0.2s, transform 0.08s;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
         }
 
-        .submit-btn:hover {
+        .butt:hover {
           background: #1e40af;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
         }
 
-        .submit-btn:disabled {
+        .butt:active {
+          transform: scale(0.97);
+        }
+
+        .butt:disabled {
           opacity: 0.5;
           cursor: not-allowed;
-          transform: none;
         }
 
-        .resend-btn {
-          width: 100%;
-          padding: 14px;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #2d2d2d;
-          background: #f0f0f0;
+        .butt.ghost {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .butt.ghost:hover {
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        .text-link {
+          background: none;
           border: none;
-          border-radius: 10px;
+          color: #1d4ed8;
+          font-size: 0.85rem;
+          font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          margin-top: 12px;
+          margin-top: 14px;
         }
 
-        .dark-mode .resend-btn {
-          background: #3a3a3a;
-          color: #e0e0e0;
+        .dark-mode .text-link {
+          color: #60a5fa;
         }
 
-        .resend-btn:hover {
-          background: #e0e0e0;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .dark-mode .resend-btn:hover {
-          background: #4a4a4a;
-        }
-
-        .resend-btn:disabled {
+        .text-link:disabled {
           opacity: 0.5;
           cursor: not-allowed;
-          transform: none;
         }
 
         .error-message {
-          background: #feecef;
-          border-left: 4px solid #1d4ed8;
-          padding: 16px;
-          margin-bottom: 16px;
+          background: #fee2e2;
+          border-left: 4px solid #dc2626;
+          padding: 12px 14px;
+          margin-bottom: 12px;
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          text-align: left;
         }
 
         .dark-mode .error-message {
-          background: rgba(29, 78, 216, 0.15);
+          background: rgba(220, 38, 38, 0.15);
         }
 
         .error-message p {
-          color: #e41e3f;
+          color: #b91c1c;
           font-weight: 500;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
+          margin: 0;
         }
 
         .spinner {
-          width: 24px;
-          height: 24px;
-          border: 3px solid rgba(255, 255, 255, 0.3);
+          width: 18px;
+          height: 18px;
+          border: 2.5px solid rgba(255, 255, 255, 0.3);
           border-top-color: #ffffff;
           border-radius: 50%;
           animation: spin 1s ease-in-out infinite;
         }
 
         @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
+          to { transform: rotate(360deg); }
         }
 
         .oauth-divider {
@@ -660,7 +600,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           text-align: center;
           margin: 16px 0;
           color: #999;
-          font-size: 0.85rem;
+          font-size: 0.8rem;
         }
 
         .oauth-divider::before,
@@ -672,7 +612,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
         .dark-mode .oauth-divider::before,
         .dark-mode .oauth-divider::after {
-          border-bottom-color: #555;
+          border-bottom-color: #475569;
         }
 
         .oauth-divider span {
@@ -684,47 +624,68 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           justify-content: center;
         }
 
-        /* Responsiveness */
+        /* Responsiveness: the sliding-panel trick doesn't work on narrow screens, fall back to a simple stacked layout */
         @media (max-width: 768px) {
           .auth-container {
-            flex-direction: column;
-          }
-
-          .auth-image {
-            display: none; /* Hide illustration on smaller screens */
-          }
-
-          .auth-form {
-            padding: 24px;
-          }
-
-          .logo {
-            font-size: 1.5rem;
-          }
-
-          .logo-icon {
-            font-size: 1.8rem;
-          }
-
-          h2 {
-            font-size: 1.5rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .auth-tabs {
-            flex-direction: column;
-            gap: 12px;
-          }
-
-          .auth-tabs button {
             width: 100%;
+            min-height: 0;
+            overflow: visible;
           }
 
-          .submit-btn,
-          .resend-btn {
-            font-size: 0.9rem;
-            padding: 12px;
+          .form-container {
+            position: static;
+            width: 100%;
+            transform: none !important;
+            opacity: 1 !important;
+            z-index: 1 !important;
+          }
+
+          .sign-up-container {
+            display: none;
+          }
+
+          .auth-container.right-panel-active .sign-up-container {
+            display: block;
+          }
+
+          .auth-container.right-panel-active .sign-in-container {
+            display: none;
+          }
+
+          .overlay-container {
+            position: static;
+            width: 100%;
+            height: auto;
+            transform: none !important;
+          }
+
+          .overlay {
+            position: static;
+            width: 100%;
+            height: auto;
+            left: 0;
+            transform: none !important;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .overlay-panel {
+            position: static;
+            width: 100%;
+            padding: 24px;
+            transform: none !important;
+          }
+
+          .overlay-left {
+            display: none;
+          }
+
+          .auth-container.right-panel-active .overlay-left {
+            display: flex;
+          }
+
+          .auth-container.right-panel-active .overlay-right {
+            display: none;
           }
         }
       `}</style>
