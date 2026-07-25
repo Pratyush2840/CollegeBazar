@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Darkknight0125/CollegeBazaar.git"
+    "url": "git+https://github.com/Pratyush2840/CollegeBazar.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Darkknight0125/CollegeBazaar/issues"
+    "url": "https://github.com/Pratyush2840/CollegeBazar/issues"
   },
-  "homepage": "https://github.com/Darkknight0125/CollegeBazaar#readme",
+  "homepage": "https://github.com/Pratyush2840/CollegeBazar#readme",
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
