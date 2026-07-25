@@ -185,7 +185,9 @@ export default function App() {
 
         <ul className={`nav-links ${mobileNavOpen ? "nav-links-open" : ""}`}>
           <li><NavLink to="/" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink></li>
-          <li><NavLink to="/browse" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Browse</NavLink></li>
+          {isLoggedIn && (
+            <li><NavLink to="/browse" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Browse</NavLink></li>
+          )}
           <li>
             {isLoggedIn ? (
               <NavLink to="/post" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>
@@ -496,13 +498,12 @@ export default function App() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 16px 24px 0;
-          padding: 0.85rem 1.75rem;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 999px;
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+          margin: 0;
+          padding: 0.85rem 2rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
           position: sticky;
-          top: 16px;
+          top: 0;
           z-index: 100;
         }
 
@@ -1459,9 +1460,8 @@ export default function App() {
 
         @media (max-width: 768px) {
           .navbar {
-            margin: 12px 12px 0;
+            margin: 0;
             padding: 0.85rem 1.25rem;
-            border-radius: 24px;
             position: relative;
           }
 
@@ -1471,7 +1471,7 @@ export default function App() {
 
           .nav-links {
             position: absolute;
-            top: calc(100% + 10px);
+            top: 100%;
             left: 0;
             right: 0;
             flex-direction: column;
@@ -1479,7 +1479,6 @@ export default function App() {
             gap: 0;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(14px);
-            border-radius: 20px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
