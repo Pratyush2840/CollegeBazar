@@ -1,5 +1,6 @@
 import { Routes, Route, NavLink, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import Home from './components/Home';
 import Browse from './components/Browse';
 import Post from './components/Post';
@@ -25,7 +26,18 @@ export default function App() {
   const [editForm, setEditForm] = useState({ name: '', phone_no: '', hostel: '' });
   const [editError, setEditError] = useState('');
   const [showContactPopup, setShowContactPopup] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const profileDrawerRef = useRef(null);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(navRef.current, {
+      y: -24,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+    });
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -163,32 +175,58 @@ export default function App() {
 
   return (
     <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
-      <nav className="navbar">
+      <nav className="navbar" ref={navRef}>
         <div className="logo">
           <NavLink to="/">
-            <span className="logo-icon">🎓</span>
+            <img src="/assets/logo-mark.svg" alt="" className="logo-icon" />
             <span>College<span className="red-letter">B</span>azaar</span>
           </NavLink>
         </div>
 
-        <ul className="nav-links">
-          <li><NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink></li>
-          <li><NavLink to="/browse" className={({ isActive }) => isActive ? "active-link" : ""}>Browse</NavLink></li>
+        <ul className={`nav-links ${mobileNavOpen ? "nav-links-open" : ""}`}>
+          <li><NavLink to="/" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Home</NavLink></li>
+          <li><NavLink to="/browse" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>Browse</NavLink></li>
           <li>
             {isLoggedIn ? (
-              <NavLink to="/post" className={({ isActive }) => isActive ? "active-link" : ""}>
-                <span className="nav-icon">📦</span> Post Item
+              <NavLink to="/post" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>
+                Post Item
               </NavLink>
             ) : (
-              <NavLink to="/login" className="login-btn">
-                <span className="nav-icon">👤</span> Login
+              <NavLink to="/login" onClick={() => setMobileNavOpen(false)} className="login-btn">
+                Login
               </NavLink>
             )}
           </li>
         </ul>
         <div className="nav-actions">
           <button onClick={toggleDarkMode} className="theme-toggle" title="Toggle Dark Mode">
-            {darkMode ? '☀️' : '🌙'}
+            {darkMode ? (
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="4" />
+                <line x1="12" y1="2" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="22" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="2" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="22" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            ) : (
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
+          <button
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            className="hamburger-btn"
+            title="Menu"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
 
           {isLoggedIn && (
@@ -198,8 +236,13 @@ export default function App() {
                   <div className="avatar">
                     {userProfile?.picture_url ? (
                       <img src={userProfile.picture_url} alt="Profile" className="avatar-img" />
+                    ) : userProfile?.name ? (
+                      userProfile.name.charAt(0)
                     ) : (
-                      userProfile?.name?.charAt(0) || '👤'
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
                     )}
                   </div>
                 </button>
@@ -423,12 +466,6 @@ export default function App() {
           color: #f1f5f9;
         }
 
-        .dark-mode .navbar {
-          background: #1e293b;
-          border-bottom: 1px solid #475569;
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-        }
-
         .dark-mode .profile-drawer {
           background: #1e293b;
           border-left: 1px solid #475569;
@@ -459,78 +496,72 @@ export default function App() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1.25rem 3rem;
-          background: linear-gradient(45deg, #ffffff, #f8fafc);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+          margin: 16px 24px 0;
+          padding: 0.85rem 1.75rem;
+          background: rgba(15, 23, 42, 0.72);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 999px;
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
           position: sticky;
-          top: 0;
+          top: 16px;
           z-index: 100;
-          border-radius: 0 0 16px 16px;
         }
 
         .logo a {
           font-size: 2rem;
           font-weight: 900;
           text-decoration: none;
-          color: #1f2937;
+          color: #f8fafc;
           display: flex;
           align-items: center;
           gap: 12px;
           letter-spacing: 1.2px;
         }
 
-        .dark-mode .logo a {
-          color: #f1f5f9;
-        }
-
         .logo-icon {
-          font-size: 2.5rem;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
           filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
         }
 
         .red-letter {
-          color: #1d4ed8;
+          color: #60a5fa;
         }
 
         .nav-links {
           display: flex;
           list-style: none;
-          gap: 3rem;
+          gap: 0.4rem;
           margin: 0;
-          padding-top: 0.75rem;
         }
 
         .nav-links a {
           text-decoration: none;
-          color: #1f2937 !important;
-          font-weight: 700;
-          font-size: 1.15rem;
-          padding: 0.75rem 0;
+          color: #cbd5e1 !important;
+          font-weight: 600;
+          font-size: 1.02rem;
+          padding: 0.55rem 1.15rem;
+          border-radius: 999px;
           position: relative;
           display: flex;
           align-items: center;
           gap: 10px;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.3px;
+          transition: background 0.2s ease, color 0.2s ease;
         }
 
         .nav-links a:hover {
-          color: #1d4ed8 !important;
-          transform: translateY(-1px);
-        }
-
-        .dark-mode .nav-links a {
-          color: #f1f5f9 !important;
+          color: #ffffff !important;
+          background: rgba(255, 255, 255, 0.08);
         }
 
         .active-link {
-          color: #1d4ed8 !important;
-          font-weight: 800 !important;
-          border-bottom: 4px solid #1d4ed8;
-        }
-
-        .dark-mode .active-link {
-          color: #60a5fa !important;
-          border-bottom-color: #60a5fa !important;
+          color: #ffffff !important;
+          font-weight: 700 !important;
+          background: rgba(96, 165, 250, 0.18);
         }
 
         .login-btn {
@@ -562,24 +593,38 @@ export default function App() {
         .theme-toggle {
           background: none;
           border: none;
-          font-size: 1.6rem;
+          color: #f8fafc;
           cursor: pointer;
-          padding: 12px;
+          padding: 10px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
         }
 
         .theme-toggle:hover {
-          background: rgba(0, 0, 0, 0.15);
+          background: rgba(255, 255, 255, 0.15);
           transform: scale(1.15);
         }
 
-        .dark-mode .theme-toggle:hover {
-          background: rgba(255, 255, 255, 0.2);
+        .hamburger-btn {
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px;
+        }
+
+        .hamburger-btn span {
+          display: block;
+          width: 24px;
+          height: 2px;
+          background: #f8fafc;
+          border-radius: 2px;
         }
 
         .profile-container {
@@ -621,7 +666,9 @@ export default function App() {
           position: fixed;
           top: 0;
           right: 0;
-          width: 450px;
+          width: 50%;
+          min-width: 380px;
+          max-width: 640px;
           height: 100%;
           background: linear-gradient(180deg, #ffffff, #f8fafc);
           border-left: 1px solid #e2e8f0;
@@ -1404,11 +1451,46 @@ export default function App() {
 
         @media (max-width: 768px) {
           .navbar {
-            padding: 1rem 2rem;
+            margin: 12px 12px 0;
+            padding: 0.85rem 1.25rem;
+            border-radius: 24px;
+            position: relative;
+          }
+
+          .hamburger-btn {
+            display: flex;
           }
 
           .nav-links {
-            gap: 2rem;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.25rem;
+          }
+
+          .nav-links-open {
+            max-height: 320px;
+            padding-top: 0.75rem;
+            padding-bottom: 1rem;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+          }
+
+          .nav-links a {
+            border-radius: 12px;
+          }
+
+          .nav-links li {
+            padding: 0.5rem 0;
           }
 
           .profile-drawer {
@@ -1461,7 +1543,8 @@ export default function App() {
           }
 
           .logo-icon {
-            font-size: 2rem;
+            width: 32px;
+            height: 32px;
           }
 
           .hero-content h1 {
