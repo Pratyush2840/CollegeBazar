@@ -12,6 +12,7 @@ export default function Browse() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filtersOpen, setFiltersOpen] = useState(true);
 
   const categories = ['All', 'Electronics', 'Textbooks', 'Furniture', 'Accessories', 'Miscellaneous'];
 
@@ -65,80 +66,303 @@ export default function Browse() {
 
   return (
     <main className="browse-page">
-      <h1>Browse Listings</h1>
-      <div className="filter-bar">
-        <div className="search-group">
-          <input type="text" placeholder="Search listings..." value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} className="search-input" />
-        </div>
-        <div className="category-group">
-          <label htmlFor="category">Filter by Category:</label>
-          <select id="category" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            {categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
-          </select>
+      <div className="browse-search">
+        <input
+          type="text"
+          placeholder="Search here..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        <button type="button" className="search-btn" aria-label="Search">🔍</button>
+      </div>
+
+      <div className="browse-body">
+        <aside className={`filters-panel ${filtersOpen ? "open" : "closed"}`}>
+          <button type="button" className="filters-header" onClick={() => setFiltersOpen(!filtersOpen)}>
+            <span>Filters</span>
+            <span className={`chevron ${filtersOpen ? "up" : "down"}`}>▾</span>
+          </button>
+          {filtersOpen && (
+            <div className="filters-body">
+              <p className="filters-subtitle">Choose a category as per your buying needs</p>
+              {categories.map((cat) => (
+                <label key={cat} className="filter-option">
+                  <input
+                    type="radio"
+                    name="category"
+                    value={cat}
+                    checked={selectedCategory === cat}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                  />
+                  {cat}
+                </label>
+              ))}
+            </div>
+          )}
+        </aside>
+
+        <div className="listing-area">
+          {loading ? (
+            <div className="status-box"><p>Loading products...</p></div>
+          ) : error ? (
+            <div className="status-box"><span className="status-icon">⚠️</span><p>{error}</p></div>
+          ) : filteredListings.length === 0 ? (
+            <div className="status-box"><span className="status-icon">🚫</span><p>No products found.</p></div>
+          ) : (
+            <div className="listing-grid">
+              {filteredListings.map((item) => (
+                <Link
+                  key={item.product_id}
+                  to={`/product?product_id=${encodeURIComponent(item.product_id)}`}
+                  className="listing-card"
+                >
+                  <div className="image-container">
+                    <img src={item.image} alt={item.name} />
+                    <span className="category-badge">{item.category}</span>
+                  </div>
+                  <div className="card-content">
+                    <h2>{item.name}</h2>
+                    <p className="price">₹{item.asking_price.toLocaleString()}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      {loading ? (
-        <div className="loading"><p>Loading products...</p></div>
-      ) : error ? (
-        <div className="error"><span className="error-icon">⚠️</span><p>{error}</p></div>
-      ) : filteredListings.length === 0 ? (
-        <div className="no-products"><span className="no-products-icon">🚫</span><p>No products found.</p></div>
-      ) : (
-        <div className="listing-grid">
-          {filteredListings.map((item) => (
-            <div key={item.id} className="listing-card">
-              <div className="image-container">
-                <img src={item.image} alt={item.name} />
-                <span className="category-badge">{item.category}</span>
-              </div>
-              <div className="card-content">
-                <h2>{item.name}</h2>
-                <p className="price">₹{item.asking_price.toLocaleString()}</p>
-                <Link to={`/product?product_id=${encodeURIComponent(item.product_id)}`} className="btn">View Details</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+
       <style>
         {`
-        .browse-page { max-width: 1200px; margin: 40px auto; padding: 32px; background: linear-gradient(180deg, #ffffff, #f8f9fa); border-radius: 16px; box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
-        .dark-mode .browse-page { background: linear-gradient(180deg, #2d2d2d, #252525); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
-        h1 { font-size: 2.5rem; font-weight: 800; color: #2d2d2d; text-align: center; margin-bottom: 40px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .dark-mode h1 { color: #e0e0e0; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-        .filter-bar { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; align-items: center; }
-        .search-group, .category-group { display: flex; align-items: center; gap: 12px; }
-        .category-group label { font-size: 1.1rem; font-weight: 600; color: #2d2d2d; }
-        .dark-mode .category-group label { color: #e0e0e0; }
-        .search-input, select { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; color: #2d2d2d; transition: border-color 0.3s, box-shadow 0.3s; min-width: 200px; }
-        .dark-mode .search-input, .dark-mode select { border-color: #555; background: #333; color: #e0e0e0; }
-        .search-input:focus, select:focus { outline: none; border-color: #1d4ed8; box-shadow: 0 0 8px rgba(29, 78, 216,0.3); }
-        .dark-mode .search-input:focus, .dark-mode select:focus { border-color: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250,0.3); }
-        .no-products, .loading, .error { text-align: center; padding: 40px; background: #f8f9fa; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .dark-mode .no-products, .dark-mode .loading, .dark-mode .error { background: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .no-products-icon, .error-icon { font-size: 2.5rem; display: block; margin-bottom: 16px; }
-        .no-products p, .loading p, .error p { font-size: 1.2rem; color: #555; }
-        .dark-mode .no-products p, .dark-mode .loading p, .dark-mode .error p { color: #ccc; }
-        .listing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-        .listing-card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
-        .listing-card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
-        .dark-mode .listing-card { background: #2d2d2d; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .image-container { position: relative; width: 100%; padding-top: 75%; }
-        .image-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .category-badge { position: absolute; top: 12px; right: 12px; background: #1d4ed8; color: #ffffff; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); }
-        .dark-mode .category-badge { background: #60a5fa; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
-        .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
-        .card-content h2 { font-size: 1.4rem; font-weight: 700; color: #2d2d2d; margin: 0; }
-        .dark-mode .card-content h2 { color: #e0e0e0; }
-        .price { font-size: 1.2rem; font-weight: 600; color: #1d4ed8; margin: 0; }
-        .dark-mode .price { color: #60a5fa; }
-        .btn { background: #1d4ed8; color: #ffffff; padding: 12px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; text-align: center; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); margin-top: auto; }
-        .btn:hover { background: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29, 78, 216,0.5); }
-        .dark-mode .btn { background: #60a5fa; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
-        .dark-mode .btn:hover { background: #3b82f6; box-shadow: 0 4px 12px rgba(96, 165, 250,0.5); }
-        @media (max-width: 768px) { .browse-page { margin: 24px 16px; padding: 24px; } h1 { font-size: 2rem; } .filter-bar { flex-direction: column; align-items: stretch; gap: 16px; } .search-input, select { min-width: 100%; } .listing-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 480px) { h1 { font-size: 1.8rem; } .category-group label { font-size: 1rem; } .search-input, select { font-size: 0.9rem; } .card-content h2 { font-size: 1.2rem; } .price { font-size: 1.1rem; } .btn { font-size: 0.9rem; padding: 10px; } }
+        .browse-page {
+          min-height: 100vh;
+          padding: 32px;
+          background-color: #12141c;
+          background-image:
+            linear-gradient(30deg, #1c1f2b 12%, transparent 12.5%, transparent 87%, #1c1f2b 87.5%, #1c1f2b),
+            linear-gradient(150deg, #1c1f2b 12%, transparent 12.5%, transparent 87%, #1c1f2b 87.5%, #1c1f2b),
+            linear-gradient(30deg, #1c1f2b 12%, transparent 12.5%, transparent 87%, #1c1f2b 87.5%, #1c1f2b),
+            linear-gradient(150deg, #1c1f2b 12%, transparent 12.5%, transparent 87%, #1c1f2b 87.5%, #1c1f2b),
+            linear-gradient(60deg, #191c26 25%, transparent 25.5%, transparent 75%, #191c26 75%, #191c26),
+            linear-gradient(60deg, #191c26 25%, transparent 25.5%, transparent 75%, #191c26 75%, #191c26);
+          background-size: 80px 140px;
+          background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+        }
+
+        .browse-search {
+          max-width: 900px;
+          margin: 0 auto 24px;
+          display: flex;
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+          flex: 1;
+          padding: 16px 20px;
+          font-size: 1rem;
+          border: none;
+          background: #ffffff;
+          color: #1f2937;
+        }
+
+        .search-input:focus {
+          outline: none;
+        }
+
+        .search-btn {
+          padding: 0 24px;
+          background: #1d4ed8;
+          border: none;
+          color: #ffffff;
+          font-size: 1.1rem;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+          background: #1e40af;
+        }
+
+        .browse-body {
+          display: flex;
+          gap: 24px;
+          align-items: flex-start;
+          max-width: 1280px;
+          margin: 0 auto;
+        }
+
+        .filters-panel {
+          width: 260px;
+          flex-shrink: 0;
+          background: #ffffff;
+          border-radius: 10px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+        }
+
+        .filters-header {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 18px 20px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .chevron {
+          transition: transform 0.2s ease;
+        }
+
+        .chevron.up {
+          transform: rotate(180deg);
+        }
+
+        .filters-body {
+          padding: 0 20px 20px;
+        }
+
+        .filters-subtitle {
+          font-size: 0.85rem;
+          color: #6b7280;
+          margin: 0 0 16px;
+        }
+
+        .filter-option {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 0;
+          font-size: 0.95rem;
+          color: #1f2937;
+          cursor: pointer;
+        }
+
+        .filter-option input {
+          accent-color: #1d4ed8;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+
+        .listing-area {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .status-box {
+          text-align: center;
+          padding: 60px 24px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+        }
+
+        .status-icon {
+          font-size: 2.5rem;
+          display: block;
+          margin-bottom: 16px;
+        }
+
+        .status-box p {
+          font-size: 1.1rem;
+          color: #e5e7eb;
+        }
+
+        .listing-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 24px;
+        }
+
+        .listing-card {
+          position: relative;
+          border-radius: 10px;
+          overflow: hidden;
+          text-decoration: none;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          aspect-ratio: 3 / 4;
+          display: block;
+          background: #1f2937;
+        }
+
+        .listing-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .image-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .category-badge {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: #d97706;
+          color: #ffffff;
+          padding: 5px 12px;
+          border-radius: 5px;
+          font-size: 0.8rem;
+          font-weight: 700;
+        }
+
+        .card-content {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 16px;
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+        }
+
+        .card-content h2 {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin: 0 0 4px;
+        }
+
+        .price {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #93c5fd;
+          margin: 0;
+        }
+
+        @media (max-width: 768px) {
+          .browse-page {
+            padding: 20px 16px;
+          }
+
+          .browse-body {
+            flex-direction: column;
+          }
+
+          .filters-panel {
+            width: 100%;
+          }
+
+          .listing-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+          }
+        }
       `}
       </style>
     </main>
