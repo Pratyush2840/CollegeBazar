@@ -380,8 +380,8 @@ export default function Post() {
         }
 
         input:focus, textarea:focus, select:focus, .date-picker:focus {
-          border-color: #ef4444;
-          box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+          border-color: #1d4ed8;
+          box-shadow: 0 0 8px rgba(29, 78, 216, 0.2);
           transform: translateY(-1px);
           outline: none;
         }
@@ -425,13 +425,13 @@ export default function Post() {
         }
 
         .error {
-          border-color: #ef4444 !important;
-          box-shadow: 0 0 8px rgba(239, 68, 68, 0.2) !important;
+          border-color: #1d4ed8 !important;
+          box-shadow: 0 0 8px rgba(29, 78, 216, 0.2) !important;
         }
 
         .dark-mode .error {
-          border-color: #f87171 !important;
-          box-shadow: 0 0 8px rgba(248, 113, 113, 0.2) !important;
+          border-color: #3b82f6 !important;
+          box-shadow: 0 0 8px rgba(59, 130, 246, 0.2) !important;
         }
 
         .error-message {
@@ -442,7 +442,7 @@ export default function Post() {
         }
 
         .dark-mode .error-message {
-          color: #f87171;
+          color: #3b82f6;
         }
 
         @keyframes fadeIn {
@@ -481,7 +481,7 @@ export default function Post() {
 
         .react-datepicker__day--selected,
         .react-datepicker__day--keyboard-selected {
-          background: #ef4444;
+          background: #1d4ed8;
           color: #ffffff;
         }
 
@@ -515,7 +515,7 @@ export default function Post() {
         }
 
         .drop-zone:hover, .drag-over {
-          border-color: #ef4444;
+          border-color: #1d4ed8;
           background: #fef2f2;
           transform: translateY(-2px);
         }
@@ -575,20 +575,20 @@ export default function Post() {
         }
 
         .dark-mode .remove-img {
-          background: #f87171;
+          background: #3b82f6;
         }
 
         .remove-img:hover {
-          background: #dc2626;
+          background: #1e3a8a;
           transform: scale(1.1);
         }
 
         .dark-mode .remove-img:hover {
-          background: #ef4444;
+          background: #1d4ed8;
         }
 
         .btn {
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: #ffffff;
           padding: 16px;
           font-size: 1.2rem;
@@ -600,13 +600,13 @@ export default function Post() {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 3px 12px rgba(29, 78, 216, 0.4);
         }
 
         .btn:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
 
         .btn:disabled {
@@ -618,13 +618,13 @@ export default function Post() {
         }
 
         .dark-mode .btn {
-          background: linear-gradient(45deg, #60a5fa, #93c5fd);
+          background: #60a5fa;
           color: #1f2937;
           box-shadow: 0 3px 12px rgba(96, 165, 250, 0.4);
         }
 
         .dark-mode .btn:hover {
-          background: linear-gradient(45deg, #3b82f6, #60a5fa);
+          background: #3b82f6;
           box-shadow: 0 6px 16px rgba(96, 165, 250, 0.6);
         }
 

@@ -111,7 +111,7 @@ export default function Home() {
         }
 
         .btn {
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           color: #ffffff !important;
           padding: 12px 24px;
           font-size: 1rem;
@@ -120,13 +120,13 @@ export default function Home() {
           border-radius: 8px;
           text-decoration: none;
           transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
         }
 
         .btn:hover {
-          background: linear-gradient(45deg, #ff2e43, #ff5b6b);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(255, 71, 87, 0.5);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
         }
 
         .btn.secondary {
@@ -142,14 +142,14 @@ export default function Home() {
         }
 
         .dark-mode .btn {
-          background: linear-gradient(45deg, #61dafb, #7be6ff);
+          background: #60a5fa;
           color: #121212 !important;
-          box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);
+          box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
         }
 
         .dark-mode .btn:hover {
-          background: linear-gradient(45deg, #4ccaf9, #69d6ff);
-          box-shadow: 0 4px 12px rgba(97, 218, 251, 0.5);
+          background: #3b82f6;
+          box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
         }
 
         .dark-mode .btn.secondary {
@@ -217,14 +217,14 @@ export default function Home() {
           font-size: 2rem;
           font-weight: 800;
           text-align: center;
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin-bottom: 24px;
         }
 
         .dark-mode .shop-heading {
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -252,12 +252,12 @@ export default function Home() {
 
         .category-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 6px 16px rgba(255, 71, 87, 0.5);
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.5);
+          background: #1d4ed8;
         }
 
         .dark-mode .category-card:hover {
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
         }
 
         .category-img {
@@ -265,11 +265,11 @@ export default function Home() {
           height: 160px;
           object-fit: cover;
           display: block;
-          border-bottom: 2px solid #ff4757;
+          border-bottom: 2px solid #1d4ed8;
         }
 
         .dark-mode .category-img {
-          border-bottom-color: #ff4757;
+          border-bottom-color: #1d4ed8;
         }
 
         .category-name {
@@ -293,12 +293,12 @@ export default function Home() {
 
         .category-card:hover .category-name {
           color: #ffffff;
-          background: rgba(255, 71, 87, 0.9);
+          background: rgba(29, 78, 216, 0.9);
         }
 
         .dark-mode .category-card:hover .category-name {
           color: #ffffff;
-          background: rgba(255, 71, 87, 0.9);
+          background: rgba(29, 78, 216, 0.9);
         }
 
         @media (max-width: 768px) {

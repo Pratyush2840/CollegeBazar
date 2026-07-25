@@ -162,14 +162,14 @@ body {
   top: 10px;
   right: 10px;
   padding: 5px 10px;
-  background: #ffc107;
+  background: #94a3b8;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .comment button:hover {
-  background: #e0a800;
+  background: #64748b;
 }
 
 /* Footer */

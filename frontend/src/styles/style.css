@@ -64,7 +64,7 @@ body {
 }
 
 .logout-btn {
-  background-color: red;
+  background-color: #dc2626;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -73,7 +73,7 @@ body {
 }
 
 .logout-btn:hover {
-  background-color: darkred;
+  background-color: #b91c1c;
 }
 
 
@@ -89,21 +89,21 @@ body {
   text-align: center;
 }
 .red-letter {
-  color: red;
+  color: #1d4ed8;
 }
 
 
 .hero-buttons .btn {
   padding: 10px 20px;
   margin: 10px;
-  background-color: #ff5a5f;
+  background-color: #1d4ed8;
   color: white;
   text-decoration: none;
   border-radius: 5px;
 }
 
 .hero-buttons .btn.secondary {
-  background-color: #008489;
+  background-color: #334155;
 }
 
 .features {

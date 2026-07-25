@@ -151,7 +151,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           <div className="auth-header">
             <div className="logo">
               <span className="logo-icon">🎓</span>
-              College<span className="logo-accent">B</span>azaar
+              <span>College<span className="logo-accent">B</span>azaar</span>
             </div>
             <div className="auth-tabs">
               <button
@@ -382,7 +382,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
         .auth-image {
           flex: 1;
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: linear-gradient(160deg, #1e3a8a, #1d4ed8);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -431,7 +431,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .logo-accent {
-          color: #ff4757;
+          color: #1d4ed8;
           font-weight: 900;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
@@ -471,13 +471,13 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .auth-tabs button.active {
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           color: #ffffff;
-          box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
         }
 
         .auth-tabs button.active:hover {
-          background: linear-gradient(45deg, #ff2e43, #ff5b6b);
+          background: #1e40af;
           transform: translateY(-2px);
         }
 
@@ -545,8 +545,8 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
         .form-group input:focus {
           outline: none;
-          border-color: #ff4757;
-          box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2);
+          border-color: #1d4ed8;
+          box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
         }
 
         .form-group input:disabled {
@@ -560,12 +560,12 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           font-size: 1rem;
           font-weight: 600;
           color: #ffffff;
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           border: none;
           border-radius: 10px;
           cursor: pointer;
           transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -573,9 +573,9 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .submit-btn:hover {
-          background: linear-gradient(45deg, #ff2e43, #ff5b6b);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(255, 71, 87, 0.5);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
         }
 
         .submit-btn:disabled {
@@ -622,7 +622,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
         .error-message {
           background: #feecef;
-          border-left: 4px solid #ff4757;
+          border-left: 4px solid #1d4ed8;
           padding: 16px;
           margin-bottom: 16px;
           border-radius: 8px;
@@ -630,7 +630,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .dark-mode .error-message {
-          background: rgba(255, 71, 87, 0.15);
+          background: rgba(29, 78, 216, 0.15);
         }
 
         .error-message p {

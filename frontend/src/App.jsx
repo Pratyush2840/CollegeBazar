@@ -167,7 +167,7 @@ export default function App() {
         <div className="logo">
           <NavLink to="/">
             <span className="logo-icon">🎓</span>
-            College<span className="red-letter">B</span>azaar
+            <span>College<span className="red-letter">B</span>azaar</span>
           </NavLink>
         </div>
 
@@ -450,21 +450,6 @@ export default function App() {
           color: #f1f5f9;
         }
 
-        .dark-mode .btn-edit {
-          background: linear-gradient(45deg, #2563eb, #3b82f6) !important;
-          color: #ffffff !important;
-        }
-
-        .dark-mode .btn-view-listings {
-          background: linear-gradient(45deg, #15803d, #22c55e) !important;
-          color: #ffffff !important;
-        }
-
-        .dark-mode .btn-view-bids {
-          background: linear-gradient(45deg, #d97706, #f59e0b) !important;
-          color: #ffffff !important;
-        }
-
         .dark-mode .profile-actions button:hover {
           background: #64748b;
           transform: translateY(-2px);
@@ -504,7 +489,7 @@ export default function App() {
         }
 
         .red-letter {
-          color: #ef4444;
+          color: #1d4ed8;
         }
 
         .nav-links {
@@ -529,7 +514,7 @@ export default function App() {
         }
 
         .nav-links a:hover {
-          color: #ef4444 !important;
+          color: #1d4ed8 !important;
           transform: translateY(-1px);
         }
 
@@ -538,9 +523,9 @@ export default function App() {
         }
 
         .active-link {
-          color: #ef4444 !important;
+          color: #1d4ed8 !important;
           font-weight: 800 !important;
-          border-bottom: 4px solid #ef4444;
+          border-bottom: 4px solid #1d4ed8;
         }
 
         .dark-mode .active-link {
@@ -549,19 +534,19 @@ export default function App() {
         }
 
         .login-btn {
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: white !important;
           padding: 12px 24px !important;
           border-radius: 10px;
           transition: all 0.3s ease;
-          box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 3px 12px rgba(29, 78, 216, 0.4);
         }
 
         .login-btn:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           color: white !important;
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
 
         .nav-icon {
@@ -614,14 +599,14 @@ export default function App() {
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 700;
           font-size: 1.4rem;
-          box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 3px 12px rgba(29, 78, 216, 0.4);
           overflow: hidden;
         }
 
@@ -722,7 +707,7 @@ export default function App() {
           width: 96px;
           height: 96px;
           border-radius: 50%;
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: white;
           display: flex;
           align-items: center;
@@ -730,7 +715,7 @@ export default function App() {
           font-size: 2.5rem;
           font-weight: 700;
           margin: 0 auto 1rem;
-          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.4);
           overflow: hidden;
         }
 
@@ -791,8 +776,8 @@ export default function App() {
         }
 
         .edit-field input:focus {
-          border-color: #ef4444;
-          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+          border-color: #1d4ed8;
+          box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
         }
 
         .dark-mode .edit-field input {
@@ -946,7 +931,7 @@ export default function App() {
         .stat-number {
           font-size: 2rem;
           font-weight: 800;
-          color: #ef4444;
+          color: #1d4ed8;
         }
 
         .stat-label {
@@ -992,33 +977,6 @@ export default function App() {
           font-size: 1.3rem;
         }
 
-        .btn-edit {
-          background: linear-gradient(45deg, #dbeafe, #bfdbfe) !important;
-          color: #2563eb !important;
-        }
-
-        .btn-edit:hover {
-          background: linear-gradient(45deg, #bfdbfe, #93c5fd) !important;
-        }
-
-        .btn-view-listings {
-          background: linear-gradient(45deg, #dcfce7, #bbf7d0) !important;
-          color: #16a34a !important;
-        }
-
-        .btn-view-listings:hover {
-          background: linear-gradient(45deg, #bbf7d0, #86efac) !important;
-        }
-
-        .btn-view-bids {
-          background: linear-gradient(45deg, #fef3c7, #fde68a) !important;
-          color: #d97706 !important;
-        }
-
-        .btn-view-bids:hover {
-          background: linear-gradient(45deg, #fde68a, #fcd34d) !important;
-        }
-
         .drawer-footer {
           padding: 2rem;
           margin-top: 2rem;
@@ -1029,7 +987,7 @@ export default function App() {
           padding: 1rem;
           font-size: 1.1rem;
           color: #fff;
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           border: none;
           border-radius: 12px;
           cursor: pointer;
@@ -1039,13 +997,13 @@ export default function App() {
           justify-content: center;
           gap: 12px;
           font-weight: 600;
-          box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 3px 12px rgba(29, 78, 216, 0.4);
         }
 
         .logout-btn:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
 
         .loading-profile {
@@ -1061,7 +1019,7 @@ export default function App() {
           height: 56px;
           border: 5px solid rgba(0, 0, 0, 0.1);
           border-radius: 50%;
-          border-top-color: #ef4444;
+          border-top-color: #1d4ed8;
           animation: spin 0.8s ease-in-out infinite;
           margin-bottom: 1.25rem;
         }
@@ -1077,7 +1035,7 @@ export default function App() {
 
         .error-message {
           background: #fee2e2;
-          border-left: 5px solid #ef4444;
+          border-left: 5px solid #1d4ed8;
           padding: 1.25rem;
           margin: 2rem;
           border-radius: 10px;
@@ -1085,7 +1043,7 @@ export default function App() {
         }
 
         .dark-mode .error-message {
-          background: rgba(239, 68, 68, 0.2);
+          background: rgba(29, 78, 216, 0.2);
         }
 
         .error-message p {
@@ -1095,7 +1053,7 @@ export default function App() {
         }
 
         .error-message button {
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: white;
           border: none;
           padding: 12px 20px;
@@ -1105,7 +1063,7 @@ export default function App() {
         }
 
         .error-message button:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           transform: translateY(-1px);
         }
 
@@ -1127,12 +1085,12 @@ export default function App() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.5);
+          background: linear-gradient(180deg, rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75));
           z-index: 1;
         }
 
         .dark-mode .hero::before {
-          background: rgba(0, 0, 0, 0.7);
+          background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.85));
         }
 
         .hero-overlay {
@@ -1163,7 +1121,7 @@ export default function App() {
         }
 
         .btn {
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: #ffffff !important;
           padding: 14px 28px;
           font-size: 1.1rem;
@@ -1172,13 +1130,13 @@ export default function App() {
           border-radius: 10px;
           text-decoration: none;
           transition: all 0.3s ease;
-          box-shadow: 0 3px 12px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 3px 12px rgba(29, 78, 216, 0.4);
         }
 
         .btn:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
 
         .btn.secondary {
@@ -1194,13 +1152,13 @@ export default function App() {
         }
 
         .dark-mode .btn {
-          background: linear-gradient(45deg, #60a5fa, #93c5fd);
+          background: #60a5fa;
           color: #1f2937 !important;
           box-shadow: 0 3px 12px rgba(96, 165, 250, 0.4);
         }
 
         .dark-mode .btn:hover {
-          background: linear-gradient(45deg, #3b82f6, #60a5fa);
+          background: #3b82f6;
           box-shadow: 0 6px 16px rgba(96, 165, 250, 0.6);
         }
 
@@ -1336,7 +1294,7 @@ export default function App() {
         .contact-link {
           background: none;
           border: none;
-          color: #ef4444;
+          color: #1d4ed8;
           font-size: 1rem;
           font-weight: 600;
           cursor: pointer;
@@ -1344,7 +1302,7 @@ export default function App() {
         }
 
         .contact-link:hover {
-          color: #dc2626;
+          color: #1e3a8a;
         }
 
         .dark-mode .contact-link {
@@ -1405,7 +1363,7 @@ export default function App() {
         }
 
         .contact-popup-content a {
-          color: #ef4444;
+          color: #1d4ed8;
           text-decoration: none;
           font-size: 1.1rem;
         }
@@ -1419,7 +1377,7 @@ export default function App() {
         }
 
         .close-popup {
-          background: linear-gradient(45deg, #ef4444, #f87171);
+          background: #1d4ed8;
           color: #ffffff;
           padding: 12px 24px;
           border: none;
@@ -1431,17 +1389,17 @@ export default function App() {
         }
 
         .close-popup:hover {
-          background: linear-gradient(45deg, #dc2626, #ef4444);
+          background: #1e40af;
           transform: translateY(-2px);
         }
 
         .dark-mode .close-popup {
-          background: linear-gradient(45deg, #60a5fa, #93c5fd);
+          background: #60a5fa;
           color: #1f2937;
         }
 
         .dark-mode .close-popup:hover {
-          background: linear-gradient(45deg, #3b82f6, #60a5fa);
+          background: #3b82f6;
         }
 
         @media (max-width: 768px) {

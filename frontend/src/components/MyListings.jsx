@@ -153,7 +153,7 @@ export default function MyListings() {
         }
 
         .no-products a {
-          color: #ff4757;
+          color: #1d4ed8;
           text-decoration: none;
           font-weight: 600;
         }
@@ -163,7 +163,7 @@ export default function MyListings() {
         }
 
         .dark-mode .no-products a {
-          color: #61dafb;
+          color: #60a5fa;
         }
 
         .listing-grid {
@@ -211,19 +211,19 @@ export default function MyListings() {
           position: absolute;
           top: 12px;
           right: 12px;
-          background: #ff4757;
+          background: #1d4ed8;
           color: #ffffff;
           padding: 6px 12px;
           border-radius: 6px;
           font-size: 0.9rem;
           font-weight: 600;
-          box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
         }
 
         .dark-mode .category-badge {
-          background: #61dafb;
+          background: #60a5fa;
           color: #121212;
-          box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);
+          box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
         }
 
         .card-content {
@@ -248,12 +248,12 @@ export default function MyListings() {
         .price {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #ff4757;
+          color: #1d4ed8;
           margin: 0;
         }
 
         .dark-mode .price {
-          color: #61dafb;
+          color: #60a5fa;
         }
 
         .button-group {
@@ -264,7 +264,7 @@ export default function MyListings() {
 
         .btn {
           flex: 1;
-          background: linear-gradient(45deg, #ff4757, #ff6b7b);
+          background: #1d4ed8;
           color: #ffffff;
           padding: 12px;
           font-size: 1rem;
@@ -274,25 +274,25 @@ export default function MyListings() {
           text-align: center;
           text-decoration: none;
           transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
           cursor: pointer;
         }
 
         .btn:hover {
-          background: linear-gradient(45deg, #ff2e43, #ff5b6b);
+          background: #1e40af;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(255, 71, 87, 0.5);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
         }
 
         .dark-mode .btn {
-          background: linear-gradient(45deg, #61dafb, #7be6ff);
+          background: #60a5fa;
           color: #121212;
-          box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);
+          box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
         }
 
         .dark-mode .btn:hover {
-          background: linear-gradient(45deg, #4ccaf9, #69d6ff);
-          box-shadow: 0 4px 12px rgba(97, 218, 251, 0.5);
+          background: #3b82f6;
+          box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
         }
 
         @media (max-width: 768px) {
