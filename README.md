@@ -2,9 +2,6 @@
 
 A campus marketplace web app where students can list, browse, and bid on items. Built with a React (Vite) frontend and an Express + PostgreSQL backend.
 
-## About this project
-
-This project was originally built together with [Seearun20](https://github.com/Seearun20/Collegebazaar) (frontend) and [Darkknight0125](https://github.com/Darkknight0125/CollegeBazaar) (backend). This repo extends that work with **Google OAuth login**, added on top of the existing email/password + OTP signup flow without changing any existing logic.
 
 ## Structure
 
