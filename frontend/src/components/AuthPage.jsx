@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, requestOtp, verifyOtpAndSignup } from "../api/auth";
+import { GoogleLogin } from "@react-oauth/google";
+import { login, requestOtp, verifyOtpAndSignup, googleAuth } from "../api/auth";
 
 export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
   const [isLogin, setIsLogin] = useState(defaultTab === "login");
@@ -110,6 +111,21 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setError("");
+    setIsSubmitting(true);
+    try {
+      const { token } = await googleAuth(credentialResponse.credential);
+      localStorage.setItem("token", token);
+      setIsLoggedIn(true);
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Google login failed");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const switchTab = (tab) => {
     setIsLogin(tab === "login");
     setShowOtp(false);
@@ -198,6 +214,14 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
                     "Login"
                   )}
                 </button>
+                <div className="oauth-divider"><span>OR</span></div>
+                <div className="google-btn-wrapper">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError("Google login failed")}
+                    useOneTap
+                  />
+                </div>
               </>
             ) : showOtp ? (
               <>
@@ -628,6 +652,36 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           to {
             transform: rotate(360deg);
           }
+        }
+
+        .oauth-divider {
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin: 16px 0;
+          color: #999;
+          font-size: 0.85rem;
+        }
+
+        .oauth-divider::before,
+        .oauth-divider::after {
+          content: '';
+          flex: 1;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .dark-mode .oauth-divider::before,
+        .dark-mode .oauth-divider::after {
+          border-bottom-color: #555;
+        }
+
+        .oauth-divider span {
+          padding: 0 12px;
+        }
+
+        .google-btn-wrapper {
+          display: flex;
+          justify-content: center;
         }
 
         /* Responsiveness */
