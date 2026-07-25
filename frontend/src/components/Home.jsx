@@ -1,21 +1,73 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/style.css';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const heroContentRef = useRef(null);
+  const roadmapRef = useRef(null);
+  const categoryGridRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(heroContentRef.current.children, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      });
+
+      gsap.from(roadmapRef.current.querySelectorAll('.roadmap-row'), {
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: roadmapRef.current,
+          start: 'top 75%',
+        },
+      });
+
+      gsap.from(categoryGridRef.current.children, {
+        y: 24,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: categoryGridRef.current,
+          start: 'top 85%',
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const categories = [
-    { name: "Electronics", image: "/assets/1.png" },
-    { name: "Textbooks", image: "/assets/2.png" },
-    { name: "Accessories", image: "/assets/3.png" },
-    { name: "Furniture", image: "/assets/4.png" },
-    { name: "All", image: "/assets/5.png" },
+    { name: "Electronics", icon: "💻" },
+    { name: "Textbooks", icon: "📚" },
+    { name: "Accessories", icon: "🎒" },
+    { name: "Furniture", icon: "🛋️" },
+    { name: "All", icon: "🗂️" },
+  ];
+
+  const roadmapSteps = [
+    { number: "01", icon: "📤", color: "#10b981", title: "List Your Item", description: "Post your item with photos, a price, and a deadline in under a minute." },
+    { number: "02", icon: "🏷️", color: "#06b6d4", title: "Get Bids", description: "Verified students on campus place bids on your listing." },
+    { number: "03", icon: "💬", color: "#3b82f6", title: "Answer Questions", description: "Buyers can ask you questions directly on the listing before buying." },
+    { number: "04", icon: "✅", color: "#8b5cf6", title: "Complete the Sale", description: "Accept the best offer and hand off the item on campus." },
   ];
 
   return (
     <>
       <header className="hero">
         <div className="hero-overlay">
-          <div className="hero-content">
+          <div className="hero-content" ref={heroContentRef}>
             <h1>Buy. Sell. Trade. Within Your Campus.</h1>
             <p>A trusted marketplace built just for college students.</p>
             <div className="hero-buttons">
@@ -26,35 +78,36 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="features">
-        <div className="feature-card">
-          <h3>🎓 Campus-only Access</h3>
-          <p>Listings visible only to verified college students.</p>
-        </div>
-        <div className="feature-card">
-          <h3>⭐ Peer-Reviewed Sellers</h3>
-          <p>Buy from trusted peers with ratings and reviews.</p>
-        </div>
-        <div className="feature-card">
-          <h3>🛍️ Zero Commission</h3>
-          <p>Sell your items without any platform fees or cuts.</p>
-        </div>
-        <div className="feature-card">
-          <h3>❓ Ask Sellers Directly</h3>
-          <p>Post your questions about the product and get answers from the seller.</p>
+      <section className="roadmap" ref={roadmapRef}>
+        <h2 className="section-heading">Roadmap</h2>
+        <div className="roadmap-track">
+          <div className="roadmap-line"></div>
+          {roadmapSteps.map((step, i) => (
+            <div key={step.number} className={`roadmap-row ${i % 2 === 0 ? "left" : "right"}`}>
+              <div className="roadmap-content">
+                <span className="roadmap-step-label" style={{ color: step.color }}>STEP {step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+              <div className="roadmap-icon" style={{ background: step.color }}>
+                <span>{step.icon}</span>
+              </div>
+              <div className="roadmap-spacer"></div>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="shop-by-category">
-        <h2 className="shop-heading">🛒 Shop by Category</h2>
-        <div className="category-grid">
+        <h2 className="shop-heading">Shop by Category</h2>
+        <div className="category-grid" ref={categoryGridRef}>
           {categories.map((cat) => (
             <Link
               key={cat.name}
               to={`/browse?category=${encodeURIComponent(cat.name)}`}
               className="category-card"
             >
-              <img src={cat.image} alt={cat.name} className="category-img" />
+              <div className="category-icon">{cat.icon}</div>
               <div className="category-name">{cat.name}</div>
             </Link>
           ))}
@@ -163,50 +216,112 @@ export default function Home() {
           box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
         }
 
-        .features {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 24px;
-          margin: 40px 0;
+        .roadmap {
+          margin: 64px 0;
         }
 
-        .feature-card {
-          background: #ffffff;
-          border-radius: 12px;
-          padding: 24px;
+        .section-heading {
+          font-size: 2rem;
+          font-weight: 800;
           text-align: center;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease;
+          color: #0f172a;
+          margin-bottom: 48px;
         }
 
-        .feature-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        .dark-mode .section-heading {
+          color: #f1f5f9;
         }
 
-        .dark-mode .feature-card {
-          background: #2d2d2d;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        .roadmap-track {
+          position: relative;
+          max-width: 760px;
+          margin: 0 auto;
         }
 
-        .feature-card h3 {
-          font-size: 1.4rem;
+        .roadmap-line {
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, #10b981, #06b6d4, #3b82f6, #8b5cf6);
+          border-radius: 4px;
+        }
+
+        .roadmap-row {
+          position: relative;
+          display: grid;
+          grid-template-columns: 1fr 64px 1fr;
+          align-items: center;
+          gap: 24px;
+          margin-bottom: 48px;
+        }
+
+        .roadmap-row:last-child {
+          margin-bottom: 0;
+        }
+
+        .roadmap-row.left .roadmap-content {
+          grid-column: 1;
+          text-align: right;
+        }
+
+        .roadmap-row.left .roadmap-spacer {
+          grid-column: 3;
+        }
+
+        .roadmap-row.right .roadmap-content {
+          grid-column: 3;
+          text-align: left;
+        }
+
+        .roadmap-row.right .roadmap-spacer {
+          grid-column: 1;
+        }
+
+        .roadmap-icon {
+          grid-column: 2;
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+          z-index: 1;
+          justify-self: center;
+        }
+
+        .roadmap-step-label {
+          display: block;
+          font-weight: 800;
+          font-size: 0.85rem;
+          letter-spacing: 1px;
+          margin-bottom: 6px;
+        }
+
+        .roadmap-content h3 {
+          font-size: 1.2rem;
           font-weight: 700;
-          color: #2d2d2d;
-          margin-bottom: 12px;
+          color: #0f172a;
+          margin: 0 0 8px;
         }
 
-        .dark-mode .feature-card h3 {
-          color: #e0e0e0;
+        .dark-mode .roadmap-content h3 {
+          color: #f1f5f9;
         }
 
-        .feature-card p {
-          font-size: 1rem;
+        .roadmap-content p {
+          font-size: 0.9rem;
           color: #555;
+          line-height: 1.5;
+          margin: 0;
         }
 
-        .dark-mode .feature-card p {
-          color: #e0e0e0;
+        .dark-mode .roadmap-content p {
+          color: #cbd5e1;
         }
 
         .shop-by-category {
@@ -217,16 +332,12 @@ export default function Home() {
           font-size: 2rem;
           font-weight: 800;
           text-align: center;
-          background: #1d4ed8;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #0f172a;
           margin-bottom: 24px;
         }
 
         .dark-mode .shop-heading {
-          background: #1d4ed8;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #f1f5f9;
         }
 
         .category-grid {
@@ -236,11 +347,14 @@ export default function Home() {
         }
 
         .category-card {
-          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          padding: 28px 16px;
           border-radius: 12px;
-          overflow: hidden;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
           background: #ffffff;
           text-decoration: none;
         }
@@ -260,45 +374,40 @@ export default function Home() {
           background: #1d4ed8;
         }
 
-        .category-img {
-          width: 100%;
-          height: 160px;
-          object-fit: cover;
-          display: block;
-          border-bottom: 2px solid #1d4ed8;
+        .category-icon {
+          width: 64px;
+          height: 64px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          border-radius: 50%;
+          background: #eff6ff;
+          transition: background 0.3s ease;
         }
 
-        .dark-mode .category-img {
-          border-bottom-color: #1d4ed8;
+        .dark-mode .category-icon {
+          background: #334155;
+        }
+
+        .category-card:hover .category-icon {
+          background: rgba(255, 255, 255, 0.2);
         }
 
         .category-name {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 12px;
           font-size: 1rem;
           font-weight: 600;
           color: #2d2d2d;
           text-align: center;
-          background: rgba(255, 255, 255, 0.9);
-          transition: all 0.3s ease;
+          transition: color 0.3s ease;
         }
 
         .dark-mode .category-name {
           color: #e0e0e0;
-          background: rgba(37, 37, 37, 0.9);
         }
 
         .category-card:hover .category-name {
           color: #ffffff;
-          background: rgba(29, 78, 216, 0.9);
-        }
-
-        .dark-mode .category-card:hover .category-name {
-          color: #ffffff;
-          background: rgba(29, 78, 216, 0.9);
         }
 
         @media (max-width: 768px) {
@@ -319,8 +428,34 @@ export default function Home() {
             gap: 12px;
           }
 
-          .features {
-            grid-template-columns: 1fr;
+          .roadmap-line {
+            left: 28px;
+          }
+
+          .roadmap-row,
+          .roadmap-row.left,
+          .roadmap-row.right {
+            grid-template-columns: 56px 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+          }
+
+          .roadmap-row.left .roadmap-icon,
+          .roadmap-row.right .roadmap-icon {
+            grid-column: 1;
+            grid-row: 1;
+          }
+
+          .roadmap-row.left .roadmap-content,
+          .roadmap-row.right .roadmap-content {
+            grid-column: 2;
+            grid-row: 1;
+            text-align: left !important;
+          }
+
+          .roadmap-row.left .roadmap-spacer,
+          .roadmap-row.right .roadmap-spacer {
+            display: none;
           }
 
           .shop-heading {
@@ -345,13 +480,14 @@ export default function Home() {
             font-size: 1.6rem;
           }
 
-          .category-img {
-            height: 120px;
+          .category-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 1.6rem;
           }
 
           .category-name {
             font-size: 0.9rem;
-            padding: 8px;
           }
         }
       `}</style>
