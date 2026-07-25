@@ -1,9 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const heroContentRef = useRef(null);
@@ -12,37 +9,28 @@ export default function Home() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(heroContentRef.current.children, {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      tl.from(heroContentRef.current.children, {
         y: 30,
-        opacity: 0,
         duration: 0.8,
         stagger: 0.15,
-        ease: 'power2.out',
+        clearProps: 'transform',
       });
 
-      gsap.from(roadmapRef.current.querySelectorAll('.roadmap-row'), {
+      tl.from(roadmapRef.current.querySelectorAll('.roadmap-row'), {
         y: 40,
-        opacity: 0,
         duration: 0.7,
         stagger: 0.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: roadmapRef.current,
-          start: 'top 75%',
-        },
-      });
+        clearProps: 'transform',
+      }, '-=0.3');
 
-      gsap.from(categoryGridRef.current.children, {
+      tl.from(categoryGridRef.current.children, {
         y: 24,
-        opacity: 0,
         duration: 0.6,
         stagger: 0.08,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: categoryGridRef.current,
-          start: 'top 85%',
-        },
-      });
+        clearProps: 'transform',
+      }, '-=0.3');
     });
 
     return () => ctx.revert();

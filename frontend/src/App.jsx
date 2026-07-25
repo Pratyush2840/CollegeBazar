@@ -33,9 +33,9 @@ export default function App() {
   useEffect(() => {
     gsap.from(navRef.current, {
       y: -24,
-      opacity: 0,
       duration: 0.6,
       ease: 'power2.out',
+      clearProps: 'transform',
     });
   }, []);
 
@@ -498,15 +498,23 @@ export default function App() {
           align-items: center;
           margin: 16px 24px 0;
           padding: 0.85rem 1.75rem;
-          background: rgba(15, 23, 42, 0.72);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 999px;
           box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
           position: sticky;
           top: 16px;
           z-index: 100;
+        }
+
+        .navbar::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(15, 23, 42, 0.72);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border-radius: inherit;
+          z-index: -1;
         }
 
         .logo a {
