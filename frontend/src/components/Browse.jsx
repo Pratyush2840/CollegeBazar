@@ -136,6 +136,11 @@ export default function Browse() {
         {`
         .browse-page {
           min-height: 100vh;
+          width: 100vw;
+          margin-left: calc(-50vw + 50%);
+          margin-right: calc(-50vw + 50%);
+          margin-top: -3rem;
+          margin-bottom: -3rem;
           padding: 32px;
           background-color: #12141c;
           background-image:
@@ -347,6 +352,8 @@ export default function Browse() {
 
         @media (max-width: 768px) {
           .browse-page {
+            margin-top: -2rem;
+            margin-bottom: -2rem;
             padding: 20px 16px;
           }
 
