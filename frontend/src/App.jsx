@@ -25,7 +25,7 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const [profileError, setProfileError] = useState('');
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') !== 'false');
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ name: '', phone_no: '', hostel: '' });
   const [editError, setEditError] = useState('');

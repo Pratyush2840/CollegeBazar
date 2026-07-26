@@ -109,107 +109,6 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
       )}
 
       <style jsx="true">{`
-        /* Same styles as provided, no changes needed */
-        .hero {
-          position: relative;
-          background: linear-gradient(180deg, #e3f2fd, #bbdefb);
-          padding: 80px 20px;
-          text-align: center;
-          border-radius: 12px;
-          margin-bottom: 40px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .hero {
-          background: linear-gradient(180deg, #2a2a2a, #3a3a3a);
-        }
-
-        .hero-overlay {
-          position: relative;
-          z-index: 1;
-        }
-
-        .hero-content h1 {
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: #2d2d2d;
-          margin-bottom: 16px;
-        }
-
-        .dark-mode .hero-content h1 {
-          color: #e0e0e0;
-        }
-
-        .hero-content p {
-          font-size: 1.2rem;
-          color: #555;
-          margin-bottom: 24px;
-        }
-
-        .dark-mode .hero-content p {
-          color: #ccc;
-        }
-
-        .hero-buttons {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          margin-top: 20px;
-        }
-
-        .btn {
-          background: #1d4ed8;
-          color: #ffffff !important;
-          padding: 12px 24px;
-          font-size: 1rem;
-          font-weight: 600;
-          border: none;
-          border-radius: 8px;
-          text-decoration: none;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
-        }
-
-        .btn:hover {
-          background: #1e40af;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
-        }
-
-        .btn.secondary {
-          background: linear-gradient(45deg, #e3f2fd, #bbdefb);
-          color: #1e88e5 !important;
-          box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
-        }
-
-        .btn.secondary:hover {
-          background: linear-gradient(45deg, #bbdefb, #90caf9);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(30, 136, 229, 0.5);
-        }
-
-        .dark-mode .btn {
-          background: #60a5fa;
-          color: #121212 !important;
-          box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
-        }
-
-        .dark-mode .btn:hover {
-          background: #3b82f6;
-          box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
-        }
-
-        .dark-mode .btn.secondary {
-          background: linear-gradient(45deg, #2a2a2a, #3a3a3a);
-          color: #e0e0e0 !important;
-          box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
-        }
-
-        .dark-mode .btn.secondary:hover {
-          background: linear-gradient(45deg, #3a3a3a, #4a4a4a);
-          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-        }
-
         .roadmap {
           margin: 64px 0;
         }
@@ -405,23 +304,6 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         @media (max-width: 768px) {
-          .hero {
-            padding: 60px 16px;
-          }
-
-          .hero-content h1 {
-            font-size: 2rem;
-          }
-
-          .hero-content p {
-            font-size: 1rem;
-          }
-
-          .hero-buttons {
-            flex-direction: column;
-            gap: 12px;
-          }
-
           .roadmap-line {
             left: 28px;
           }
@@ -462,14 +344,6 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         @media (max-width: 480px) {
-          .hero-content h1 {
-            font-size: 1.8rem;
-          }
-
-          .hero-content p {
-            font-size: 0.9rem;
-          }
-
           .shop-heading {
             font-size: 1.6rem;
           }
