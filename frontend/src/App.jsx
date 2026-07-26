@@ -16,7 +16,7 @@ import { getUserProfile, editProfile } from './api/auth';
 
 export default function App() {
   const navigate = useNavigate();
-  const validHostels = ['BH1', 'BH2', 'BH3', 'BH4', 'BH5', 'GH1', 'GH2', 'GH3'];
+  const validHostels = ['TH1', 'TH2', 'TH3', 'TH4', 'MA Saraswati', 'Panini', 'Nagarjuna Hostel'];
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   const [showProfile, setShowProfile] = useState(false);
@@ -304,14 +304,17 @@ export default function App() {
                               </div>
                               <div className="edit-field">
                                 <label htmlFor="hostel">Hostel</label>
-                                <input
-                                  type="text"
+                                <select
                                   id="hostel"
                                   name="hostel"
                                   value={editForm.hostel}
                                   onChange={handleInputChange}
-                                  placeholder="Enter your hostel"
-                                />
+                                >
+                                  <option value="">Select your hostel</option>
+                                  {validHostels.map((h) => (
+                                    <option key={h} value={h}>{h}</option>
+                                  ))}
+                                </select>
                               </div>
                               {editError && (
                                 <div className="error-message">
@@ -833,7 +836,8 @@ export default function App() {
           color: #cbd5e1;
         }
 
-        .edit-field input {
+        .edit-field input,
+        .edit-field select {
           padding: 12px;
           font-size: 1.1rem;
           border: 1px solid #e2e8f0;
@@ -844,18 +848,21 @@ export default function App() {
           transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .edit-field input:focus {
+        .edit-field input:focus,
+        .edit-field select:focus {
           border-color: #1d4ed8;
           box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
         }
 
-        .dark-mode .edit-field input {
+        .dark-mode .edit-field input,
+        .dark-mode .edit-field select {
           background: #334155;
           border-color: #475569;
           color: #f1f5f9;
         }
 
-        .dark-mode .edit-field input:focus {
+        .dark-mode .edit-field input:focus,
+        .dark-mode .edit-field select:focus {
           border-color: #60a5fa;
           box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
         }

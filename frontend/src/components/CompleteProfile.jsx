@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { editProfile } from "../api/auth";
 
-const validHostels = ['BH1', 'BH2', 'BH3', 'BH4', 'BH5', 'GH1', 'GH2', 'GH3'];
+const validHostels = ['TH1', 'TH2', 'TH3', 'TH4', 'MA Saraswati', 'Panini', 'Nagarjuna Hostel'];
 
 export default function CompleteProfile() {
   const navigate = useNavigate();

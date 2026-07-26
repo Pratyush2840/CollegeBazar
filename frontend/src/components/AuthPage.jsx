@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { login, requestOtp, verifyOtpAndSignup, googleAuth } from "../api/auth";
 
+const validHostels = ['TH1', 'TH2', 'TH3', 'TH4', 'MA Saraswati', 'Panini', 'Nagarjuna Hostel'];
+
 export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
   const [isLogin, setIsLogin] = useState(defaultTab === "login");
   const [showOtp, setShowOtp] = useState(false);
@@ -226,15 +228,18 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
                   disabled={isSubmitting}
                   required
                 />
-                <input
+                <select
                   name="hostel"
-                  type="text"
-                  placeholder="Hostel"
                   value={formData.hostel}
                   onChange={handleChange}
                   disabled={isSubmitting}
                   required
-                />
+                >
+                  <option value="">Select your hostel</option>
+                  {validHostels.map((h) => (
+                    <option key={h} value={h}>{h}</option>
+                  ))}
+                </select>
                 <button className="butt" type="submit" disabled={isSubmitting}>
                   {isSubmitting ? <span className="spinner"></span> : "Sign Up"}
                 </button>
@@ -379,7 +384,8 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           color: #94a3b8;
         }
 
-        .form-container input {
+        .form-container input,
+        .form-container select {
           background: #f1f5f9;
           border: 1px solid transparent;
           border-radius: 8px;
@@ -391,18 +397,21 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
           transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .dark-mode .form-container input {
+        .dark-mode .form-container input,
+        .dark-mode .form-container select {
           background: #334155;
           color: #f1f5f9;
         }
 
-        .form-container input:focus {
+        .form-container input:focus,
+        .form-container select:focus {
           outline: none;
           border-color: #1d4ed8;
           box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
         }
 
-        .form-container input:disabled {
+        .form-container input:disabled,
+        .form-container select:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
