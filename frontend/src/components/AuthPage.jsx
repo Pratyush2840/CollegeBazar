@@ -91,8 +91,9 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
 
     try {
       if (isLogin) {
-        const { token } = await login(formData.email, formData.password);
+        const { token, is_campus_email } = await login(formData.email, formData.password);
         localStorage.setItem("token", token);
+        localStorage.setItem("is_campus_email", String(!!is_campus_email));
         setIsLoggedIn(true);
         navigate("/");
       } else if (!showOtp) {
@@ -101,8 +102,9 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
       } else {
         await verifyOtpAndSignup(formData);
         // Assuming verifyOtpAndSignup returns a token
-        const { token } = await login(formData.email, formData.password); // Auto-login after signup
+        const { token, is_campus_email } = await login(formData.email, formData.password); // Auto-login after signup
         localStorage.setItem("token", token);
+        localStorage.setItem("is_campus_email", String(!!is_campus_email));
         setIsLoggedIn(true);
         navigate("/");
       }
@@ -117,8 +119,9 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
     setError("");
     setIsSubmitting(true);
     try {
-      const { token, needsProfileCompletion } = await googleAuth(credentialResponse.credential);
+      const { token, needsProfileCompletion, is_campus_email } = await googleAuth(credentialResponse.credential);
       localStorage.setItem("token", token);
+      localStorage.setItem("is_campus_email", String(!!is_campus_email));
       setIsLoggedIn(true);
       navigate(needsProfileCompletion ? "/complete-profile" : "/");
     } catch (err) {

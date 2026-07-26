@@ -138,7 +138,7 @@ export default function Post() {
       fileInputRef.current.value = '';
     } catch (error) {
       console.error('Error posting product:', error);
-      alert('Failed to post product. Please try again.');
+      alert(error.response?.data?.error || 'Failed to post product. Please try again.');
     } finally {
       setLoading(false);
     }

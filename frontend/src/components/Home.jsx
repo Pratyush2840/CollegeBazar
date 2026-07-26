@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 
-export default function Home({ isLoggedIn }) {
+export default function Home({ isLoggedIn, isCampusEmail }) {
   const heroContentRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
@@ -62,7 +62,9 @@ export default function Home({ isLoggedIn }) {
             <p>A trusted marketplace built just for college students.</p>
             <div className="hero-buttons">
               <Link to="/browse" className="btn">Browse Listings</Link>
-              <Link to="/post" className="btn secondary">Post Your Item</Link>
+              {isLoggedIn && isCampusEmail && (
+                <Link to="/post" className="btn secondary">Post Your Item</Link>
+              )}
             </div>
           </div>
         </div>

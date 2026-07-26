@@ -21,6 +21,7 @@ export default function App() {
   const validHostels = ['TH1', 'TH2', 'TH3', 'TH4', 'MA Saraswati', 'Panini', 'Nagarjuna Hostel'];
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isCampusEmail, setIsCampusEmail] = useState(localStorage.getItem('is_campus_email') === 'true');
   const [showProfile, setShowProfile] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const [profileError, setProfileError] = useState('');
@@ -44,7 +45,9 @@ export default function App() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('is_campus_email');
     setIsLoggedIn(false);
+    setIsCampusEmail(false);
     setShowProfile(false);
     setUserProfile(null);
     navigate('/');
@@ -53,6 +56,7 @@ export default function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+    setIsCampusEmail(localStorage.getItem('is_campus_email') === 'true');
     document.body.classList.toggle('dark-mode', darkMode);
   }, [darkMode]);
 
@@ -206,17 +210,21 @@ export default function App() {
               <li><button onClick={() => { toggleContactPopup(); setMobileNavOpen(false); }} className="nav-text-btn">Contact Us</button></li>
             </>
           )}
-          <li>
-            {isLoggedIn ? (
-              <NavLink to="/post" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>
-                Post Item
-              </NavLink>
-            ) : (
+          {isLoggedIn ? (
+            isCampusEmail && (
+              <li>
+                <NavLink to="/post" onClick={() => setMobileNavOpen(false)} className={({ isActive }) => isActive ? "active-link" : ""}>
+                  Post Item
+                </NavLink>
+              </li>
+            )
+          ) : (
+            <li>
               <NavLink to="/login" onClick={() => setMobileNavOpen(false)} className="login-btn">
                 Login
               </NavLink>
-            )}
-          </li>
+            </li>
+          )}
         </ul>
         <div className="nav-actions">
           <button onClick={toggleDarkMode} className="theme-toggle" title="Toggle Dark Mode">
@@ -420,10 +428,10 @@ export default function App() {
 
       <div className="content-container">
         <Routes>
-          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+          <Route path="/" element={<Home isLoggedIn={isLoggedIn} isCampusEmail={isCampusEmail} />} />
           <Route path="/about" element={<About />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/post" element={isLoggedIn ? <Post /> : <Navigate to="/login" />} />
+          <Route path="/post" element={isLoggedIn ? (isCampusEmail ? <Post /> : <Navigate to="/" />) : <Navigate to="/login" />} />
           <Route path="/login" element={<AuthPage defaultTab="login" setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" element={<AuthPage defaultTab="signup" setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/complete-profile" element={isLoggedIn ? <CompleteProfile /> : <Navigate to="/login" />} />

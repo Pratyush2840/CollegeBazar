@@ -132,9 +132,10 @@ export const login = async (req, res) => {
     if (!match)
       return res.status(401).json({ error: 'Invalid credentials' });
 
-    const token = jwt.sign({ 
+    const token = jwt.sign({
       user_id: user.user_id,
-      username: user.name
+      username: user.name,
+      is_campus_email: user.email.endsWith('@iiitdmj.ac.in')
     }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     const loginTime = new Date().toLocaleString('en-US', {
@@ -146,9 +147,9 @@ export const login = async (req, res) => {
     const {subject, html} = loginNotification(email, loginTime, ipAddress);
     sendMail(email, subject, html);
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, is_campus_email: user.email.endsWith('@iiitdmj.ac.in') });
 
-  } 
+  }
   catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ error: 'Server error during login' });
@@ -278,9 +279,6 @@ export const googleLogin = async (req, res) => {
     const payload = ticket.getPayload();
     const { email, name, sub: googleId, picture } = payload;
 
-    if (!email.endsWith('@iiitdmj.ac.in'))
-      return res.status(403).json({ error: 'Email must be from @iiitdmj.ac.in domain' });
-
     let result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     let user = result.rows[0];
 
@@ -303,9 +301,12 @@ export const googleLogin = async (req, res) => {
       user = updated.rows[0];
     }
 
+    const isCampusEmail = email.endsWith('@iiitdmj.ac.in');
+
     const token = jwt.sign({
       user_id: user.user_id,
-      username: user.name
+      username: user.name,
+      is_campus_email: isCampusEmail
     }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     const loginTime = new Date().toLocaleString('en-US', {
@@ -319,7 +320,7 @@ export const googleLogin = async (req, res) => {
 
     const needsProfileCompletion = !user.phone_no || !user.hostel;
 
-    res.status(200).json({ token, needsProfileCompletion });
+    res.status(200).json({ token, needsProfileCompletion, is_campus_email: isCampusEmail });
 
   }
   catch (err) {

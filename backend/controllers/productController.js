@@ -15,6 +15,12 @@ export const addProduct = async (req, res) => {
 
     try {
 
+        const sellerResult = await db.query('SELECT email FROM users WHERE user_id = $1', [seller_id]);
+
+        if (sellerResult.rows.length === 0 || !sellerResult.rows[0].email.endsWith('@iiitdmj.ac.in')) {
+          return res.status(403).json({ error: 'Only students with an @iiitdmj.ac.in email can post products' });
+        }
+
         const result = await db.query(
         `INSERT INTO products (name, description, asking_price, deadline, seller_id, category)
         VALUES ($1, $2, $3, $4, $5, $6)
