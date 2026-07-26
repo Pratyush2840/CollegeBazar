@@ -429,11 +429,8 @@ export default function App() {
           <div className="contact-popup-content">
             <h3>Contact Our Admins</h3>
             <ul>
-              <li><a href="mailto:IIT2023077@iiita.ac.in">IIT2023077@iiita.ac.in</a></li>
-              <li><a href="mailto:IIT2023078@iiita.ac.in">IIT2023078@iiita.ac.in</a></li>
-              <li><a href="mailto:IIT2023079@iiita.ac.in">IIT2023079@iiita.ac.in</a></li>
-              <li><a href="mailto:IIT2023080@iiita.ac.in">IIT2023080@iiita.ac.in</a></li>
-              <li><a href="mailto:IIT2023083@iiita.ac.in">IIT2023083@iiita.ac.in</a></li>
+              <li><a href="mailto:23bcs200@iiitdmj.ac.in">23bcs200@iiitdmj.ac.in</a></li>
+              <li><a href="mailto:psingh08iph@gmail.com">psingh08iph@gmail.com</a></li>
             </ul>
             <button onClick={toggleContactPopup} className="close-popup">Close</button>
           </div>
