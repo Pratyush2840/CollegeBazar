@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from '../config.js';
 
@@ -126,8 +126,10 @@ const SellerProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProductData = async () => {
+  const [acceptingBidId, setAcceptingBidId] = useState(null);
+  const [acceptError, setAcceptError] = useState('');
+
+  const fetchProductData = useCallback(async () => {
       try {
         setLoading(true);
         setError(null);
@@ -224,10 +226,36 @@ const SellerProductPage = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchProductData();
   }, [productId]);
+
+  useEffect(() => {
+    fetchProductData();
+  }, [fetchProductData]);
+
+  const handleAcceptBid = async (bidId) => {
+    setAcceptingBidId(bidId);
+    setAcceptError('');
+    try {
+      const response = await fetch(API_URL + `/api/bid/accept/${bidId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to accept bid');
+      }
+
+      await fetchProductData();
+    } catch (err) {
+      console.error('Accept bid error:', err);
+      setAcceptError(err.message);
+    } finally {
+      setAcceptingBidId(null);
+    }
+  };
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
@@ -473,6 +501,7 @@ const SellerProductPage = () => {
         </section>
         <section className="bids-container">
           <h2>Bids on Your Product</h2>
+          {acceptError && <p className="error-message">{acceptError}</p>}
           <div className="bids-list">
             {bids.length === 0 ? (
               <p className="no-bids">No bids yet.</p>
@@ -482,6 +511,16 @@ const SellerProductPage = () => {
                   <p><strong>Bidder:</strong> {bid.bidder_name || 'Anonymous'}</p>
                   <p><strong>Amount:</strong> ₹{bid.amount.toLocaleString()}</p>
                   <p><strong>Roll No:</strong> {bid.roll_no || 'N/A'}</p>
+                  <p><strong>Status:</strong> {bid.status}</p>
+                  {product.status !== 'sold' && bid.status !== 'outdated' && (
+                    <button
+                      className="btn"
+                      disabled={acceptingBidId === bid.bid_id}
+                      onClick={() => handleAcceptBid(bid.bid_id)}
+                    >
+                      {acceptingBidId === bid.bid_id ? 'Accepting...' : 'Accept Bid'}
+                    </button>
+                  )}
                 </div>
               ))
             )}

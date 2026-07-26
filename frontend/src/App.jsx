@@ -12,6 +12,8 @@ import MyListings from './components/MyListings';
 import AdminDashboard from './components/AdminDashboard';
 import SellerProductPage from './components/SellerProductPage';
 import MyBids from './components/MyBids'; // New import
+import BoughtProducts from './components/BoughtProducts';
+import SoldProducts from './components/SoldProducts';
 import { getUserProfile, editProfile } from './api/auth';
 
 export default function App() {
@@ -112,6 +114,16 @@ export default function App() {
 
   const handleMyBidsClick = () => {
     navigate('/my-bids');
+    setShowProfile(false);
+  };
+
+  const handleBoughtProductsClick = () => {
+    navigate('/bought-products');
+    setShowProfile(false);
+  };
+
+  const handleSoldProductsClick = () => {
+    navigate('/sold-products');
     setShowProfile(false);
   };
 
@@ -374,6 +386,12 @@ export default function App() {
                               <button className="btn-view-bids" onClick={handleMyBidsClick}>
                                 <span className="btn-icon">💰</span> My Bids
                               </button>
+                              <button className="btn-view-bids" onClick={handleBoughtProductsClick}>
+                                <span className="btn-icon">🛍️</span> Bought Products
+                              </button>
+                              <button className="btn-view-bids" onClick={handleSoldProductsClick}>
+                                <span className="btn-icon">🏷️</span> Sold Products
+                              </button>
                             </div>
                           </>
                         )}
@@ -413,6 +431,8 @@ export default function App() {
           <Route path="/seller/product" element={<SellerProductPage />} />
           <Route path="/my-listings" element={isLoggedIn ? <MyListings /> : <Navigate to="/login" />} />
           <Route path="/my-bids" element={isLoggedIn ? <MyBids /> : <Navigate to="/login" />} />
+          <Route path="/bought-products" element={isLoggedIn ? <BoughtProducts /> : <Navigate to="/login" />} />
+          <Route path="/sold-products" element={isLoggedIn ? <SoldProducts /> : <Navigate to="/login" />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </div>

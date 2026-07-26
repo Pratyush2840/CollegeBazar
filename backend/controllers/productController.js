@@ -306,3 +306,66 @@ export const getUserProducts = async (req, res) => {
 
 };
 
+export const getSoldProducts = async (req, res) => {
+
+  const seller_id = req.user.user_id;
+
+  try {
+
+    const productsResult = await db.query(
+      `SELECT * FROM products WHERE seller_id = $1 AND status = 'sold' ORDER BY deadline DESC`,
+      [seller_id]
+    );
+
+    const products = productsResult.rows;
+
+    if (products.length === 0) {
+      return res.status(200).json({ message: 'No sold products found', products: [] });
+    }
+
+    const productIds = products.map((p) => p.product_id);
+
+    const imagesResult = await db.query(
+      `SELECT product_id, image_url FROM product_images WHERE product_id = ANY($1)`,
+      [productIds]
+    );
+
+    const imagesMap = {};
+    for (const row of imagesResult.rows) {
+      if (!imagesMap[row.product_id]) imagesMap[row.product_id] = [];
+      imagesMap[row.product_id].push(row.image_url);
+    }
+
+    const buyersResult = await db.query(
+      `SELECT b.product_id, u.name AS buyer_name, u.roll_no AS buyer_roll_no, b.amount
+       FROM bids b
+       JOIN users u ON b.buyer_id = u.user_id
+       WHERE b.product_id = ANY($1) AND b.status = 'purchased'`,
+      [productIds]
+    );
+
+    const buyersMap = {};
+    for (const row of buyersResult.rows) {
+      buyersMap[row.product_id] = row;
+    }
+
+    const productsWithDetails = products.map((product) => ({
+      ...product,
+      images: imagesMap[product.product_id] || [],
+      image: (imagesMap[product.product_id] || [])[0] || null,
+      buyer: buyersMap[product.product_id] || null,
+    }));
+
+    res.status(200).json({
+      message: 'Sold products retrieved successfully',
+      products: productsWithDetails,
+    });
+
+  }
+  catch (err) {
+    console.error('Error fetching sold products:', err);
+    res.status(500).json({ error: 'Failed to fetch sold products' });
+  }
+
+};
+

@@ -178,6 +178,115 @@ export const getMyBids = async (req, res) => {
     
 };
 
+export const acceptBid = async (req, res) => {
+
+  const { bid_id } = req.params;
+  const seller_id = req.user.user_id;
+
+  try {
+
+    await db.query('BEGIN');
+
+    const bidResult = await db.query(
+      `SELECT b.*, p.seller_id, p.status AS product_status
+       FROM bids b
+       JOIN products p ON b.product_id = p.product_id
+       WHERE b.bid_id = $1 FOR UPDATE`,
+      [bid_id]
+    );
+
+    if (bidResult.rows.length === 0) {
+      await db.query('ROLLBACK');
+      return res.status(404).json({ error: 'Bid not found' });
+    }
+
+    const bid = bidResult.rows[0];
+
+    if (bid.seller_id !== seller_id) {
+      await db.query('ROLLBACK');
+      return res.status(403).json({ error: 'Only the seller can accept a bid on this product' });
+    }
+
+    if (bid.product_status === 'sold') {
+      await db.query('ROLLBACK');
+      return res.status(400).json({ error: 'This product has already been sold' });
+    }
+
+    await db.query(
+      `UPDATE bids SET status = 'outdated' WHERE product_id = $1 AND bid_id != $2 AND status != 'outdated'`,
+      [bid.product_id, bid_id]
+    );
+
+    await db.query(`UPDATE bids SET status = 'purchased' WHERE bid_id = $1`, [bid_id]);
+    await db.query(`UPDATE products SET status = 'sold' WHERE product_id = $1`, [bid.product_id]);
+
+    await db.query('COMMIT');
+    res.status(200).json({ message: 'Bid accepted, product marked as sold' });
+
+  }
+  catch (err) {
+    await db.query('ROLLBACK');
+    console.error('Error accepting bid:', err);
+    res.status(500).json({ error: 'Failed to accept bid' });
+  }
+
+};
+
+export const getPurchasedProducts = async (req, res) => {
+
+  const buyer_id = req.user.user_id;
+
+  try {
+
+    const result = await db.query(
+      `SELECT p.*, b.amount AS purchase_price, b.created_at AS purchased_at,
+              u.name AS seller_name, u.roll_no AS seller_roll_no
+       FROM bids b
+       JOIN products p ON b.product_id = p.product_id
+       JOIN users u ON p.seller_id = u.user_id
+       WHERE b.buyer_id = $1 AND b.status = 'purchased'
+       ORDER BY b.created_at DESC`,
+      [buyer_id]
+    );
+
+    const products = result.rows;
+
+    if (products.length === 0) {
+      return res.status(200).json({ message: 'No purchased products found', products: [] });
+    }
+
+    const productIds = products.map((p) => p.product_id);
+
+    const imagesResult = await db.query(
+      `SELECT product_id, image_url FROM product_images WHERE product_id = ANY($1)`,
+      [productIds]
+    );
+
+    const imagesMap = {};
+    for (const row of imagesResult.rows) {
+      if (!imagesMap[row.product_id]) imagesMap[row.product_id] = [];
+      imagesMap[row.product_id].push(row.image_url);
+    }
+
+    const productsWithImages = products.map((product) => ({
+      ...product,
+      images: imagesMap[product.product_id] || [],
+      image: (imagesMap[product.product_id] || [])[0] || null,
+    }));
+
+    res.status(200).json({
+      message: 'Purchased products retrieved successfully',
+      products: productsWithImages,
+    });
+
+  }
+  catch (err) {
+    console.error('Error fetching purchased products:', err);
+    res.status(500).json({ error: 'Failed to fetch purchased products' });
+  }
+
+};
+
 export const getBuyer = async (req, res) => {
 
   const { product_id } = req.query;
