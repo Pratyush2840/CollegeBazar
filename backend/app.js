@@ -7,6 +7,7 @@ import bidRoutes from './routes/bidRoutes.js';
 import queryRoutes from './routes/queryRoutes.js';
 import imageRoutes from './routes/imageRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
 import './cronjob/scheduler.js';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/bid', bidRoutes);
 app.use('/api/query', queryRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/stats', statsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

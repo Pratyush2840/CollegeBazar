@@ -1172,56 +1172,74 @@ export default function App() {
         }
 
         .hero {
-          position: relative;
-          background: url('/assets/campus-hero.jpg') no-repeat center center/cover;
-          padding: 6rem 1.5rem;
-          text-align: center;
-          border-radius: 16px;
-          margin-bottom: 3rem;
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-          overflow: hidden;
+          margin-bottom: 4rem;
         }
 
-        .hero::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(180deg, rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75));
-          z-index: 1;
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: 3rem;
+          align-items: center;
         }
 
-        .dark-mode .hero::before {
-          background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.85));
+        .hero-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #1d4ed8;
+          background: #eff6ff;
+          padding: 0.4rem 0.9rem;
+          border-radius: 999px;
+          margin-bottom: 1.5rem;
         }
 
-        .hero-overlay {
-          position: relative;
-          z-index: 2;
+        .dark-mode .hero-eyebrow {
+          color: #93c5fd;
+          background: rgba(59, 130, 246, 0.15);
         }
 
         .hero-content h1 {
-          font-size: 3rem;
+          font-size: 3.2rem;
           font-weight: 900;
-          color: #ffffff;
+          line-height: 1.1;
+          color: #0f172a;
           margin-bottom: 1.25rem;
-          text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode .hero-content h1 {
+          color: #f8fafc;
         }
 
         .hero-content p {
-          font-size: 1.5rem;
-          color: #e5e7eb;
+          font-size: 1.25rem;
+          color: #475569;
           margin-bottom: 2rem;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .hero-content p {
+          color: #cbd5e1;
         }
 
         .hero-buttons {
           display: flex;
-          justify-content: center;
-          gap: 1.5rem;
-          margin-top: 2rem;
+          justify-content: flex-start;
+          gap: 1.25rem;
+        }
+
+        .hero-photo {
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero-photo img {
+          width: 100%;
+          height: 100%;
+          max-height: 460px;
+          object-fit: cover;
+          display: block;
         }
 
         .btn {
@@ -1563,8 +1581,17 @@ export default function App() {
             padding: 2rem 1rem;
           }
 
-          .hero {
-            padding: 4rem 1rem;
+          .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .hero-photo {
+            order: -1;
+          }
+
+          .hero-photo img {
+            max-height: 260px;
           }
 
           .hero-content h1 {
@@ -1572,8 +1599,7 @@ export default function App() {
           }
 
           .hero-buttons {
-            flex-direction: column;
-            gap: 1rem;
+            justify-content: center;
           }
 
           .features {
