@@ -1,13 +1,22 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
-import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon, CoinIcon, ChatIcon } from './icons.jsx';
+import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon, CoinIcon, ChatIcon, UsersIcon, PackageIcon, TrendingUpIcon } from './icons.jsx';
+import { API_URL } from '../config.js';
 
 export default function Home({ isLoggedIn, isCampusEmail }) {
   const heroContentRef = useRef(null);
   const whyUsRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    fetch(API_URL + '/api/stats/summary')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => setStats(data))
+      .catch(() => setStats(null));
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -100,6 +109,32 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           </div>
         ))}
       </section>
+
+      {stats && (
+        <section className="stats-strip">
+          <div className="stat-item">
+            <UsersIcon width={22} height={22} />
+            <div>
+              <span className="stat-number">{stats.students}</span>
+              <span className="stat-label">Students Registered</span>
+            </div>
+          </div>
+          <div className="stat-item">
+            <PackageIcon width={22} height={22} />
+            <div>
+              <span className="stat-number">{stats.active_listings}</span>
+              <span className="stat-label">Active Listings</span>
+            </div>
+          </div>
+          <div className="stat-item">
+            <TrendingUpIcon width={22} height={22} />
+            <div>
+              <span className="stat-number">{stats.items_sold}</span>
+              <span className="stat-label">Items Sold</span>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="roadmap" ref={roadmapRef}>
         <h2 className="section-heading">Roadmap</h2>
@@ -201,6 +236,41 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
 
         .dark-mode .why-us-card p {
           color: #cbd5e1;
+        }
+
+        .stats-strip {
+          display: flex;
+          justify-content: center;
+          gap: 48px;
+          flex-wrap: wrap;
+          background: #0f172a;
+          border-radius: 16px;
+          padding: 32px;
+          margin: 56px 0;
+        }
+
+        .stat-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          color: #93c5fd;
+        }
+
+        .stat-item div {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .stat-number {
+          font-size: 1.6rem;
+          font-weight: 800;
+          color: #ffffff;
+          line-height: 1.2;
+        }
+
+        .stat-label {
+          font-size: 0.85rem;
+          color: #94a3b8;
         }
 
         .roadmap {
@@ -401,6 +471,11 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           .why-us {
             grid-template-columns: 1fr;
             margin: 40px 0;
+          }
+
+          .stats-strip {
+            gap: 28px;
+            padding: 24px;
           }
 
           .roadmap-line {
