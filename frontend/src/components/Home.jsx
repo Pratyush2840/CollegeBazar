@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
-import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon } from './icons.jsx';
+import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon, CoinIcon, ChatIcon } from './icons.jsx';
 
 export default function Home({ isLoggedIn, isCampusEmail }) {
   const heroContentRef = useRef(null);
+  const whyUsRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
 
@@ -18,6 +19,13 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         stagger: 0.15,
         clearProps: 'transform',
       });
+
+      tl.from(whyUsRef.current.children, {
+        y: 24,
+        duration: 0.6,
+        stagger: 0.1,
+        clearProps: 'transform',
+      }, '-=0.3');
 
       tl.from(roadmapRef.current.querySelectorAll('.roadmap-row'), {
         y: 40,
@@ -45,6 +53,12 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
     { name: "Accessories", Icon: BagIcon },
     { name: "Furniture", Icon: CouchIcon },
     { name: "All", Icon: GridIcon },
+  ];
+
+  const whyUs = [
+    { Icon: ShieldIcon, title: "Verified Students", description: "Every account is tied to a real campus email, so you always know who you're dealing with." },
+    { Icon: CoinIcon, title: "Zero Fees", description: "No commission, no listing fees. Keep 100% of what you sell." },
+    { Icon: ChatIcon, title: "Direct Messaging", description: "Ask sellers questions right on the listing before you commit to a bid." },
   ];
 
   const roadmapSteps = [
@@ -76,6 +90,16 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           </div>
         </div>
       </header>
+
+      <section className="why-us" ref={whyUsRef}>
+        {whyUs.map((item) => (
+          <div key={item.title} className="why-us-card">
+            <div className="why-us-icon"><item.Icon width={24} height={24} /></div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </section>
 
       <section className="roadmap" ref={roadmapRef}>
         <h2 className="section-heading">Roadmap</h2>
@@ -116,6 +140,69 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
       )}
 
       <style jsx="true">{`
+        .why-us {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          margin: 56px 0;
+        }
+
+        .why-us-card {
+          background: #ffffff;
+          border-radius: 14px;
+          padding: 28px 24px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-us-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .dark-mode .why-us-card {
+          background: #1e293b;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-us-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: #eff6ff;
+          color: #1d4ed8;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+
+        .dark-mode .why-us-icon {
+          background: rgba(59, 130, 246, 0.15);
+          color: #93c5fd;
+        }
+
+        .why-us-card h3 {
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 8px;
+        }
+
+        .dark-mode .why-us-card h3 {
+          color: #f1f5f9;
+        }
+
+        .why-us-card p {
+          font-size: 0.92rem;
+          color: #64748b;
+          line-height: 1.5;
+        }
+
+        .dark-mode .why-us-card p {
+          color: #cbd5e1;
+        }
+
         .roadmap {
           margin: 64px 0;
         }
@@ -311,6 +398,11 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         @media (max-width: 768px) {
+          .why-us {
+            grid-template-columns: 1fr;
+            margin: 40px 0;
+          }
+
           .roadmap-line {
             left: 28px;
           }
