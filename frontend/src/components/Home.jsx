@@ -9,7 +9,9 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
   const whyUsRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
+  const featuredRef = useRef(null);
   const [stats, setStats] = useState(null);
+  const [featured, setFeatured] = useState([]);
 
   useEffect(() => {
     fetch(API_URL + '/api/stats/summary')
@@ -17,6 +19,16 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
       .then((data) => setStats(data))
       .catch(() => setStats(null));
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetch(API_URL + '/api/seller/get-active-products', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` },
+    })
+      .then((res) => res.ok ? res.json() : { products: [] })
+      .then((data) => setFeatured((data.products || []).slice(0, 4)))
+      .catch(() => setFeatured([]));
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,6 +55,15 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         clearProps: 'transform',
       }, '-=0.3');
 
+      if (featuredRef.current && featuredRef.current.children.length) {
+        tl.from(featuredRef.current.children, {
+          y: 24,
+          duration: 0.6,
+          stagger: 0.08,
+          clearProps: 'transform',
+        }, '-=0.3');
+      }
+
       if (categoryGridRef.current) {
         tl.from(categoryGridRef.current.children, {
           y: 24,
@@ -54,7 +75,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
     });
 
     return () => ctx.revert();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, featured.length]);
 
   const categories = [
     { name: "Electronics", Icon: LaptopIcon },
@@ -155,6 +176,32 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           ))}
         </div>
       </section>
+
+      {isLoggedIn && featured.length > 0 && (
+        <section className="featured-listings">
+          <div className="featured-header">
+            <h2 className="section-heading">Recently Listed</h2>
+            <Link to="/browse" className="featured-view-all">View all →</Link>
+          </div>
+          <div className="featured-grid" ref={featuredRef}>
+            {featured.map((item) => (
+              <Link
+                key={item.product_id}
+                to={`/product?product_id=${encodeURIComponent(item.product_id)}`}
+                className="featured-card"
+              >
+                <div className="featured-image">
+                  {item.image ? <img src={item.image} alt={item.name} /> : <div className="featured-image-empty" />}
+                </div>
+                <div className="featured-info">
+                  <h3>{item.name}</h3>
+                  <p>₹{Number(item.asking_price).toLocaleString()}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {isLoggedIn && (
         <section className="shop-by-category">
@@ -379,6 +426,103 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
 
         .dark-mode .roadmap-content p {
           color: #cbd5e1;
+        }
+
+        .featured-listings {
+          margin: 56px 0;
+        }
+
+        .featured-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+        }
+
+        .featured-header .section-heading {
+          margin-bottom: 0;
+        }
+
+        .featured-view-all {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #1d4ed8;
+          text-decoration: none;
+        }
+
+        .dark-mode .featured-view-all {
+          color: #93c5fd;
+        }
+
+        .featured-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 20px;
+        }
+
+        .featured-card {
+          background: #ffffff;
+          border-radius: 12px;
+          overflow: hidden;
+          text-decoration: none;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .featured-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .dark-mode .featured-card {
+          background: #1e293b;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-image {
+          width: 100%;
+          padding-top: 75%;
+          position: relative;
+          background: #f1f5f9;
+        }
+
+        .dark-mode .featured-image {
+          background: #334155;
+        }
+
+        .featured-image img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .featured-info {
+          padding: 14px 16px;
+        }
+
+        .featured-info h3 {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0 0 4px;
+        }
+
+        .dark-mode .featured-info h3 {
+          color: #f1f5f9;
+        }
+
+        .featured-info p {
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #1d4ed8;
+          margin: 0;
+        }
+
+        .dark-mode .featured-info p {
+          color: #60a5fa;
         }
 
         .shop-by-category {
