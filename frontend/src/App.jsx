@@ -446,12 +446,31 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        <div className="footer-content">
-          <p>© 2025 CollegeBazaar. All rights reserved.</p>
-          <div className="footer-links">
-            <button onClick={toggleContactPopup} className="contact-link">Contact Us</button>
-            <Link to="/admin" className="contact-link">Admin Dashboard</Link>
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <div className="footer-logo">
+              <img src="/assets/logo-mark.svg" alt="" className="footer-logo-icon" />
+              <span>College<span className="red-letter">B</span>azaar</span>
+            </div>
+            <p>A trusted marketplace built just for college students.</p>
           </div>
+
+          <div className="footer-col">
+            <h4>Quick Links</h4>
+            <Link to="/">Home</Link>
+            <Link to="/about">About Us</Link>
+            {isLoggedIn && <Link to="/browse">Browse</Link>}
+          </div>
+
+          <div className="footer-col">
+            <h4>Support</h4>
+            <button onClick={toggleContactPopup} className="footer-link-btn">Contact Us</button>
+            <Link to="/admin">Admin Dashboard</Link>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>© 2026 CollegeBazaar. All rights reserved.</p>
         </div>
       </footer>
 
@@ -1384,55 +1403,83 @@ export default function App() {
         }
 
         .footer {
-          background: linear-gradient(45deg, #ffffff, #f8fafc);
-          padding: 2rem;
-          text-align: center;
-          border-top: 1px solid #e2e8f0;
-          box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.15);
+          background: #0f172a;
+          padding: 3rem 2rem 1.5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .dark-mode .footer {
-          background: #1e293b;
-          border-top: 1px solid #475569;
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr;
+          gap: 2.5rem;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
-        .footer-content {
+        .footer-logo {
           display: flex;
-          justify-content: center;
           align-items: center;
-          gap: 1.5rem;
+          gap: 10px;
+          font-size: 1.3rem;
+          font-weight: 900;
+          color: #f8fafc;
+          margin-bottom: 0.75rem;
         }
 
-        .footer-content p {
-          margin: 0;
-          color: #1f2937;
-          font-size: 1rem;
+        .footer-logo-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 8px;
         }
 
-        .dark-mode .footer-content p {
-          color: #f1f5f9;
+        .footer-brand p {
+          color: #94a3b8;
+          font-size: 0.9rem;
+          max-width: 320px;
         }
 
-        .contact-link {
+        .footer-col h4 {
+          color: #f8fafc;
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .footer-col {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+        }
+
+        .footer-col a,
+        .footer-link-btn {
+          color: #94a3b8;
+          text-decoration: none;
+          font-size: 0.9rem;
           background: none;
           border: none;
-          color: #1d4ed8;
-          font-size: 1rem;
-          font-weight: 600;
+          text-align: left;
           cursor: pointer;
-          transition: color 0.3s ease;
+          padding: 0;
+          transition: color 0.2s ease;
         }
 
-        .contact-link:hover {
-          color: #1e3a8a;
-        }
-
-        .dark-mode .contact-link {
+        .footer-col a:hover,
+        .footer-link-btn:hover {
           color: #60a5fa;
         }
 
-        .dark-mode .contact-link:hover {
-          color: #3b82f6;
+        .footer-bottom {
+          max-width: 1200px;
+          margin: 2.5rem auto 0;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          text-align: center;
+        }
+
+        .footer-bottom p {
+          color: #64748b;
+          font-size: 0.85rem;
         }
 
         .contact-popup {
@@ -1606,9 +1653,9 @@ export default function App() {
             grid-template-columns: 1fr;
           }
 
-          .footer-content {
-            flex-direction: column;
-            gap: 1rem;
+          .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
           }
         }
 
@@ -1647,49 +1694,6 @@ export default function App() {
           }
         }
 
-        .footer-links {
-          display: flex;
-          gap: 24px; /* Increased spacing between links */
-          align-items: center;
-        }
-        
-        .footer-links .contact-link {
-          background: none;
-          border: none;
-          color: #007bff;
-          text-decoration: none;
-          cursor: pointer;
-          font-size: 1rem;
-          font-weight: 500;
-          padding: 8px 12px;
-          transition: color 0.3s ease, text-decoration 0.3s ease;
-          line-height: 1.5;
-        }
-        
-        .footer-links .contact-link:hover {
-          color: #0056b3;
-          text-decoration: underline;
-        }
-        
-        .dark-mode .footer-links .contact-link {
-          color: #90caf9;
-        }
-        
-        .dark-mode .footer-links .contact-link:hover {
-          color: #64b5f6;
-          text-decoration: underline;
-        }
-        
-        /* Ensure button and Link render identically */
-        .footer-links button.contact-link,
-        .footer-links a.contact-link {
-          display: inline-block;
-          text-align: center;
-          appearance: none; /* Remove default button styling */
-          -webkit-appearance: none;
-          -moz-appearance: none;
-        }
-        
       `}</style>
     </div>
   );
