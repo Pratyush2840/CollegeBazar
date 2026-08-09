@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon } from './icons.jsx';
 
 export default function Home({ isLoggedIn, isCampusEmail }) {
   const heroContentRef = useRef(null);
@@ -39,25 +40,28 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
   }, [isLoggedIn]);
 
   const categories = [
-    { name: "Electronics", icon: "💻" },
-    { name: "Textbooks", icon: "📚" },
-    { name: "Accessories", icon: "🎒" },
-    { name: "Furniture", icon: "🛋️" },
-    { name: "All", icon: "🗂️" },
+    { name: "Electronics", Icon: LaptopIcon },
+    { name: "Textbooks", Icon: BookIcon },
+    { name: "Accessories", Icon: BagIcon },
+    { name: "Furniture", Icon: CouchIcon },
+    { name: "All", Icon: GridIcon },
   ];
 
   const roadmapSteps = [
-    { number: "01", icon: "📤", color: "#10b981", title: "List Your Item", description: "Post your item with photos, a price, and a deadline in under a minute." },
-    { number: "02", icon: "🏷️", color: "#06b6d4", title: "Get Bids", description: "Verified students on campus place bids on your listing." },
-    { number: "03", icon: "💬", color: "#3b82f6", title: "Answer Questions", description: "Buyers can ask you questions directly on the listing before buying." },
-    { number: "04", icon: "✅", color: "#8b5cf6", title: "Complete the Sale", description: "Accept the best offer and hand off the item on campus." },
+    { number: "01", Icon: UploadIcon, color: "#10b981", title: "List Your Item", description: "Post your item with photos, a price, and a deadline in under a minute." },
+    { number: "02", Icon: TagIcon, color: "#06b6d4", title: "Get Bids", description: "Verified students on campus place bids on your listing." },
+    { number: "03", Icon: MessageIcon, color: "#3b82f6", title: "Answer Questions", description: "Buyers can ask you questions directly on the listing before buying." },
+    { number: "04", Icon: CheckCircleIcon, color: "#8b5cf6", title: "Complete the Sale", description: "Accept the best offer and hand off the item on campus." },
   ];
 
   return (
     <>
       <header className="hero">
-        <div className="hero-overlay">
+        <div className="hero-grid">
           <div className="hero-content" ref={heroContentRef}>
+            <span className="hero-eyebrow">
+              <ShieldIcon width={16} height={16} /> Verified campus students only
+            </span>
             <h1>Buy. Sell. Trade. Within Your Campus.</h1>
             <p>A trusted marketplace built just for college students.</p>
             <div className="hero-buttons">
@@ -66,6 +70,9 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
                 <Link to="/post" className="btn secondary">Post Your Item</Link>
               )}
             </div>
+          </div>
+          <div className="hero-photo">
+            <img src="/assets/campus-hero.jpg" alt="Campus" />
           </div>
         </div>
       </header>
@@ -82,7 +89,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
                 <p>{step.description}</p>
               </div>
               <div className="roadmap-icon" style={{ background: step.color }}>
-                <span>{step.icon}</span>
+                <step.Icon color="#ffffff" width={22} height={22} />
               </div>
               <div className="roadmap-spacer"></div>
             </div>
@@ -100,7 +107,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
                 to={`/browse?category=${encodeURIComponent(cat.name)}`}
                 className="category-card"
               >
-                <div className="category-icon">{cat.icon}</div>
+                <div className="category-icon"><cat.Icon width={26} height={26} /></div>
                 <div className="category-name">{cat.name}</div>
               </Link>
             ))}
