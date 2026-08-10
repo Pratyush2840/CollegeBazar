@@ -1223,6 +1223,7 @@ export default function App() {
           font-size: 3.2rem;
           font-weight: 900;
           line-height: 1.1;
+          letter-spacing: -0.02em;
           color: #0f172a;
           margin-bottom: 1.25rem;
         }

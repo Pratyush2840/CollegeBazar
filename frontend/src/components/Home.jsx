@@ -325,8 +325,9 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .section-heading {
-          font-size: 2rem;
+          font-size: 2.1rem;
           font-weight: 800;
+          letter-spacing: -0.02em;
           text-align: center;
           color: #0f172a;
           margin-bottom: 48px;
@@ -530,8 +531,9 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .shop-heading {
-          font-size: 2rem;
+          font-size: 2.1rem;
           font-weight: 800;
+          letter-spacing: -0.02em;
           text-align: center;
           color: #0f172a;
           margin-bottom: 24px;
