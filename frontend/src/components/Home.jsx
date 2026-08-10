@@ -556,8 +556,9 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           gap: 12px;
           padding: 28px 16px;
           border-radius: 12px;
+          border: 1px solid transparent;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
           background: #ffffff;
           text-decoration: none;
         }
@@ -586,15 +587,23 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           font-size: 2rem;
           border-radius: 50%;
           background: #eff6ff;
-          transition: background 0.3s ease;
+          color: #1d4ed8;
+          transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
         }
 
         .dark-mode .category-icon {
           background: #334155;
+          color: #93c5fd;
+        }
+
+        .category-card:hover {
+          border-color: rgba(255, 255, 255, 0.25);
         }
 
         .category-card:hover .category-icon {
           background: rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          transform: scale(1.1);
         }
 
         .category-name {
