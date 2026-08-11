@@ -751,7 +751,10 @@ export default function App() {
         }
 
         .red-letter {
-          color: #60a5fa;
+          background: linear-gradient(120deg, #818cf8, #22d3ee);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
         }
 
         .nav-links {
@@ -797,7 +800,7 @@ export default function App() {
         }
 
         .login-btn {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: white !important;
           padding: 12px 24px !important;
           border-radius: 10px;
@@ -806,7 +809,7 @@ export default function App() {
         }
 
         .login-btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           color: white !important;
           transform: translateY(-2px);
           box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
@@ -913,7 +916,7 @@ export default function App() {
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: white;
           display: flex;
           align-items: center;
@@ -1023,7 +1026,7 @@ export default function App() {
           width: 96px;
           height: 96px;
           border-radius: 50%;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: white;
           display: flex;
           align-items: center;
@@ -1094,7 +1097,7 @@ export default function App() {
 
         .edit-field input:focus,
         .edit-field select:focus {
-          border-color: #1d4ed8;
+          border-color: #4f46e5;
           box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
         }
 
@@ -1107,7 +1110,7 @@ export default function App() {
 
         .dark-mode .edit-field input:focus,
         .dark-mode .edit-field select:focus {
-          border-color: #60a5fa;
+          border-color: #818cf8;
           box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
         }
 
@@ -1251,7 +1254,7 @@ export default function App() {
         .stat-number {
           font-size: 2rem;
           font-weight: 800;
-          color: #1d4ed8;
+          color: #4f46e5;
         }
 
         .stat-label {
@@ -1307,7 +1310,7 @@ export default function App() {
           padding: 1rem;
           font-size: 1.1rem;
           color: #fff;
-          background: #1d4ed8;
+          background: #4f46e5;
           border: none;
           border-radius: 12px;
           cursor: pointer;
@@ -1321,7 +1324,7 @@ export default function App() {
         }
 
         .logout-btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
           box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
@@ -1339,7 +1342,7 @@ export default function App() {
           height: 56px;
           border: 5px solid rgba(0, 0, 0, 0.1);
           border-radius: 50%;
-          border-top-color: #1d4ed8;
+          border-top-color: #4f46e5;
           animation: spin 0.8s ease-in-out infinite;
           margin-bottom: 1.25rem;
         }
@@ -1350,12 +1353,12 @@ export default function App() {
 
         .dark-mode .spinner {
           border-color: rgba(255, 255, 255, 0.1);
-          border-top-color: #60a5fa;
+          border-top-color: #818cf8;
         }
 
         .error-message {
           background: #fee2e2;
-          border-left: 5px solid #1d4ed8;
+          border-left: 5px solid #4f46e5;
           padding: 1.25rem;
           margin: 2rem;
           border-radius: 10px;
@@ -1373,7 +1376,7 @@ export default function App() {
         }
 
         .error-message button {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: white;
           border: none;
           padding: 12px 20px;
@@ -1383,7 +1386,7 @@ export default function App() {
         }
 
         .error-message button:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-1px);
         }
 
@@ -1404,7 +1407,7 @@ export default function App() {
           gap: 8px;
           font-size: 0.85rem;
           font-weight: 700;
-          color: #1d4ed8;
+          color: #4f46e5;
           background: #eff6ff;
           padding: 0.4rem 0.9rem;
           border-radius: 999px;
@@ -1412,7 +1415,7 @@ export default function App() {
         }
 
         .dark-mode .hero-eyebrow {
-          color: #93c5fd;
+          color: #a5b4fc;
           background: rgba(59, 130, 246, 0.15);
         }
 
@@ -1460,7 +1463,7 @@ export default function App() {
         }
 
         .btn {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff !important;
           padding: 14px 28px;
           font-size: 1.1rem;
@@ -1473,31 +1476,31 @@ export default function App() {
         }
 
         .btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
           box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
 
         .btn.secondary {
           background: linear-gradient(45deg, #dbeafe, #bfdbfe);
-          color: #2563eb !important;
+          color: #4f46e5 !important;
           box-shadow: 0 3px 12px rgba(37, 99, 235, 0.4);
         }
 
         .btn.secondary:hover {
-          background: linear-gradient(45deg, #bfdbfe, #93c5fd);
+          background: linear-gradient(45deg, #bfdbfe, #a5b4fc);
           transform: translateY(-2px);
           box-shadow: 0 6px 16px rgba(37, 99, 235, 0.6);
         }
 
         .dark-mode .btn {
-          background: #60a5fa;
+          background: #818cf8;
           color: #1f2937 !important;
           box-shadow: 0 3px 12px rgba(96, 165, 250, 0.4);
         }
 
         .dark-mode .btn:hover {
-          background: #3b82f6;
+          background: #6366f1;
           box-shadow: 0 6px 16px rgba(96, 165, 250, 0.6);
         }
 
@@ -1664,7 +1667,7 @@ export default function App() {
 
         .footer-col a:hover,
         .footer-link-btn:hover {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .footer-bottom {
@@ -1741,7 +1744,7 @@ export default function App() {
         }
 
         .contact-popup-content a {
-          color: #1d4ed8;
+          color: #4f46e5;
           text-decoration: none;
           font-size: 1.1rem;
         }
@@ -1751,11 +1754,11 @@ export default function App() {
         }
 
         .dark-mode .contact-popup-content a {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .close-popup {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 12px 24px;
           border: none;
@@ -1767,17 +1770,17 @@ export default function App() {
         }
 
         .close-popup:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
         }
 
         .dark-mode .close-popup {
-          background: #60a5fa;
+          background: #818cf8;
           color: #1f2937;
         }
 
         .dark-mode .close-popup:hover {
-          background: #3b82f6;
+          background: #6366f1;
         }
 
         @media (max-width: 768px) {
