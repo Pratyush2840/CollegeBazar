@@ -1,15 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { UploadIcon, TagIcon, MessageIcon, CheckCircleIcon, LaptopIcon, BookIcon, BagIcon, CouchIcon, GridIcon, ShieldIcon, CoinIcon, ChatIcon, UsersIcon, PackageIcon, TrendingUpIcon } from './icons.jsx';
 import { API_URL } from '../config.js';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Home({ isLoggedIn, isCampusEmail }) {
   const heroContentRef = useRef(null);
+  const heroVisualRef = useRef(null);
   const whyUsRef = useRef(null);
   const roadmapRef = useRef(null);
   const categoryGridRef = useRef(null);
   const featuredRef = useRef(null);
+  const joinRef = useRef(null);
+  const ctaRef = useRef(null);
+  const statsRef = useRef(null);
   const [stats, setStats] = useState(null);
   const [featured, setFeatured] = useState([]);
 
@@ -41,37 +48,40 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         clearProps: 'transform',
       });
 
-      tl.from(whyUsRef.current.children, {
-        y: 24,
-        duration: 0.6,
-        stagger: 0.1,
-        clearProps: 'transform',
-      }, '-=0.3');
-
-      tl.from(roadmapRef.current.querySelectorAll('.roadmap-row'), {
-        y: 40,
-        duration: 0.7,
-        stagger: 0.2,
-        clearProps: 'transform',
-      }, '-=0.3');
-
-      if (featuredRef.current && featuredRef.current.children.length) {
-        tl.from(featuredRef.current.children, {
-          y: 24,
-          duration: 0.6,
-          stagger: 0.08,
+      if (heroVisualRef.current) {
+        tl.from(heroVisualRef.current, {
+          y: 40,
+          scale: 0.96,
+          duration: 0.9,
           clearProps: 'transform',
-        }, '-=0.3');
+        }, '-=0.6');
+
+        gsap.to(heroVisualRef.current, {
+          y: -14,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: 1.2,
+        });
       }
 
-      if (categoryGridRef.current) {
-        tl.from(categoryGridRef.current.children, {
-          y: 24,
-          duration: 0.6,
-          stagger: 0.08,
+      const revealSections = gsap.utils.toArray('.reveal-section');
+      revealSections.forEach((section) => {
+        const items = section.querySelectorAll('.reveal-item');
+        gsap.from(items.length ? items : section, {
+          y: 36,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: 'power2.out',
           clearProps: 'transform',
-        }, '-=0.3');
-      }
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
     });
 
     return () => ctx.revert();
@@ -92,11 +102,13 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
   ];
 
   const roadmapSteps = [
-    { number: "01", Icon: UploadIcon, color: "#10b981", title: "List Your Item", description: "Post your item with photos, a price, and a deadline in under a minute." },
-    { number: "02", Icon: TagIcon, color: "#06b6d4", title: "Get Bids", description: "Verified students on campus place bids on your listing." },
-    { number: "03", Icon: MessageIcon, color: "#3b82f6", title: "Answer Questions", description: "Buyers can ask you questions directly on the listing before buying." },
-    { number: "04", Icon: CheckCircleIcon, color: "#8b5cf6", title: "Complete the Sale", description: "Accept the best offer and hand off the item on campus." },
+    { number: "01", Icon: UploadIcon, color: "#6366f1", title: "List Your Item", description: "Post your item with photos, a price, and a deadline in under a minute." },
+    { number: "02", Icon: TagIcon, color: "#22d3ee", title: "Get Bids", description: "Verified students on campus place bids on your listing." },
+    { number: "03", Icon: MessageIcon, color: "#818cf8", title: "Answer Questions", description: "Buyers can ask you questions directly on the listing before buying." },
+    { number: "04", Icon: CheckCircleIcon, color: "#a855f7", title: "Complete the Sale", description: "Accept the best offer and hand off the item on campus." },
   ];
+
+  const tickerItems = ["Zero Fees", "Verified Students", "Instant Bidding", "Textbooks", "Electronics", "Furniture", "Campus Pickup", "No Middlemen"];
 
   return (
     <>
@@ -106,8 +118,8 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
             <span className="hero-eyebrow">
               <ShieldIcon width={16} height={16} /> Verified campus students only
             </span>
-            <h1>Buy. Sell. Trade. Within Your Campus.</h1>
-            <p>A trusted marketplace built just for college students.</p>
+            <h1>Buy. Sell. Trade. <span className="gradient-text">Within Your Campus.</span></h1>
+            <p>A trusted marketplace built just for college students — no fees, no strangers, no hassle.</p>
             <div className="hero-buttons">
               <Link to="/browse" className="btn">Browse Listings</Link>
               {isLoggedIn && isCampusEmail && (
@@ -115,39 +127,51 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
               )}
             </div>
           </div>
-          <div className="hero-photo">
-            <img src="/assets/campus-hero.jpg" alt="Campus" />
+          <div className="hero-visual" ref={heroVisualRef}>
+            <div className="hero-photo">
+              <img src="/assets/campus-hero.jpg" alt="Campus" />
+            </div>
+            {stats && (
+              <>
+                <div className="float-chip float-chip-1">
+                  <UsersIcon width={16} height={16} />
+                  <span>{stats.students} students</span>
+                </div>
+                <div className="float-chip float-chip-2">
+                  <TrendingUpIcon width={16} height={16} />
+                  <span>{stats.items_sold} sold</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>
 
-      <section className="why-us" ref={whyUsRef}>
-        {whyUs.map((item) => (
-          <div key={item.title} className="why-us-card">
-            <div className="why-us-icon"><item.Icon width={24} height={24} /></div>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-          </div>
-        ))}
-      </section>
+      <div className="ticker" aria-hidden="true">
+        <div className="ticker-track">
+          {[...tickerItems, ...tickerItems].map((item, i) => (
+            <span key={i} className="ticker-item">{item} <span className="ticker-dot">•</span></span>
+          ))}
+        </div>
+      </div>
 
       {stats && (
-        <section className="stats-strip">
-          <div className="stat-item">
+        <section className="stats-strip reveal-section" ref={statsRef}>
+          <div className="stat-item reveal-item">
             <UsersIcon width={22} height={22} />
             <div>
               <span className="stat-number">{stats.students}</span>
               <span className="stat-label">Students Registered</span>
             </div>
           </div>
-          <div className="stat-item">
+          <div className="stat-item reveal-item">
             <PackageIcon width={22} height={22} />
             <div>
               <span className="stat-number">{stats.active_listings}</span>
               <span className="stat-label">Active Listings</span>
             </div>
           </div>
-          <div className="stat-item">
+          <div className="stat-item reveal-item">
             <TrendingUpIcon width={22} height={22} />
             <div>
               <span className="stat-number">{stats.items_sold}</span>
@@ -157,12 +181,22 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         </section>
       )}
 
-      <section className="roadmap" ref={roadmapRef}>
-        <h2 className="section-heading">Roadmap</h2>
+      <section className="why-us reveal-section" ref={whyUsRef}>
+        {whyUs.map((item) => (
+          <div key={item.title} className="why-us-card reveal-item">
+            <div className="why-us-icon"><item.Icon width={24} height={24} /></div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="roadmap reveal-section" ref={roadmapRef}>
+        <h2 className="section-heading">How It Works</h2>
         <div className="roadmap-track">
           <div className="roadmap-line"></div>
           {roadmapSteps.map((step, i) => (
-            <div key={step.number} className={`roadmap-row ${i % 2 === 0 ? "left" : "right"}`}>
+            <div key={step.number} className={`roadmap-row reveal-item ${i % 2 === 0 ? "left" : "right"}`}>
               <div className="roadmap-content">
                 <span className="roadmap-step-label" style={{ color: step.color }}>STEP {step.number}</span>
                 <h3>{step.title}</h3>
@@ -178,7 +212,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
       </section>
 
       {isLoggedIn && featured.length > 0 && (
-        <section className="featured-listings">
+        <section className="featured-listings reveal-section">
           <div className="featured-header">
             <h2 className="section-heading">Recently Listed</h2>
             <Link to="/browse" className="featured-view-all">View all →</Link>
@@ -188,7 +222,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
               <Link
                 key={item.product_id}
                 to={`/product?product_id=${encodeURIComponent(item.product_id)}`}
-                className="featured-card"
+                className="featured-card reveal-item"
               >
                 <div className="featured-image">
                   {item.image ? <img src={item.image} alt={item.name} /> : <div className="featured-image-empty" />}
@@ -204,14 +238,14 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
       )}
 
       {isLoggedIn && (
-        <section className="shop-by-category">
+        <section className="shop-by-category reveal-section">
           <h2 className="shop-heading">Shop by Category</h2>
           <div className="category-grid" ref={categoryGridRef}>
             {categories.map((cat) => (
               <Link
                 key={cat.name}
                 to={`/browse?category=${encodeURIComponent(cat.name)}`}
-                className="category-card"
+                className="category-card reveal-item"
               >
                 <div className="category-icon"><cat.Icon width={26} height={26} /></div>
                 <div className="category-name">{cat.name}</div>
@@ -221,7 +255,119 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         </section>
       )}
 
+      <section className="join-modes reveal-section" ref={joinRef}>
+        <h2 className="section-heading">Two Ways to Join</h2>
+        <div className="join-grid">
+          <div className="join-card reveal-item">
+            <div className="join-icon join-icon-seller"><ShieldIcon width={26} height={26} /></div>
+            <h3>Sell as a Verified Student</h3>
+            <p>Sign in with your <strong>@iiitdmj.ac.in</strong> email to post listings. Every seller on the platform is a real, verified student on your campus.</p>
+          </div>
+          <div className="join-card reveal-item">
+            <div className="join-icon join-icon-buyer"><CoinIcon width={26} height={26} /></div>
+            <h3>Bid with Any Gmail Account</h3>
+            <p>Anyone can sign in with Google to browse listings and place bids — no campus email required to shop.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="final-cta reveal-section" ref={ctaRef}>
+        <div className="final-cta-inner reveal-item">
+          <h2>Ready to clear out your dorm?</h2>
+          <p>Join {stats ? `${stats.students}+ students` : 'your campus'} already trading on CollegeBazaar.</p>
+          <div className="hero-buttons">
+            <Link to="/browse" className="btn">Browse Listings</Link>
+            {!isLoggedIn && <Link to="/signup" className="btn secondary">Create Account</Link>}
+          </div>
+        </div>
+      </section>
+
       <style jsx="true">{`
+        .gradient-text {
+          background: linear-gradient(120deg, #818cf8, #22d3ee);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .hero-visual {
+          position: relative;
+        }
+
+        .float-chip {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          border-radius: 999px;
+          background: rgba(15, 23, 42, 0.72);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(148, 163, 184, 0.25);
+          color: #f1f5f9;
+          font-size: 0.85rem;
+          font-weight: 600;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .float-chip-1 {
+          top: -14px;
+          left: -14px;
+          color: #a5b4fc;
+        }
+
+        .float-chip-2 {
+          bottom: -14px;
+          right: -14px;
+          color: #67e8f9;
+        }
+
+        .ticker {
+          overflow: hidden;
+          margin: 40px 0;
+          padding: 14px 0;
+          border-top: 1px solid rgba(148, 163, 184, 0.15);
+          border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          gap: 2.5rem;
+          animation: tickerScroll 26s linear infinite;
+        }
+
+        .ticker-item {
+          display: flex;
+          align-items: center;
+          gap: 2.5rem;
+          font-size: 0.95rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          color: #64748b;
+          white-space: nowrap;
+        }
+
+        .dark-mode .ticker-item {
+          color: #94a3b8;
+        }
+
+        .ticker-dot {
+          color: #818cf8;
+        }
+
+        @keyframes tickerScroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ticker-track {
+            animation: none;
+          }
+        }
+
         .why-us {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -243,7 +389,10 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .dark-mode .why-us-card {
-          background: #1e293b;
+          background: rgba(30, 41, 59, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(148, 163, 184, 0.12);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
@@ -252,7 +401,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           height: 48px;
           border-radius: 12px;
           background: #eff6ff;
-          color: #1d4ed8;
+          color: #4f46e5;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -260,8 +409,8 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .dark-mode .why-us-icon {
-          background: rgba(59, 130, 246, 0.15);
-          color: #93c5fd;
+          background: rgba(99, 102, 241, 0.15);
+          color: #a5b4fc;
         }
 
         .why-us-card h3 {
@@ -294,13 +443,14 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           border-radius: 16px;
           padding: 32px;
           margin: 56px 0;
+          border: 1px solid rgba(148, 163, 184, 0.12);
         }
 
         .stat-item {
           display: flex;
           align-items: center;
           gap: 14px;
-          color: #93c5fd;
+          color: #a5b4fc;
         }
 
         .stat-item div {
@@ -350,7 +500,7 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           bottom: 0;
           width: 4px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #10b981, #06b6d4, #3b82f6, #8b5cf6);
+          background: linear-gradient(180deg, #6366f1, #22d3ee, #818cf8, #a855f7);
           border-radius: 4px;
         }
 
@@ -447,12 +597,12 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         .featured-view-all {
           font-size: 0.9rem;
           font-weight: 600;
-          color: #1d4ed8;
+          color: #4f46e5;
           text-decoration: none;
         }
 
         .dark-mode .featured-view-all {
-          color: #93c5fd;
+          color: #a5b4fc;
         }
 
         .featured-grid {
@@ -476,7 +626,10 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .dark-mode .featured-card {
-          background: #1e293b;
+          background: rgba(30, 41, 59, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(148, 163, 184, 0.12);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
@@ -518,12 +671,12 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         .featured-info p {
           font-size: 0.95rem;
           font-weight: 600;
-          color: #1d4ed8;
+          color: #4f46e5;
           margin: 0;
         }
 
         .dark-mode .featured-info p {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .shop-by-category {
@@ -564,18 +717,20 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
         }
 
         .dark-mode .category-card {
-          background: #2d2d2d;
+          background: rgba(30, 41, 59, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .category-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 6px 16px rgba(29, 78, 216, 0.5);
-          background: #1d4ed8;
+          box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+          background: linear-gradient(120deg, #6366f1, #22d3ee);
         }
 
         .dark-mode .category-card:hover {
-          background: #1d4ed8;
+          background: linear-gradient(120deg, #6366f1, #22d3ee);
         }
 
         .category-icon {
@@ -587,13 +742,13 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
           font-size: 2rem;
           border-radius: 50%;
           background: #eff6ff;
-          color: #1d4ed8;
+          color: #4f46e5;
           transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
         }
 
         .dark-mode .category-icon {
-          background: #334155;
-          color: #93c5fd;
+          background: rgba(99, 102, 241, 0.18);
+          color: #a5b4fc;
         }
 
         .category-card:hover {
@@ -620,6 +775,112 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
 
         .category-card:hover .category-name {
           color: #ffffff;
+        }
+
+        .join-modes {
+          margin: 64px 0;
+        }
+
+        .join-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .join-card {
+          padding: 32px 28px;
+          border-radius: 16px;
+          background: #ffffff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-mode .join-card {
+          background: rgba(30, 41, 59, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(148, 163, 184, 0.12);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .join-icon {
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 18px;
+        }
+
+        .join-icon-seller {
+          background: rgba(99, 102, 241, 0.15);
+          color: #6366f1;
+        }
+
+        .join-icon-buyer {
+          background: rgba(34, 211, 238, 0.15);
+          color: #22d3ee;
+        }
+
+        .join-card h3 {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 10px;
+        }
+
+        .dark-mode .join-card h3 {
+          color: #f1f5f9;
+        }
+
+        .join-card p {
+          font-size: 0.95rem;
+          color: #64748b;
+          line-height: 1.6;
+        }
+
+        .dark-mode .join-card p {
+          color: #cbd5e1;
+        }
+
+        .final-cta {
+          margin: 64px 0 32px;
+        }
+
+        .final-cta-inner {
+          text-align: center;
+          padding: 56px 32px;
+          border-radius: 24px;
+          background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(34, 211, 238, 0.1));
+          border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .final-cta-inner h2 {
+          font-size: 2.2rem;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: #0f172a;
+          margin-bottom: 12px;
+        }
+
+        .dark-mode .final-cta-inner h2 {
+          color: #f1f5f9;
+        }
+
+        .final-cta-inner p {
+          font-size: 1.1rem;
+          color: #64748b;
+          margin-bottom: 28px;
+        }
+
+        .dark-mode .final-cta-inner p {
+          color: #cbd5e1;
+        }
+
+        .final-cta .hero-buttons {
+          justify-content: center;
         }
 
         @media (max-width: 768px) {
@@ -669,6 +930,19 @@ export default function Home({ isLoggedIn, isCampusEmail }) {
 
           .category-grid {
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          }
+
+          .join-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .float-chip {
+            font-size: 0.75rem;
+            padding: 8px 12px;
+          }
+
+          .final-cta-inner h2 {
+            font-size: 1.7rem;
           }
         }
 
