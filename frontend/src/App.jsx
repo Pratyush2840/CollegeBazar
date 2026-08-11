@@ -16,6 +16,8 @@ import SellerBids from './components/SellerBids';
 import BoughtProducts from './components/BoughtProducts';
 import SoldProducts from './components/SoldProducts';
 import { getUserProfile, editProfile } from './api/auth';
+import { BellIcon } from './components/icons';
+import { API_URL } from './config.js';
 
 export default function App() {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ export default function App() {
   const [editError, setEditError] = useState('');
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [newBidsCount, setNewBidsCount] = useState(0);
   const profileDrawerRef = useRef(null);
   const navRef = useRef(null);
 
@@ -79,6 +82,46 @@ export default function App() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showProfile]);
+
+  useEffect(() => {
+    if (!isLoggedIn || !isCampusEmail) {
+      setNewBidsCount(0);
+      return;
+    }
+
+    const checkForNewBids = async () => {
+      try {
+        const response = await fetch(API_URL + '/api/bid/seller-bids', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+          },
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const lastSeen = localStorage.getItem('sellerBidsLastSeen');
+        const lastSeenTime = lastSeen ? new Date(lastSeen).getTime() : 0;
+        const unread = (data.bids || []).filter(
+          (b) => new Date(b.created_at).getTime() > lastSeenTime
+        ).length;
+        setNewBidsCount(unread);
+      } catch (err) {
+        console.error('Failed to check for new bids:', err);
+      }
+    };
+
+    checkForNewBids();
+    const intervalId = setInterval(checkForNewBids, 30000);
+    return () => clearInterval(intervalId);
+  }, [isLoggedIn, isCampusEmail]);
+
+  const handleBellClick = () => {
+    localStorage.setItem('sellerBidsLastSeen', new Date().toISOString());
+    setNewBidsCount(0);
+    navigate('/seller/bids');
+  };
 
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
@@ -133,6 +176,8 @@ export default function App() {
   };
 
   const handleSellerBidsClick = () => {
+    localStorage.setItem('sellerBidsLastSeen', new Date().toISOString());
+    setNewBidsCount(0);
     navigate('/seller/bids');
     setShowProfile(false);
   };
@@ -233,6 +278,14 @@ export default function App() {
           )}
         </ul>
         <div className="nav-actions">
+          {isLoggedIn && isCampusEmail && (
+            <button onClick={handleBellClick} className="bell-btn" title="Bids on my listings">
+              <BellIcon width={19} height={19} />
+              {newBidsCount > 0 && (
+                <span className="bell-badge">{newBidsCount > 9 ? '9+' : newBidsCount}</span>
+              )}
+            </button>
+          )}
           <button onClick={toggleDarkMode} className="theme-toggle" title="Toggle Dark Mode">
             {darkMode ? (
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -679,6 +732,43 @@ export default function App() {
           display: flex;
           align-items: center;
           gap: 2rem;
+        }
+
+        .bell-btn {
+          position: relative;
+          background: none;
+          border: none;
+          color: #f8fafc;
+          cursor: pointer;
+          padding: 10px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        }
+
+        .bell-btn:hover {
+          background: rgba(255, 255, 255, 0.15);
+          transform: scale(1.15);
+        }
+
+        .bell-badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          min-width: 16px;
+          height: 16px;
+          padding: 0 3px;
+          border-radius: 999px;
+          background: #ef4444;
+          color: #ffffff;
+          font-size: 0.65rem;
+          font-weight: 800;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
         }
 
         .theme-toggle {
