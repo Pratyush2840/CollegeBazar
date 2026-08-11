@@ -196,7 +196,7 @@ export const getSellerBids = async (req, res) => {
          JOIN products p ON b.product_id = p.product_id
          JOIN users u ON b.buyer_id = u.user_id
          WHERE p.seller_id = $1
-           AND b.status IN ('highest', 'outbid')
+           AND b.status IN ('highest', 'outbid', 'accepted')
          ORDER BY b.created_at DESC`,
         [seller_id]
       );
@@ -245,16 +245,26 @@ export const acceptBid = async (req, res) => {
       return res.status(400).json({ error: 'This product has already been sold' });
     }
 
+    if (bid.product_status === 'pending_payment') {
+      await db.query('ROLLBACK');
+      return res.status(400).json({ error: 'A bid on this product has already been accepted and is awaiting payment' });
+    }
+
+    if (bid.status !== 'highest') {
+      await db.query('ROLLBACK');
+      return res.status(400).json({ error: 'Only the current highest bid can be accepted' });
+    }
+
     await db.query(
       `UPDATE bids SET status = 'outdated' WHERE product_id = $1 AND bid_id != $2 AND status != 'outdated'`,
       [bid.product_id, bid_id]
     );
 
-    await db.query(`UPDATE bids SET status = 'purchased' WHERE bid_id = $1`, [bid_id]);
-    await db.query(`UPDATE products SET status = 'sold' WHERE product_id = $1`, [bid.product_id]);
+    await db.query(`UPDATE bids SET status = 'accepted' WHERE bid_id = $1`, [bid_id]);
+    await db.query(`UPDATE products SET status = 'pending_payment' WHERE product_id = $1`, [bid.product_id]);
 
     await db.query('COMMIT');
-    res.status(200).json({ message: 'Bid accepted, product marked as sold' });
+    res.status(200).json({ message: 'Bid accepted. Waiting for buyer to complete payment.' });
 
   }
   catch (err) {

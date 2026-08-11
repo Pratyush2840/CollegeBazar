@@ -8,6 +8,7 @@ import queryRoutes from './routes/queryRoutes.js';
 import imageRoutes from './routes/imageRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 import './cronjob/scheduler.js';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/query', queryRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/payment', paymentRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
