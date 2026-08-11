@@ -12,6 +12,7 @@ import MyListings from './components/MyListings';
 import AdminDashboard from './components/AdminDashboard';
 import SellerProductPage from './components/SellerProductPage';
 import MyBids from './components/MyBids'; // New import
+import SellerBids from './components/SellerBids';
 import BoughtProducts from './components/BoughtProducts';
 import SoldProducts from './components/SoldProducts';
 import { getUserProfile, editProfile } from './api/auth';
@@ -128,6 +129,11 @@ export default function App() {
 
   const handleSoldProductsClick = () => {
     navigate('/sold-products');
+    setShowProfile(false);
+  };
+
+  const handleSellerBidsClick = () => {
+    navigate('/seller/bids');
     setShowProfile(false);
   };
 
@@ -400,6 +406,11 @@ export default function App() {
                               <button className="btn-view-bids" onClick={handleSoldProductsClick}>
                                 <span className="btn-icon">🏷️</span> Sold Products
                               </button>
+                              {isCampusEmail && (
+                                <button className="btn-view-bids" onClick={handleSellerBidsClick}>
+                                  <span className="btn-icon">📊</span> Bids on My Listings
+                                </button>
+                              )}
                             </div>
                           </>
                         )}
@@ -439,6 +450,7 @@ export default function App() {
           <Route path="/seller/product" element={<SellerProductPage />} />
           <Route path="/my-listings" element={isLoggedIn ? <MyListings /> : <Navigate to="/login" />} />
           <Route path="/my-bids" element={isLoggedIn ? <MyBids /> : <Navigate to="/login" />} />
+          <Route path="/seller/bids" element={isLoggedIn ? (isCampusEmail ? <SellerBids /> : <Navigate to="/" />) : <Navigate to="/login" />} />
           <Route path="/bought-products" element={isLoggedIn ? <BoughtProducts /> : <Navigate to="/login" />} />
           <Route path="/sold-products" element={isLoggedIn ? <SoldProducts /> : <Navigate to="/login" />} />
           <Route path="/admin" element={<AdminDashboard />} />
@@ -470,7 +482,14 @@ export default function App() {
         </div>
 
         <div className="footer-bottom">
-          <p>© 2026 CollegeBazaar. All rights reserved.</p>
+          <p>
+            <img
+              src="https://avatars.githubusercontent.com/u/163348524?v=4"
+              alt="Pratyush Singh"
+              className="footer-author-avatar"
+            />
+            © 2026 CollegeBazaar. Built by Pratyush Singh. All rights reserved.
+          </p>
         </div>
       </footer>
 
@@ -1481,6 +1500,17 @@ export default function App() {
         .footer-bottom p {
           color: #64748b;
           font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .footer-author-avatar {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          object-fit: cover;
         }
 
         .contact-popup {
