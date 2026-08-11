@@ -99,7 +99,7 @@ export const verifyOtpAndSignup = async (req, res) => {
     await db.query(`DELETE FROM signup_otps WHERE email = $1`, [email]);
 
     const {subject, html} = signupSuccess(name);
-    sendMail(email, subject, html);
+    sendMail(email, subject, html).catch(err => console.error('Signup success email failed:', err.message));
 
     res.status(201).json({ message: 'User signed up successfully' });
 
@@ -145,7 +145,7 @@ export const login = async (req, res) => {
     });
     const ipAddress = req.ip || 'Unknown IP';
     const {subject, html} = loginNotification(email, loginTime, ipAddress);
-    sendMail(email, subject, html);
+    sendMail(email, subject, html).catch(err => console.error('Login notification email failed:', err.message));
 
     res.status(200).json({ token, is_campus_email: user.email.endsWith('@iiitdmj.ac.in') });
 
