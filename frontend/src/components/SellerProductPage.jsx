@@ -19,11 +19,11 @@ const styles = `
   .dark-mode .product-details p span { color: #e0e0e0; }
   .product-status { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; text-transform: capitalize; }
   .status-active { background: #e6ffed; color: #2e7d32; }
-  .status-sold { background: #e3f2fd; color: #1e88e5; }
+  .status-sold { background: #e0e7ff; color: #4f46e5; }
   .status-expired { background: #fef2f2; color: #d32f2f; }
   .status-pending { background: #f1f5f9; color: #475569; }
   .dark-mode .status-active { background: #1b5e20; color: #a5d6a7; }
-  .dark-mode .status-sold { background: #1565c0; color: #90caf9; }
+  .dark-mode .status-sold { background: #1565c0; color: #a5b4fc; }
   .dark-mode .status-expired { background: #b71c1c; color: #ef9a9a; }
   .dark-mode .status-pending { background: #475569; color: #cbd5e1; }
   /* New styles for buyer section */
@@ -31,12 +31,12 @@ const styles = `
   .dark-mode .buyer-container { background: #2d2d2d; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   .buyer-container h2 { font-size: 1.8rem; font-weight: 700; color: #2d2d2d; margin-bottom: 16px; }
   .dark-mode .buyer-container h2 { color: #e0e0e0; }
-  .buyer-details { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #e3f2fd; border-radius: 8px; }
+  .buyer-details { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #e0e7ff; border-radius: 8px; }
   .dark-mode .buyer-details { background: #1565c0; }
   .buyer-field { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: #2d2d2d; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; }
   .dark-mode .buyer-field { color: #e0e0e0; border-bottom: 1px solid #444; }
-  .buyer-field span { font-weight: 600; color: #1e88e5; min-width: 100px; }
-  .dark-mode .buyer-field span { color: #90caf9; }
+  .buyer-field span { font-weight: 600; color: #4f46e5; min-width: 100px; }
+  .dark-mode .buyer-field span { color: #a5b4fc; }
   .no-buyer { font-size: 1.1rem; color: #555; text-align: center; padding: 16px; background: #f8f9fa; border-radius: 8px; }
   .dark-mode .no-buyer { color: #ccc; background: #333; }
   .management-container, .bids-container, .queries-container { background: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -49,8 +49,8 @@ const styles = `
   .dark-mode .input-group label { color: #e0e0e0; }
   input, textarea { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; color: #2d2d2d; width: 100%; transition: border-color 0.3s, box-shadow 0.3s; }
   .dark-mode input, .dark-mode textarea { border-color: #555; background: #333; color: #e0e0e0; }
-  input:focus, textarea:focus { outline: none; border-color: #1d4ed8; box-shadow: 0 0 8px rgba(29, 78, 216,0.3); }
-  .dark-mode input:focus, .dark-mode textarea:focus { border-color: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250,0.3); }
+  input:focus, textarea:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 8px rgba(29, 78, 216,0.3); }
+  .dark-mode input:focus, .dark-mode textarea:focus { border-color: #818cf8; box-shadow: 0 0 8px rgba(96, 165, 250,0.3); }
   .error { border-color: #e41e3f !important; }
   .error-message { color: #e41e3f; font-size: 0.9rem; margin-top: 8px; }
   .success-message { color: #43a047; font-size: 0.9rem; margin-top: 8px; }
@@ -67,14 +67,14 @@ const styles = `
   .dark-mode .btn.disabled { background: linear-gradient(45deg, #444444, #555555); color: #888888; box-shadow: none; }
   .btn.disabled:hover { background: linear-gradient(45deg, #cccccc, #d9d9d9); transform: none; box-shadow: none; }
   .dark-mode .btn.disabled:hover { background: linear-gradient(45deg, #444444, #555555); transform: none; box-shadow: none; }
-  .btn { background: #1d4ed8; color: #ffffff; padding: 12px 24px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); }
-  .btn:hover { background: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29, 78, 216,0.5); }
-  .btn.secondary { background: linear-gradient(45deg, #e3f2fd, #bbdefb); color: #1e88e5; box-shadow: 0 2px 8px rgba(30,136,229,0.3); }
-  .btn.secondary:hover { background: linear-gradient(45deg, #bbdefb, #90caf9); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,136,229,0.5); }
+  .btn { background: #4f46e5; color: #ffffff; padding: 12px 24px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); }
+  .btn:hover { background: #4338ca; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29, 78, 216,0.5); }
+  .btn.secondary { background: linear-gradient(45deg, #e0e7ff, #c7d2fe); color: #4f46e5; box-shadow: 0 2px 8px rgba(30,136,229,0.3); }
+  .btn.secondary:hover { background: linear-gradient(45deg, #c7d2fe, #a5b4fc); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,136,229,0.5); }
   .btn.danger { background: linear-gradient(45deg, #e41e3f, #ff4d6a); color: #ffffff; box-shadow: 0 2px 8px rgba(228,30,63,0.3); }
   .btn.danger:hover { background: linear-gradient(45deg, #cc1a36, #e63956); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(228,30,63,0.5); }
-  .dark-mode .btn { background: #60a5fa; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
-  .dark-mode .btn:hover { background: #3b82f6; box-shadow: 0 4px 12px rgba(96, 165, 250,0.5); }
+  .dark-mode .btn { background: #818cf8; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
+  .dark-mode .btn:hover { background: #6366f1; box-shadow: 0 4px 12px rgba(96, 165, 250,0.5); }
   .dark-mode .btn.secondary { background: linear-gradient(45deg, #2a2a2a, #3a3a3a); color: #e0e0e0; box-shadow: 0 2px 8px rgba(255,255,255,0.2); }
   .dark-mode .btn.secondary:hover { background: linear-gradient(45deg, #3a3a3a, #4a4a4a); box-shadow: 0 4px 12px rgba(255,255,255,0.3); }
   .dark-mode .btn.danger { background: linear-gradient(45deg, #e41e3f, #ff4d6a); color: #ffffff; box-shadow: 0 2px 8px rgba(228,30,63,0.3); }

@@ -409,7 +409,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         .form-container input:focus,
         .form-container select:focus {
           outline: none;
-          border-color: #1d4ed8;
+          border-color: #4f46e5;
           box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
         }
 
@@ -442,7 +442,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .overlay {
-          background: linear-gradient(135deg, #0f172a, #1d4ed8);
+          background: linear-gradient(135deg, #0f172a, #4f46e5);
           color: #ffffff;
           position: relative;
           left: -100%;
@@ -516,7 +516,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         .butt {
           border-radius: 24px;
           border: none;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #fff;
           font-size: 0.85rem;
           font-weight: 700;
@@ -533,7 +533,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .butt:hover {
-          background: #1e40af;
+          background: #4338ca;
         }
 
         .butt:active {
@@ -557,7 +557,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         .text-link {
           background: none;
           border: none;
-          color: #1d4ed8;
+          color: #4f46e5;
           font-size: 0.85rem;
           font-weight: 600;
           cursor: pointer;
@@ -565,7 +565,7 @@ export default function AuthPage({ defaultTab = "login", setIsLoggedIn }) {
         }
 
         .dark-mode .text-link {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .text-link:disabled {

@@ -149,7 +149,7 @@ export default function BoughtProducts() {
         }
 
         .no-products a {
-          color: #1d4ed8;
+          color: #4f46e5;
           text-decoration: none;
           font-weight: 600;
         }
@@ -159,7 +159,7 @@ export default function BoughtProducts() {
         }
 
         .dark-mode .no-products a {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .listing-grid {
@@ -207,7 +207,7 @@ export default function BoughtProducts() {
           position: absolute;
           top: 12px;
           right: 12px;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 6px 12px;
           border-radius: 6px;
@@ -216,7 +216,7 @@ export default function BoughtProducts() {
         }
 
         .dark-mode .category-badge {
-          background: #60a5fa;
+          background: #818cf8;
           color: #121212;
         }
 
@@ -242,12 +242,12 @@ export default function BoughtProducts() {
         .price {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #1d4ed8;
+          color: #4f46e5;
           margin: 0;
         }
 
         .dark-mode .price {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .seller-info {
@@ -261,7 +261,7 @@ export default function BoughtProducts() {
         }
 
         .btn {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 12px;
           font-size: 1rem;
@@ -275,17 +275,17 @@ export default function BoughtProducts() {
         }
 
         .btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
         }
 
         .dark-mode .btn {
-          background: #60a5fa;
+          background: #818cf8;
           color: #121212;
         }
 
         .dark-mode .btn:hover {
-          background: #3b82f6;
+          background: #6366f1;
         }
 
         @media (max-width: 768px) {

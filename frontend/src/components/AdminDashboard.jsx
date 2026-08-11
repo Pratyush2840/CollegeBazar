@@ -16,16 +16,16 @@ const styles = `
   .dark-mode .input-group label { color: #e0e0e0; }
   input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; color: #2d2d2d; width: 100%; transition: border-color 0.3s, box-shadow 0.3s; }
   .dark-mode input { border-color: #555; background: #333; color: #e0e0e0; }
-  input:focus { outline: none; border-color: #1d4ed8; box-shadow: 0 0 8px rgba(29, 78, 216,0.3); }
-  .dark-mode input:focus { border-color: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250,0.3); }
+  input:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 8px rgba(29, 78, 216,0.3); }
+  .dark-mode input:focus { border-color: #818cf8; box-shadow: 0 0 8px rgba(96, 165, 250,0.3); }
   .error { border-color: #e41e3f !important; }
   .error-message, .success-message { font-size: 0.9rem; margin-top: 8px; text-align: center; }
   .error-message { color: #e41e3f; }
   .success-message { color: #43a047; }
-  .btn { background: #1d4ed8; color: #ffffff; padding: 12px 24px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); }
-  .btn:hover { background: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29, 78, 216,0.5); }
-  .dark-mode .btn { background: #60a5fa; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
-  .dark-mode .btn:hover { background: #3b82f6; box-shadow: 0 4px 12px rgba(96, 165, 250,0.5); }
+  .btn { background: #4f46e5; color: #ffffff; padding: 12px 24px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 216,0.3); }
+  .btn:hover { background: #4338ca; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29, 78, 216,0.5); }
+  .dark-mode .btn { background: #818cf8; color: #121212; box-shadow: 0 2px 8px rgba(96, 165, 250,0.3); }
+  .dark-mode .btn:hover { background: #6366f1; box-shadow: 0 4px 12px rgba(96, 165, 250,0.5); }
   .products-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
   .product-card { background: #f8f9fa; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 12px; }
   .dark-mode .product-card { background: #333; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
@@ -35,8 +35,8 @@ const styles = `
   .product-card p { font-size: 1rem; color: #555; margin: 0; }
   .dark-mode .product-card p { color: #ccc; }
   .product-actions { display: flex; gap: 12px; justify-content: flex-end; }
-  .btn.secondary { background: linear-gradient(45deg, #e3f2fd, #bbdefb); color: #1e88e5; box-shadow: 0 2px 8px rgba(30,136,229,0.3); }
-  .btn.secondary:hover { background: linear-gradient(45deg, #bbdefb, #90caf9); box-shadow: 0 4px 12px rgba(30,136,229,0.5); }
+  .btn.secondary { background: linear-gradient(45deg, #e0e7ff, #c7d2fe); color: #4f46e5; box-shadow: 0 2px 8px rgba(30,136,229,0.3); }
+  .btn.secondary:hover { background: linear-gradient(45deg, #c7d2fe, #a5b4fc); box-shadow: 0 4px 12px rgba(30,136,229,0.5); }
   .dark-mode .btn.secondary { background: linear-gradient(45deg, #2a2a2a, #3a3a3a); color: #e0e0e0; box-shadow: 0 2px 8px rgba(255,255,255,0.2); }
   .dark-mode .btn.secondary:hover { background: linear-gradient(45deg, #3a3a3a, #4a4a4a); box-shadow: 0 4px 12px rgba(255,255,255,0.3); }
   .loading, .error { text-align: center; padding: 40px; background: #f8f9fa; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin: 20px; }

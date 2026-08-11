@@ -195,7 +195,7 @@ export default function CompleteProfile() {
           font-size: 1rem;
           font-weight: 600;
           color: #ffffff;
-          background: #1d4ed8;
+          background: #4f46e5;
           border: none;
           border-radius: 10px;
           cursor: pointer;
@@ -211,7 +211,7 @@ export default function CompleteProfile() {
 
         .error-message {
           background: #feecef;
-          border-left: 4px solid #1d4ed8;
+          border-left: 4px solid #4f46e5;
           padding: 16px;
           margin-bottom: 16px;
           border-radius: 8px;

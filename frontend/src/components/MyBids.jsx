@@ -201,19 +201,19 @@ const MyBids = () => {
         }
 
         .status-purchased {
-          color: #1e88e5;
+          color: #4f46e5;
           font-weight: 600;
         }
 
         .dark-mode .status-purchased {
-          color: #90caf9;
+          color: #a5b4fc;
         }
 
         .btn.secondary {
           padding: 8px 16px;
           font-size: 0.9rem;
-          background: linear-gradient(45deg, #e3f2fd, #bbdefb);
-          color: #1e88e5;
+          background: linear-gradient(45deg, #e0e7ff, #c7d2fe);
+          color: #4f46e5;
           border: none;
           border-radius: 8px;
           text-decoration: none;
@@ -223,7 +223,7 @@ const MyBids = () => {
         }
 
         .btn.secondary:hover {
-          background: linear-gradient(45deg, #bbdefb, #90caf9);
+          background: linear-gradient(45deg, #c7d2fe, #a5b4fc);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(30,136,229,0.5);
         }

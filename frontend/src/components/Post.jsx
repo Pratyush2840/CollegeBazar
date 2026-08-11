@@ -410,7 +410,7 @@ export default function Post() {
         }
 
         input:focus, textarea:focus, select:focus, .date-picker:focus {
-          border-color: #1d4ed8;
+          border-color: #4f46e5;
           box-shadow: 0 0 8px rgba(29, 78, 216, 0.2);
           transform: translateY(-1px);
           outline: none;
@@ -420,7 +420,7 @@ export default function Post() {
         .dark-mode textarea:focus,
         .dark-mode select:focus,
         .dark-mode .date-picker:focus {
-          border-color: #60a5fa;
+          border-color: #818cf8;
           box-shadow: 0 0 8px rgba(96, 165, 250, 0.2);
         }
 
@@ -455,12 +455,12 @@ export default function Post() {
         }
 
         .error {
-          border-color: #1d4ed8 !important;
+          border-color: #4f46e5 !important;
           box-shadow: 0 0 8px rgba(29, 78, 216, 0.2) !important;
         }
 
         .dark-mode .error {
-          border-color: #3b82f6 !important;
+          border-color: #6366f1 !important;
           box-shadow: 0 0 8px rgba(59, 130, 246, 0.2) !important;
         }
 
@@ -472,7 +472,7 @@ export default function Post() {
         }
 
         .dark-mode .error-message {
-          color: #3b82f6;
+          color: #6366f1;
         }
 
         @keyframes fadeIn {
@@ -511,13 +511,13 @@ export default function Post() {
 
         .react-datepicker__day--selected,
         .react-datepicker__day--keyboard-selected {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
         }
 
         .dark-mode .react-datepicker__day--selected,
         .dark-mode .react-datepicker__day--keyboard-selected {
-          background: #60a5fa;
+          background: #818cf8;
           color: #1f2937;
         }
 
@@ -545,14 +545,14 @@ export default function Post() {
         }
 
         .drop-zone:hover, .drag-over {
-          border-color: #1d4ed8;
+          border-color: #4f46e5;
           background: #fef2f2;
           transform: translateY(-2px);
         }
 
         .dark-mode .drop-zone:hover, .dark-mode .drag-over {
-          border-color: #60a5fa;
-          background: #1e40af;
+          border-color: #818cf8;
+          background: #4338ca;
         }
 
         .drop-zone p {
@@ -605,7 +605,7 @@ export default function Post() {
         }
 
         .dark-mode .remove-img {
-          background: #3b82f6;
+          background: #6366f1;
         }
 
         .remove-img:hover {
@@ -614,11 +614,11 @@ export default function Post() {
         }
 
         .dark-mode .remove-img:hover {
-          background: #1d4ed8;
+          background: #4f46e5;
         }
 
         .btn {
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 16px;
           font-size: 1.2rem;
@@ -634,7 +634,7 @@ export default function Post() {
         }
 
         .btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
           box-shadow: 0 6px 16px rgba(29, 78, 216, 0.6);
         }
@@ -648,13 +648,13 @@ export default function Post() {
         }
 
         .dark-mode .btn {
-          background: #60a5fa;
+          background: #818cf8;
           color: #1f2937;
           box-shadow: 0 3px 12px rgba(96, 165, 250, 0.4);
         }
 
         .dark-mode .btn:hover {
-          background: #3b82f6;
+          background: #6366f1;
           box-shadow: 0 6px 16px rgba(96, 165, 250, 0.6);
         }
 

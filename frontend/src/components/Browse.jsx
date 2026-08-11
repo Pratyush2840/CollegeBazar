@@ -178,7 +178,7 @@ export default function Browse() {
 
         .search-btn {
           padding: 0 24px;
-          background: #1d4ed8;
+          background: #4f46e5;
           border: none;
           color: #ffffff;
           font-size: 1.1rem;
@@ -187,7 +187,7 @@ export default function Browse() {
         }
 
         .search-btn:hover {
-          background: #1e40af;
+          background: #4338ca;
         }
 
         .browse-body {
@@ -250,7 +250,7 @@ export default function Browse() {
         }
 
         .filter-option input {
-          accent-color: #1d4ed8;
+          accent-color: #4f46e5;
           width: 16px;
           height: 16px;
           cursor: pointer;
@@ -346,7 +346,7 @@ export default function Browse() {
         .price {
           font-size: 1rem;
           font-weight: 600;
-          color: #93c5fd;
+          color: #a5b4fc;
           margin: 0;
         }
 

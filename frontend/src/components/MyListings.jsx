@@ -153,7 +153,7 @@ export default function MyListings() {
         }
 
         .no-products a {
-          color: #1d4ed8;
+          color: #4f46e5;
           text-decoration: none;
           font-weight: 600;
         }
@@ -163,7 +163,7 @@ export default function MyListings() {
         }
 
         .dark-mode .no-products a {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .listing-grid {
@@ -211,7 +211,7 @@ export default function MyListings() {
           position: absolute;
           top: 12px;
           right: 12px;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 6px 12px;
           border-radius: 6px;
@@ -221,7 +221,7 @@ export default function MyListings() {
         }
 
         .dark-mode .category-badge {
-          background: #60a5fa;
+          background: #818cf8;
           color: #121212;
           box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
         }
@@ -248,12 +248,12 @@ export default function MyListings() {
         .price {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #1d4ed8;
+          color: #4f46e5;
           margin: 0;
         }
 
         .dark-mode .price {
-          color: #60a5fa;
+          color: #818cf8;
         }
 
         .button-group {
@@ -264,7 +264,7 @@ export default function MyListings() {
 
         .btn {
           flex: 1;
-          background: #1d4ed8;
+          background: #4f46e5;
           color: #ffffff;
           padding: 12px;
           font-size: 1rem;
@@ -279,19 +279,19 @@ export default function MyListings() {
         }
 
         .btn:hover {
-          background: #1e40af;
+          background: #4338ca;
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(29, 78, 216, 0.5);
         }
 
         .dark-mode .btn {
-          background: #60a5fa;
+          background: #818cf8;
           color: #121212;
           box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
         }
 
         .dark-mode .btn:hover {
-          background: #3b82f6;
+          background: #6366f1;
           box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
         }
 
