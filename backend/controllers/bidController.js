@@ -178,6 +178,39 @@ export const getMyBids = async (req, res) => {
     
 };
 
+export const getSellerBids = async (req, res) => {
+
+    const seller_id = req.user.user_id;
+
+    try {
+
+      const result = await db.query(
+        `SELECT b.*,
+                p.name AS product_name,
+                p.asking_price,
+                p.deadline,
+                p.status AS product_status,
+                u.name AS bidder_name,
+                u.roll_no AS bidder_roll_no
+         FROM bids b
+         JOIN products p ON b.product_id = p.product_id
+         JOIN users u ON b.buyer_id = u.user_id
+         WHERE p.seller_id = $1
+           AND b.status IN ('highest', 'outbid')
+         ORDER BY b.created_at DESC`,
+        [seller_id]
+      );
+
+      res.status(200).json({ bids: result.rows });
+
+    }
+    catch (err) {
+      console.error('Error fetching seller bids:', err);
+      res.status(500).json({ error: 'Failed to fetch bids on your listings' });
+    }
+
+};
+
 export const acceptBid = async (req, res) => {
 
   const { bid_id } = req.params;
