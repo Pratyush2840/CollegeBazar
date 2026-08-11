@@ -18,6 +18,7 @@ import SoldProducts from './components/SoldProducts';
 import { getUserProfile, editProfile } from './api/auth';
 import { BellIcon } from './components/icons';
 import { API_URL } from './config.js';
+import Loader from './components/Loader';
 
 export default function App() {
   const navigate = useNavigate();
@@ -35,17 +36,19 @@ export default function App() {
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [newBidsCount, setNewBidsCount] = useState(0);
+  const [showLoader, setShowLoader] = useState(true);
   const profileDrawerRef = useRef(null);
   const navRef = useRef(null);
 
   useEffect(() => {
+    if (showLoader) return;
     gsap.from(navRef.current, {
       y: -24,
       duration: 0.6,
       ease: 'power2.out',
       clearProps: 'transform',
     });
-  }, []);
+  }, [showLoader]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -243,6 +246,15 @@ export default function App() {
 
   return (
     <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
+      {showLoader && <Loader onDone={() => setShowLoader(false)} />}
+
+      <div className="aurora-bg" aria-hidden="true">
+        <span className="aurora-blob aurora-blob-1" />
+        <span className="aurora-blob aurora-blob-2" />
+        <span className="aurora-blob aurora-blob-3" />
+        <span className="aurora-grid" />
+      </div>
+
       <nav className="navbar" ref={navRef}>
         <div className="logo">
           <NavLink to="/">
@@ -569,16 +581,22 @@ export default function App() {
 
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-          background: linear-gradient(180deg, #f5f7fa, #e2e8f0);
+          background: #f5f7fa;
           color: #1f2937;
           line-height: 1.7;
           overflow-x: hidden;
         }
 
+        h1, h2, h3, h4, .logo a, .app-loader-word {
+          font-family: 'Space Grotesk', 'Inter', sans-serif;
+        }
+
         .app-container {
+          position: relative;
           min-height: 100vh;
           display: flex;
           flex-direction: column;
+          isolation: isolate;
         }
 
         .content-container {
@@ -590,8 +608,78 @@ export default function App() {
         }
 
         .dark-mode {
-          background: linear-gradient(180deg, #0f172a, #1e293b);
+          background: #05070f;
           color: #f1f5f9;
+        }
+
+        .aurora-bg {
+          position: fixed;
+          inset: 0;
+          z-index: -1;
+          overflow: hidden;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.6s ease;
+        }
+
+        .dark-mode .aurora-bg {
+          opacity: 1;
+        }
+
+        .aurora-blob {
+          position: absolute;
+          width: 46vw;
+          height: 46vw;
+          border-radius: 50%;
+          filter: blur(90px);
+          opacity: 0.35;
+          animation: auroraDrift 22s ease-in-out infinite alternate;
+        }
+
+        .aurora-blob-1 {
+          top: -10%;
+          left: -8%;
+          background: radial-gradient(circle, #6366f1, transparent 70%);
+        }
+
+        .aurora-blob-2 {
+          bottom: -15%;
+          right: -10%;
+          background: radial-gradient(circle, #22d3ee, transparent 70%);
+          animation-duration: 26s;
+          animation-delay: -6s;
+        }
+
+        .aurora-blob-3 {
+          top: 30%;
+          left: 40%;
+          width: 34vw;
+          height: 34vw;
+          background: radial-gradient(circle, #a855f7, transparent 70%);
+          animation-duration: 30s;
+          animation-delay: -12s;
+        }
+
+        .aurora-grid {
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+          background-size: 56px 56px;
+          mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+        }
+
+        @keyframes auroraDrift {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(4%, 6%) scale(1.08); }
+          100% { transform: translate(-5%, -3%) scale(0.96); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .aurora-blob {
+            animation: none;
+          }
         }
 
         .dark-mode .profile-drawer {
