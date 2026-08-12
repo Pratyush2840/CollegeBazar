@@ -442,6 +442,7 @@ const ProductPage = () => {
               type="text"
               placeholder="e.g. Does it come with a charger?"
               value={aiQuestion}
+              maxLength={500}
               onChange={(e) => { setAiQuestion(e.target.value); setAiError(''); }}
               disabled={aiLoading}
             />

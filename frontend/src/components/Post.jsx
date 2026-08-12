@@ -195,6 +195,7 @@ export default function Post() {
             value={aiNotes}
             onChange={(e) => { setAiNotes(e.target.value); setAiError(''); }}
             rows="2"
+            maxLength={800}
             placeholder="e.g. dell laptop, 3 years old, minor scratch on lid, works great, selling because upgrading"
             disabled={aiLoading}
           />
