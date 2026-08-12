@@ -22,10 +22,12 @@ const styles = `
   .status-sold { background: #e0e7ff; color: #4f46e5; }
   .status-expired { background: #fef2f2; color: #d32f2f; }
   .status-pending { background: #f1f5f9; color: #475569; }
+  .status-pending-payment { background: #fef3c7; color: #b45309; }
   .dark-mode .status-active { background: #1b5e20; color: #a5d6a7; }
   .dark-mode .status-sold { background: #1565c0; color: #a5b4fc; }
   .dark-mode .status-expired { background: #b71c1c; color: #ef9a9a; }
   .dark-mode .status-pending { background: #475569; color: #cbd5e1; }
+  .dark-mode .status-pending-payment { background: #78350f; color: #fcd34d; }
   /* New styles for buyer section */
   .buyer-container { background: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
   .dark-mode .buyer-container { background: #2d2d2d; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
@@ -371,6 +373,16 @@ const SellerProductPage = () => {
 
   const isActive = product.status === 'active';
 
+  const STATUS_LABELS = {
+    'approval-pending': { label: 'Pending Approval', className: 'pending' },
+    'pending_payment': { label: 'Payment Pending', className: 'pending-payment' },
+  };
+
+  const statusDisplay = STATUS_LABELS[product.status] || {
+    label: product.status,
+    className: product.status,
+  };
+
   if (loading) return (
     <main className="seller-product-page">
       <div className="loading">Loading...</div>
@@ -396,13 +408,19 @@ const SellerProductPage = () => {
             <p><span>Description:</span> {product.description}</p>
             <p><span>Asking Price:</span> ₹{product.price.toLocaleString()}</p>
             <p>
-              <span>Status:</span> 
-              <span className={`product-status status-${product.status.replace('approval-pending', 'pending')}`}>
-                {product.status.replace('approval-pending', 'Pending Approval')}
+              <span>Status:</span>
+              <span className={`product-status status-${statusDisplay.className}`}>
+                {statusDisplay.label}
               </span>
             </p>
           </div>
         </section>
+        {product.status === 'pending_payment' && (
+          <section className="buyer-container">
+            <h2>Payment Pending</h2>
+            <p className="no-buyer">A bid has been accepted — waiting for the buyer to complete payment. Other bids can't be accepted until this is resolved.</p>
+          </section>
+        )}
         {/* New Buyer Section */}
         {product.status === 'sold' && (
           <section className="buyer-container">
@@ -512,7 +530,7 @@ const SellerProductPage = () => {
                   <p><strong>Amount:</strong> ₹{bid.amount.toLocaleString()}</p>
                   <p><strong>Roll No:</strong> {bid.roll_no || 'N/A'}</p>
                   <p><strong>Status:</strong> {bid.status}</p>
-                  {product.status !== 'sold' && bid.status !== 'outdated' && (
+                  {product.status === 'active' && bid.status === 'highest' && (
                     <button
                       className="btn"
                       disabled={acceptingBidId === bid.bid_id}
