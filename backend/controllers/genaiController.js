@@ -83,6 +83,10 @@ export const generateListingAssist = async (req, res) => {
     return res.status(400).json({ error: 'A few notes about the item are required' });
   }
 
+  if (notes.length > 800) {
+    return res.status(400).json({ error: 'Notes are too long (max 800 characters)' });
+  }
+
   try {
 
     const sellerResult = await db.query('SELECT email FROM users WHERE user_id = $1', [req.user.user_id]);
