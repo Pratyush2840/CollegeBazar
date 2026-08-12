@@ -1,4 +1,5 @@
 import db from '../config/db.js';
+import { upsertProductEmbedding } from '../services/embeddingService.js';
 
 export const addProduct = async (req, res) => {
 
@@ -26,6 +27,10 @@ export const addProduct = async (req, res) => {
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *`,
         [name, description || '', asking_price, deadline, seller_id, category]
+        );
+
+        upsertProductEmbedding(result.rows[0]).catch(err =>
+          console.error('Failed to embed product on create:', err.message)
         );
 
         res.status(201).json({ message: 'Product added', product: result.rows[0] });
@@ -106,7 +111,11 @@ export const editProduct = async (req, res) => {
       `;
   
       const result = await db.query(query, values);
-  
+
+      upsertProductEmbedding(result.rows[0]).catch(err =>
+        console.error('Failed to embed product on edit:', err.message)
+      );
+
       res.status(200).json({ message: 'Product updated', product: result.rows[0] });
   
     } 
