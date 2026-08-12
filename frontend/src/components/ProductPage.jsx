@@ -21,6 +21,8 @@ const styles = `
   .product-status { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; text-transform: capitalize; }
   .status-active { background: #e6ffed; color: #2e7d32; }
   .status-sold { background: #e0e7ff; color: #4f46e5; }
+  .status-pending-payment { background: #fef3c7; color: #b45309; }
+  .dark-mode .status-pending-payment { background: #78350f; color: #fcd34d; }
   .status-expired { background: #fef2f2; color: #d32f2f; }
   .status-pending { background: #f1f5f9; color: #475569; }
   .dark-mode .status-active { background: #1b5e20; color: #a5d6a7; }
@@ -383,6 +385,16 @@ const ProductPage = () => {
     }
   };
 
+  const STATUS_LABELS = {
+    'approval-pending': { label: 'Pending Approval', className: 'pending' },
+    'pending_payment': { label: 'Payment Pending', className: 'pending-payment' },
+  };
+
+  const statusDisplay = STATUS_LABELS[product.status] || {
+    label: product.status,
+    className: product.status,
+  };
+
   // Check if product is in a state where bidding/querying is allowed
   const isActive = product.status === 'active';
 
@@ -415,9 +427,9 @@ const ProductPage = () => {
             <p><span>Asking Price:</span> ₹{product.price.toLocaleString()}</p>
             {/* Display product status */}
             <p>
-              <span>Status:</span> 
-              <span className={`product-status status-${product.status.replace('approval-pending', 'pending')}`}>
-                {product.status.replace('approval-pending', 'Pending Approval')}
+              <span>Status:</span>
+              <span className={`product-status status-${statusDisplay.className}`}>
+                {statusDisplay.label}
               </span>
             </p>
           </div>
