@@ -163,7 +163,7 @@ export const getMyBids = async (req, res) => {
          FROM bids b
          JOIN products p ON b.product_id = p.product_id
          WHERE b.buyer_id = $1
-           AND b.status IN ('highest', 'outbid', 'purchased')
+           AND b.status IN ('highest', 'outbid', 'accepted', 'purchased')
          ORDER BY b.created_at DESC`,
         [user_id]
       );
