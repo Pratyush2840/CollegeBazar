@@ -15,6 +15,9 @@ export default function Post() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [aiNotes, setAiNotes] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
   const fileInputRef = useRef(null);
   const dropZoneRef = useRef(null);
 
@@ -83,6 +86,42 @@ export default function Post() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleAiAssist = async () => {
+    if (!aiNotes.trim()) {
+      setAiError('Jot down a few quick notes about the item first.');
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError('');
+
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.post(
+        API_URL + '/api/genai/listing-assistant',
+        { notes: aiNotes, category: formData.category },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setFormData(prev => ({
+        ...prev,
+        name: response.data.title || prev.name,
+        description: response.data.description || prev.description,
+      }));
+      setErrors(prev => ({ ...prev, name: '', description: '' }));
+    } catch (err) {
+      console.error('AI assist error:', err);
+      if (err.response?.status === 503) {
+        setAiError('AI listing assistant is coming soon! Check back shortly.');
+      } else {
+        setAiError(err.response?.data?.error || 'Failed to generate a listing');
+      }
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -147,6 +186,25 @@ export default function Post() {
   return (
     <main className="post-page">
       <h1>Post Your Item</h1>
+
+      <div className="ai-assist-box">
+        <h3>AI Listing Assistant</h3>
+        <p>Jot down quick notes and let AI draft a title and description for you — you can still edit before posting.</p>
+        <div className="ai-assist-actions">
+          <textarea
+            value={aiNotes}
+            onChange={(e) => { setAiNotes(e.target.value); setAiError(''); }}
+            rows="2"
+            placeholder="e.g. dell laptop, 3 years old, minor scratch on lid, works great, selling because upgrading"
+            disabled={aiLoading}
+          />
+          <button type="button" className="ai-generate-btn" onClick={handleAiAssist} disabled={aiLoading}>
+            {aiLoading ? 'Generating...' : 'Generate with AI'}
+          </button>
+        </div>
+        {aiError && <span className="error-message">{aiError}</span>}
+      </div>
+
       <form className="post-form" onSubmit={handleSubmit} aria-busy={loading}>
       <div className="post-form-grid">
       <div className="form-left">
@@ -365,6 +423,97 @@ export default function Post() {
 
         .dark-mode h1 {
           color: #f1f5f9;
+        }
+
+        .ai-assist-box {
+          max-width: 1080px;
+          margin: 0 auto 28px;
+          padding: 20px 24px;
+          border-radius: 14px;
+          background: rgba(99, 102, 241, 0.06);
+          border: 1px solid rgba(99, 102, 241, 0.25);
+        }
+
+        .dark-mode .ai-assist-box {
+          background: rgba(129, 140, 248, 0.08);
+          border-color: rgba(129, 140, 248, 0.3);
+        }
+
+        .ai-assist-box h3 {
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #4338ca;
+          margin: 0 0 6px;
+        }
+
+        .dark-mode .ai-assist-box h3 {
+          color: #a5b4fc;
+        }
+
+        .ai-assist-box > p {
+          font-size: 0.9rem;
+          color: #64748b;
+          margin: 0 0 14px;
+        }
+
+        .dark-mode .ai-assist-box > p {
+          color: #cbd5e1;
+        }
+
+        .ai-assist-actions {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+        }
+
+        .ai-assist-actions textarea {
+          flex: 1;
+          padding: 10px 14px;
+          font-size: 0.95rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 10px;
+          background: #ffffff;
+          color: #1f2937;
+          resize: vertical;
+        }
+
+        .dark-mode .ai-assist-actions textarea {
+          background: #1e293b;
+          border-color: #475569;
+          color: #f1f5f9;
+        }
+
+        .ai-generate-btn {
+          padding: 10px 20px;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #ffffff;
+          background: linear-gradient(120deg, #6366f1, #22d3ee);
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.3s ease;
+        }
+
+        .ai-generate-btn:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .ai-generate-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 640px) {
+          .ai-assist-actions {
+            flex-direction: column;
+          }
+
+          .ai-generate-btn {
+            width: 100%;
+          }
         }
 
         .post-form {
