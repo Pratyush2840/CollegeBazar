@@ -16,6 +16,10 @@ export const askAboutListing = async (req, res) => {
     return res.status(400).json({ error: 'A question is required' });
   }
 
+  if (question.length > 500) {
+    return res.status(400).json({ error: 'Question is too long (max 500 characters)' });
+  }
+
   try {
 
     const productResult = await db.query(
