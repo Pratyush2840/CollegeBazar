@@ -27,12 +27,15 @@ const styles = `
   .dark-mode .status-sold { background: #1565c0; color: #a5b4fc; }
   .dark-mode .status-expired { background: #b71c1c; color: #ef9a9a; }
   .dark-mode .status-pending { background: #475569; color: #cbd5e1; }
-  .bidding-container, .comments-container { background: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  .dark-mode .bidding-container, .dark-mode .comments-container { background: #2d2d2d; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-  .bidding-container h2, .comments-container h2 { font-size: 1.8rem; font-weight: 700; color: #2d2d2d; margin-bottom: 16px; }
-  .dark-mode .bidding-container h2, .dark-mode .comments-container h2 { color: #e0e0e0; }
-  .bidding-container > p { font-size: 1.1rem; color: #555; margin-bottom: 16px; }
-  .dark-mode .bidding-container > p { color: #ccc; }
+  .bidding-container, .comments-container, .ai-ask-container { background: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .dark-mode .bidding-container, .dark-mode .comments-container, .dark-mode .ai-ask-container { background: #2d2d2d; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .bidding-container h2, .comments-container h2, .ai-ask-container h2 { font-size: 1.8rem; font-weight: 700; color: #2d2d2d; margin-bottom: 16px; }
+  .dark-mode .bidding-container h2, .dark-mode .comments-container h2, .dark-mode .ai-ask-container h2 { color: #e0e0e0; }
+  .bidding-container > p, .ai-ask-container > p { font-size: 1.1rem; color: #555; margin-bottom: 16px; }
+  .dark-mode .bidding-container > p, .dark-mode .ai-ask-container > p { color: #ccc; }
+  .ai-ask-container { border: 1px solid rgba(99, 102, 241, 0.25); }
+  .ai-answer { margin-top: 16px; padding: 16px; background: rgba(99, 102, 241, 0.08); border-left: 3px solid #6366f1; border-radius: 8px; font-size: 1rem; color: #2d2d2d; }
+  .dark-mode .ai-answer { background: rgba(129, 140, 248, 0.12); color: #e0e0e0; }
   .bidding-actions { display: flex; gap: 16px; align-items: center; }
   input, textarea { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; color: #2d2d2d; width: 100%; transition: border-color 0.3s, box-shadow 0.3s; }
   .dark-mode input, .dark-mode textarea { border-color: #555; background: #333; color: #e0e0e0; }
@@ -108,6 +111,10 @@ const ProductPage = () => {
   const [commentError, setCommentError] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiError, setAiError] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   useEffect(() => {
     const fetchProductAndQueries = async () => {
@@ -340,6 +347,42 @@ const ProductPage = () => {
     }
   };
 
+  const askAi = async () => {
+    if (!aiQuestion.trim()) {
+      setAiError('Type a question first.');
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError('');
+    setAiAnswer('');
+
+    try {
+      const response = await fetch(API_URL + `/api/genai/ask/${product.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: aiQuestion.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 503) {
+        throw new Error('AI Q&A is coming soon! Check back shortly.');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get an answer');
+      }
+
+      setAiAnswer(data.answer);
+    } catch (err) {
+      console.error('Ask AI error:', err);
+      setAiError(err.message || 'Failed to get an answer');
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   // Check if product is in a state where bidding/querying is allowed
   const isActive = product.status === 'active';
 
@@ -378,6 +421,24 @@ const ProductPage = () => {
               </span>
             </p>
           </div>
+        </section>
+        <section className="ai-ask-container">
+          <h2>Ask AI About This Listing</h2>
+          <p>Get an instant answer based on this listing's details — no need to wait for the seller.</p>
+          <div className="bidding-actions">
+            <input
+              type="text"
+              placeholder="e.g. Does it come with a charger?"
+              value={aiQuestion}
+              onChange={(e) => { setAiQuestion(e.target.value); setAiError(''); }}
+              disabled={aiLoading}
+            />
+            <button className="btn" onClick={askAi} disabled={aiLoading}>
+              {aiLoading ? 'Thinking...' : 'Ask AI'}
+            </button>
+          </div>
+          {aiError && <p className="error-message">{aiError}</p>}
+          {aiAnswer && <p className="ai-answer">{aiAnswer}</p>}
         </section>
         {/* Show bidding section only if status is active */}
         {isActive && (
