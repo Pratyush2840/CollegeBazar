@@ -8,7 +8,6 @@ import queryRoutes from './routes/queryRoutes.js';
 import imageRoutes from './routes/imageRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
-import paymentRoutes from './routes/paymentRoutes.js';
 import genaiRoutes from './routes/genaiRoutes.js';
 import './cronjob/scheduler.js';
 
@@ -32,7 +31,6 @@ app.use('/api/query', queryRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/stats', statsRoutes);
-app.use('/api/payment', paymentRoutes);
 app.use('/api/genai', genaiRoutes);
 
 app.listen(PORT, () => {
