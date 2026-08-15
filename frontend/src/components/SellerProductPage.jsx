@@ -375,7 +375,6 @@ const SellerProductPage = () => {
 
   const STATUS_LABELS = {
     'approval-pending': { label: 'Pending Approval', className: 'pending' },
-    'pending_payment': { label: 'Payment Pending', className: 'pending-payment' },
   };
 
   const statusDisplay = STATUS_LABELS[product.status] || {
@@ -415,12 +414,6 @@ const SellerProductPage = () => {
             </p>
           </div>
         </section>
-        {product.status === 'pending_payment' && (
-          <section className="buyer-container">
-            <h2>Payment Pending</h2>
-            <p className="no-buyer">A bid has been accepted — waiting for the buyer to complete payment. Other bids can't be accepted until this is resolved.</p>
-          </section>
-        )}
         {/* New Buyer Section */}
         {product.status === 'sold' && (
           <section className="buyer-container">
